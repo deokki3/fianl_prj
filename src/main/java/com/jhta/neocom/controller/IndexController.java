@@ -55,9 +55,8 @@ public class IndexController {
     		mv.addObject("field", field);
     		mv.addObject("keyword", keyword);
     		
-    		System.out.println(list);
-    		String img_path = sc.getRealPath("/resources/upload");
-    		System.out.println("img_path"+img_path);
+    	
+
 
     		return mv;
         

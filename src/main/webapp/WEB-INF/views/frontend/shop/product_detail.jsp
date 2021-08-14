@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -62,7 +64,7 @@
 			</div>
 			<div class="product-carousel owl-carousel gallery-wrapper">
 				<div class="gallery-item" data-hash="one">
-					<a href="${pageContext.request.contextPath}/static/frontend/assets/img/shop/single/01.jpg" data-size="1000x667"><img src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/single/01.jpg" alt=""></a>
+					<a href="${pageContext.request.contextPath}/static/frontend/assets/img/shop/single/01.jpg" data-size="1000x667"><img src="<c:url value='/upload/${img.img_name_save}' />" alt="<c:url value='/upload/${img.img_name_save}' />"/></a>
 				</div>
 				<div class="gallery-item" data-hash="two">
 					<a href="${pageContext.request.contextPath}/static/frontend/assets/img/shop/single/02.jpg" data-size="1000x667"><img src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/single/02.jpg" alt=""></a>
@@ -72,7 +74,7 @@
 				</div>
 			</div>
 			<ul class="product-thumbnails">
-				<li class="active"><a href="#one"><img src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/single/01.jpg" alt=""></a></li>
+				<li class="active"><a href="#one"><img src="<c:url value='/upload/${img.img_name_save}' />" alt="<c:url value='/upload/${img.img_name_save}' />"/></a></li>
 				<li><a href="#two"><img src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/single/02.jpg" alt=""></a></li>
 				<li><a href="#three"><img src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/single/03.jpg" alt=""></a></li>
 			</ul>
@@ -84,8 +86,8 @@
 		<div class="sp-categories pb-3">
 			<i class="icon-tag"></i>상품분류
 		</div>
-		<h2 class="mb-3">상품명</h2>
-		<span class="h3 d-block"><del class="text-muted">원가</del>&nbsp; 할인가</span>
+		<h2 class="mb-3">${goods.product_name }</h2>
+		<span class="h3 d-block"><del class="text-muted"><fmt:formatNumber pattern="###,###,###" value="${goods.selling_price }"/>원</del>&nbsp; 할인가</span>
 		<p class="text-muted">////////////// 상품정보 간단하게 요약해서 두 줄 정도로 요약 //////////////</p>
 		<div class="row margin-top-2x">
 			<div class="col-sm-6">

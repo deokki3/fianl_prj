@@ -31,9 +31,7 @@
 	</select>
 	
 
-	<select id="find" parameterType="int" resultType="com.jhta.neocom.model.ProductVo">
-		select * from product where product_id=#{product_id}
-	</select>
+
 	
 	
  

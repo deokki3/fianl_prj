@@ -154,8 +154,9 @@
 				
 		<div class="col-lg-3 col-md-4 col-sm-6">
 			<div class="product-card mb-30">
-				<a class="product-thumb" href="${pageContext.request.contextPath}/shop/product_detail?=${vo.product_id}">
-				<img src="<c:url value="/upload/${vo.img_name_save}" />" />
+				<a class="product-thumb" href="${pageContext.request.contextPath}/shop/product_detail?n=${vo.product_id}">
+				
+				<img src="<c:url value='/upload/${vo.img_name_save}' />" alt="<c:url value='/upload/${vo.img_name_save}' />" />
 				</a>
 				<div class="product-card-body">
 					<div class="product-category">
@@ -165,7 +166,7 @@
 						<a href="#">${vo.product_name }</a>
 						
 					</h3>
-					<h4 class="product-price">${vo.selling_price }원</h4>
+					<h4 class="product-price"><fmt:formatNumber pattern="###,###,###" value="${vo.selling_price }"/>원</h4>
 				</div>
 				<div class="product-button-group">
 					<a class="product-button btn-wishlist" href="#"><i

@@ -30,9 +30,7 @@ public class ProductService {
 	public int getCount(HashMap<String,Object> map) {
 		return mapper.count(map);
 	}
-	public ProductVo find(int product_id) {
-		return mapper.find(product_id);
-	}
+
 	public int delete(int product_id) {
 		return mapper.delete(product_id);
 	}

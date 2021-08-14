@@ -50,7 +50,7 @@ public class ProductInsertController {
 		String img_name_origin = img.getOriginalFilename(); // 전송된 파일명
 		String img_name_save = UUID.randomUUID() + "_" + img_name_origin;
 		long img_size = img.getSize();
-		String img_thumnail=img_path+"\\"+img_name_save;
+	
 		
 		try {
 			service.insert(vo);
