@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jhta.neocom.mapper.CategoryMapper">
+	<insert id="insert" parameterType="com.jhta.neocom.model.CategoryVo">
+		insert into category
+        values(get_seq('cateSeq'),#{category_name},#{category_parent},#{category_order})
+	</insert>
+	<delete id="delete" parameterType="int">
+		delete from category where category_id=#{category_id}
+	</delete>
+
+	<select id="find" parameterType="int" resultType="com.jhta.neocom.model.CategoryVo">
+		select * from category where category_id=#{category_id}
+	</select>
+
+	<update id="update" parameterType="com.jhta.neocom.model.CategoryVo">
+		update category set
+		category_name = #{category_name},
+		category_parent = #{category_parent},
+		category_order= #{category_order}
+		where category_id=#{category_id}
+	</update>
+
+	<select id="list" resultType="com.jhta.neocom.model.CategoryVo">
+	  select * from category;
+  </select>
+</mapper>

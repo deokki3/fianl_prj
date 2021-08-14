@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.jhta.neocom.mapper.ImgFileMapper">
+	
+	<insert id="insert" parameterType="com.jhta.neocom.model.Product_ImgVo">
+		insert into product_img
+        values(get_seq('product_imgSeq'),#{product_id},#{img_name_save},#{img_name_origin},#{img_path},#{img_size},#{img_category})
+	</insert>
+	<delete id="delete" parameterType="int">
+		delete from product_img where product_img_no=#{product_img_no}
+	</delete>
+	<select id="list" resultType="com.jhta.neocom.model.Product_ImgVo">
+		select * from product_img
+	</select>
+	<select id="find" parameterType="int" resultType="com.jhta.neocom.model.Product_ImgVo">
+		select * from product_img where product_img_no=#{product_img_no}
+	</select>
+	<update id="update" parameterType="com.jhta.neocom.model.Product_ImgVo" >
+		update product_img set
+		product_id = #{product_id},
+		img_name_origin=#{img_name_origin},
+		img_category=#{img_category}
+		<if test="img_name_origin!=null">
+			,img_name_save = #{img_name_save}
+			,img_path=#{img_path}
+			,img_size=#{img_size}
+			
+			
+			
+		</if>
+		where product_img_no=#{product_img_no}
+	</update>
+</mapper>

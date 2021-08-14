@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.jhta.neocom.mapper.ProductMapper">
+	
+	<insert id="insert" parameterType="com.jhta.neocom.model.ProductVo">
+			<selectKey keyProperty="product_id" order="BEFORE" resultType="int"> 
+				select get_seq('productSeq') as product_id from dual
+			</selectKey>
+		insert into product
+	    values(#{product_id},#{product_code},#{category_id},#{product_name},#{brand},#{manufacturer},#{supply_price},#{consumer_price},#{tax},#{selling_price},#{stock},sysdate(),#{availability})
+	    	
+	</insert>
+	<delete id="delete" parameterType="int">
+		delete from product where product_id=#{product_id}
+	</delete>
+	
+		<sql id="search">
+
+		<if test="field!=null and field!=''">
+			where ${field} like CONCAT('%',#{keyword},'%')
+		</if>
+
+	</sql>
+	
+		<!--해당 전체 상품의 갯수 -->
+	<select id="count" parameterType="int" resultType="int">
+		select IFnull(count(*),0) from product
+			<include refid="search"/>	
+	</select>
+	
+
+	<select id="find" parameterType="int" resultType="com.jhta.neocom.model.ProductVo">
+		select * from product where product_id=#{product_id}
+	</select>
+	
+	
+ 
+	<!-- 페이징처리 --> 
+	<select id="list" parameterType="hashmap" resultType="hashmap">
+		select a.* from 
+		 (
+		SELECT @rownum:=@rownum+1  rnum, aa.*,bb.product_img_no,bb.img_name_save,bb.img_name_origin,bb.img_path,bb.img_size,bb.img_category FROM 
+				product aa inner join product_img bb 
+                  on aa.product_id= bb.product_id, 
+  				(SELECT @ROWNUM := 0) R
+                <include refid="search"/> 
+                order by aa.product_id desc
+                 )a 
+  		
+            order by rnum desc
+  </select>
+  
+	<update id="update" parameterType="com.jhta.neocom.model.ProductVo" >
+		update product set
+		product_code = #{product_code},
+		category_id = #{category_id},
+		product_name= #{product_name},
+		brand = #{brand},
+		manufacturer = #{manufacturer},
+		supply_price = #{supply_price},
+		consumer_price = #{consumer_price},
+		tax = #{tax},
+		selling_price =#{selling_price},
+		stock =#{stock},
+		regdate =#{regdate},
+		availability =#{availability}
+		where product_id=#{product_id}
+	</update>
+	
+	<select id="select" parameterType="int" resultType="com.jhta.neocom.model.ProductVo">
+  		select * from product where product_id=#{product_id}
+  	</select>
+  	
+  	<select id="listTest" resultType="com.jhta.neocom.model.ProductVo">
+  		select * from product
+  	</select>
+</mapper>
