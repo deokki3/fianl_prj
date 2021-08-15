@@ -315,7 +315,7 @@ section {
 								<td>${vo.img_name_origin }</td>
 								<td>${vo.img_path }</td>
 								<td>${vo.img_size }</td>
-
+								<td><a href="${pageContext.request.contextPath }/admin/product/addimg?product_id=${vo.product_id}">이미지 추가</a></td>
 								<td><a
 									href="${pageContext.request.contextPath }/imgupdate?product_img_no=${vo.product_img_no }">수정</a></td>
 								<td><a

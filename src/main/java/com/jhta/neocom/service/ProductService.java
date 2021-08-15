@@ -43,6 +43,9 @@ public class ProductService {
 	public ProductVo select(int product_id) {
 		return mapper.select(product_id);
 	}
+	public ProductVo selectone(int product_id,String img_category) {
+		return mapper.selectone(product_id,img_category);
+	}
 	
 	
 
