@@ -37,6 +37,9 @@ public class ImgFileService {
 	public int update(Product_ImgVo vo) {
 		return mapper.update(vo);
 	}
+	public Product_ImgVo selectone(int product_id) {
+		return mapper.selectone(product_id);
+	}
 	
 	
 }

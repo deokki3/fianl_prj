@@ -52,9 +52,11 @@
 
 
 <!-- 페이지 컨텐트 -->
+
 <div class="container padding-bottom-3x">
 <div class="row">
 	<!-- 상품이미지 -->
+	
 	<div class="col-md-6">
 		<div class="product-gallery">
 			<div class="gallery-wrapper">
@@ -62,26 +64,31 @@
 					<button class="btn btn-outline-secondary btn-sm btn-wishlist"><i class="icon-heart"></i>&nbsp; 관심상품</button>
 				</div>
 			</div>
+			
 			<div class="product-carousel owl-carousel gallery-wrapper">
+			
 				<div class="gallery-item" data-hash="one">
-					<a href="${pageContext.request.contextPath}/static/frontend/assets/img/shop/single/01.jpg" data-size="1000x667"><img src="<c:url value='/upload/${img.img_name_save}' />" alt="<c:url value='/upload/${img.img_name_save}' />"/></a>
+					<a href="${pageContext.request.contextPath}/static/frontend/assets/img/shop/single/01.jpg" data-size="1000x667"><img src="<c:url value='/upload/${list[0].img_name_save}' />" alt="<c:url value='/upload/${img.img_name_save}' />"/></a>
 				</div>
+				
 				<div class="gallery-item" data-hash="two">
 					<a href="${pageContext.request.contextPath}/static/frontend/assets/img/shop/single/02.jpg" data-size="1000x667"><img src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/single/02.jpg" alt=""></a>
 				</div>
 				<div class="gallery-item" data-hash="three">
 					<a href="${pageContext.request.contextPath}/static/frontend/assets/img/shop/single/03.jpg" data-size="1000x667"><img src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/single/03.jpg" alt=""></a>
 				</div>
+				
 			</div>
+			
 			<ul class="product-thumbnails">
-				<li class="active"><a href="#one"><img src="<c:url value='/upload/${img.img_name_save}' />" alt="<c:url value='/upload/${img.img_name_save}' />"/></a></li>
+				<li class="active"><a href="#one"><img src="<c:url value='/upload/${list[0].img_name_save}' />" alt="<c:url value='/upload/${img.img_name_save}' />"/></a></li>
 				<li><a href="#two"><img src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/single/02.jpg" alt=""></a></li>
 				<li><a href="#three"><img src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/single/03.jpg" alt=""></a></li>
 			</ul>
 		</div>
 	</div>
 	<!-- 상품정보 -->
-	<div class="col-md-6">
+	<div class="col-md-6"> 
 		<div class="padding-top-2x mt-2 hidden-md-up"></div>
 		<div class="sp-categories pb-3">
 			<i class="icon-tag"></i>상품분류
@@ -134,6 +141,7 @@
 </div>
 </div>
 
+
 <!-- 상품설명 -->
 <div class="bg-secondary padding-top-3x padding-bottom-2x mb-3" id="details">
 <div class="container">
@@ -141,6 +149,7 @@
 	<div class="col-md-6">
 		<h3 class="h4">상품설명</h3>
 		<p class="mb-4">가나다라마바사</p>
+		<img src="<c:url value='/upload/${list[1].img_name_save}' />" alt="<c:url value='/upload/${img.img_name_save}' />"/>
 	</div>
 	<div class="col-md-6">
 		<h3 class="h4">부가설명</h3>

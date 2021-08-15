@@ -2,7 +2,6 @@ package com.jhta.neocom.admin.controller;
 
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
@@ -81,8 +80,8 @@ public class ProductInsertController {
 	}
 	
 		@GetMapping("/admin/product/addimg")
-		public String addImg(Model model,int product_id,List<Product_ImgVo> vo1) {
-			vo1=service1.find(product_id);
+		public String addImg(Model model,int product_id,Product_ImgVo vo1) {
+			vo1=service1.selectone(product_id);
 			model.addAttribute("vo1", vo1);
 			return "/admin/menu/product/addimg";
 

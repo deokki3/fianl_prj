@@ -17,6 +17,9 @@
 	<select id="find" parameterType="int" resultType="com.jhta.neocom.model.Product_ImgVo">
 		select * from product_img where product_id=#{product_id}
 	</select>
+	<select id="selectone" parameterType="int" resultType="com.jhta.neocom.model.Product_ImgVo">
+		select * from product_img where product_id=#{product_id}
+	</select>
 	<update id="update" parameterType="com.jhta.neocom.model.Product_ImgVo" >
 		update product_img set
 		product_id = #{product_id},
