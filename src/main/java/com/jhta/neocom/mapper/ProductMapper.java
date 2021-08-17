@@ -19,6 +19,6 @@ public interface ProductMapper {
 	int update(ProductVo vo);
 	List<ProductVo> listTest();
 	ProductVo select(int product_id);
-	List<ProductVo> selectone(int product_id);
+//	List<ProductVo> selectone(int product_id);
 	
 }

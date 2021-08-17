@@ -35,7 +35,7 @@
 <div class="page-title">
 	<div class="container">
 		<div class="column">
-			<h1>상품 디테일</h1>
+			<h1>상품디테일</h1>
 		</div>
 		<div class="column">
 			<ul class="breadcrumbs">
@@ -71,20 +71,11 @@
 					<a href="${pageContext.request.contextPath}/static/frontend/assets/img/shop/single/01.jpg" data-size="1000x667"><img src="<c:url value='/upload/${list[0].img_name_save}' />" alt="<c:url value='/upload/${img.img_name_save}' />"/></a>
 				</div>
 				
-				<div class="gallery-item" data-hash="two">
-					<a href="${pageContext.request.contextPath}/static/frontend/assets/img/shop/single/02.jpg" data-size="1000x667"><img src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/single/02.jpg" alt=""></a>
-				</div>
-				<div class="gallery-item" data-hash="three">
-					<a href="${pageContext.request.contextPath}/static/frontend/assets/img/shop/single/03.jpg" data-size="1000x667"><img src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/single/03.jpg" alt=""></a>
-				</div>
+			
 				
 			</div>
 			
-			<ul class="product-thumbnails">
-				<li class="active"><a href="#one"><img src="<c:url value='/upload/${list[0].img_name_save}' />" alt="<c:url value='/upload/${img.img_name_save}' />"/></a></li>
-				<li><a href="#two"><img src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/single/02.jpg" alt=""></a></li>
-				<li><a href="#three"><img src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/single/03.jpg" alt=""></a></li>
-			</ul>
+			
 		</div>
 	</div>
 	<!-- 상품정보 -->
@@ -146,20 +137,12 @@
 <div class="bg-secondary padding-top-3x padding-bottom-2x mb-3" id="details">
 <div class="container">
 <div class="row">
-	<div class="col-md-6">
-		<h3 class="h4">상품설명</h3>
-		<p class="mb-4">가나다라마바사</p>
+	<div class="col-md-11">
+		<h3 class="h4">상품정보</h3>
+		
 		<img src="<c:url value='/upload/${list[1].img_name_save}' />" alt="<c:url value='/upload/${img.img_name_save}' />"/>
 	</div>
-	<div class="col-md-6">
-		<h3 class="h4">부가설명</h3>
-		<ul class="list-unstyled mb-4">
-			<li><strong>무게 : </strong>1000</li>
-			<li><strong>무게 : </strong>1000</li>
-			<li><strong>무게 : </strong>1000</li>
-			<li><strong>무게 : </strong>1000</li>
-		</ul>
-	</div>
+	
 </div>
 </div>
 </div>

@@ -21,16 +21,16 @@
 					<button class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"><i class="icon-menu text-lg"></i>&nbsp;카테고리</button>
 					<div class="dropdown-menu mega-dropdown">
 						<div class="row">
-							<div class="col-sm-3"><a class="d-block navi-link text-center mb-30" href="#"><img class="d-block" src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/header-categories/01.jpg"><span class="text-gray-dark">분류1</span></a></div>
-							<div class="col-sm-3"><a class="d-block navi-link text-center mb-30" href="#"><img class="d-block" src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/header-categories/02.jpg"><span class="text-gray-dark">분류2</span></a></div>
-							<div class="col-sm-3"><a class="d-block navi-link text-center mb-30" href="#"><img class="d-block" src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/header-categories/03.jpg"><span class="text-gray-dark">분류3</span></a></div>
-							<div class="col-sm-3"><a class="d-block navi-link text-center mb-30" href="#"><img class="d-block" src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/header-categories/04.jpg"><span class="text-gray-dark">분류4</span></a></div>
+							<div class="col-sm-3"><a class="d-block navi-link text-center mb-30" href="#"><img class="d-block" src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/header-categories/cpu.png"><span class="text-gray-dark">CPU</span></a></div>
+							<div class="col-sm-3"><a class="d-block navi-link text-center mb-30" href="#"><img class="d-block" src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/header-categories/mainboard.png"><span class="text-gray-dark">메인보드</span></a></div>
+							<div class="col-sm-3"><a class="d-block navi-link text-center mb-30" href="#"><img class="d-block" src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/header-categories/ram.png"><span class="text-gray-dark">RAM</span></a></div>
+							<div class="col-sm-3"><a class="d-block navi-link text-center mb-30" href="#"><img class="d-block" src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/header-categories/vga.png"><span class="text-gray-dark">그래픽카드</span></a></div>
 						</div>
 						<div class="row">
-							<div class="col-sm-3"><a class="d-block navi-link text-center mb-30" href="#"><img class="d-block" src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/header-categories/05.jpg"><span class="text-gray-dark">분류5</span></a></div>
-							<div class="col-sm-3"><a class="d-block navi-link text-center mb-30" href="#"><img class="d-block" src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/header-categories/06.jpg"><span class="text-gray-dark">분류6</span></a></div>
-							<div class="col-sm-3"><a class="d-block navi-link text-center mb-30" href="#"><img class="d-block" src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/header-categories/07.jpg"><span class="text-gray-dark">분류7</span></a></div>
-							<div class="col-sm-3"><a class="d-block navi-link text-center mb-30" href="#"><img class="d-block" src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/header-categories/08.jpg"><span class="text-gray-dark">분류8</span></a></div>
+							<div class="col-sm-3"><a class="d-block navi-link text-center mb-30" href="#"><img class="d-block" src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/header-categories/ssd.png"><span class="text-gray-dark">SSD</span></a></div>
+							<div class="col-sm-3"><a class="d-block navi-link text-center mb-30" href="#"><img class="d-block" src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/header-categories/hdd.png"><span class="text-gray-dark">HDD</span></a></div>
+							<div class="col-sm-3"><a class="d-block navi-link text-center mb-30" href="#"><img class="d-block" src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/header-categories/power.png"><span class="text-gray-dark">파워</span></a></div>
+							<div class="col-sm-3"><a class="d-block navi-link text-center mb-30" href="#"><img class="d-block" src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/header-categories/peripherals.jpg"><span class="text-gray-dark">주변기기</span></a></div>
 						</div>
 					</div>
 				</div>

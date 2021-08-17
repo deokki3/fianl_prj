@@ -26,14 +26,14 @@ public class ProductListController {
 
 		int totalRowCount = service.getCount(map);// 전체 글의 갯수
 		PageUtil pu = new PageUtil(pageNum, 10, 10, totalRowCount);
-		System.out.println(pu);
+//		System.out.println(pu);
 		int startRow = pu.getStartRow();
 		int endRow = pu.getEndRow();
 
 		map.put("startRow", startRow);
 		map.put("endRow", endRow);
 		List<HashMap<String, Object>> list = service.list(map);
-		
+		System.out.println("list====="+list);
 
 		ModelAndView mv = new ModelAndView("/admin/menu/product/imglist");
 		mv.addObject("list", list);

@@ -43,9 +43,9 @@ public class ProductService {
 	public ProductVo select(int product_id) {
 		return mapper.select(product_id);
 	}
-	public List<ProductVo> selectone(int product_id) {
-		return mapper.selectone(product_id);
-	}
+//	public List<ProductVo> selectone(int product_id) {
+//		return mapper.selectone(product_id);
+//	}
 	
 	
 

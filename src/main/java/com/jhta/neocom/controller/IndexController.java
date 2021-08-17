@@ -54,6 +54,7 @@ public class IndexController {
     		mv.addObject("pu", pu);
     		mv.addObject("field", field);
     		mv.addObject("keyword", keyword);
+    		System.out.println("list===="+list);
     		
     	
 

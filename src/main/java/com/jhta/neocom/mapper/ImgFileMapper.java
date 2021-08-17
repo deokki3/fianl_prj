@@ -16,4 +16,5 @@ public interface ImgFileMapper {
 	List<Product_ImgVo> find(int product_id);
 	int update(Product_ImgVo vo);
 	Product_ImgVo selectone(int product_id);
+	
 }

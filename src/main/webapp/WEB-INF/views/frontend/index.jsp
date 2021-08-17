@@ -154,7 +154,7 @@
 				
 		<div class="col-lg-3 col-md-4 col-sm-6">
 			<div class="product-card mb-30">
-				<a class="product-thumb" href="${pageContext.request.contextPath}/shop/product_detail?n=${vo.product_id}">
+				<a class="product-thumb" href="${pageContext.request.contextPath}/shop/product_detail?n=${vo.product_id}&m=${vo.category_id}">
 				
 				<img src="<c:url value='/upload/${vo.img_name_save}' />" alt="<c:url value='/upload/${vo.img_name_save}' />" />
 				</a>
