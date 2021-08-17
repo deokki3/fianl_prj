@@ -20,7 +20,7 @@ $(".minus").click(function(){
 	
 	if(minusNum <= 0) {
 		$(".numBox").val(num);
-	} else {
+	} else 
 		$(".numBox").val(minusNum);										
 	}
 });
