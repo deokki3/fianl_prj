@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,13 +28,14 @@ public class ProductController {
 	@Autowired CategoryService service2;
 	
 	
-	@RequestMapping(value = "/shop/product_list")
+	@RequestMapping(value = "/shop/product_list",produces= {MediaType.APPLICATION_JSON_VALUE})
     public ModelAndView frontendProductList(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum, String field,
-			String keyword) {
+			String keyword,String order) {
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();
   		map.put("field", field);
   		map.put("keyword", keyword);
+  		map.put("order", order);
 
   		int totalRowCount = service.getCount(map);// 전체 글의 갯수
   		PageUtil pu = new PageUtil(pageNum, 10, 10, totalRowCount);
@@ -50,6 +52,7 @@ public class ProductController {
   		mv.addObject("pu", pu);
   		mv.addObject("field", field);
   		mv.addObject("keyword", keyword);
+  		mv.addObject("order", order);
   		System.out.println("list===="+list);
   		
   	

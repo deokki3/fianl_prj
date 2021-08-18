@@ -20,9 +20,11 @@
 
 		<if test="field!=null and field!=''">
 			where ${field} like CONCAT('%',#{keyword},'%')
+			<if test="order!=null and order!=''">order by ${order} desc</if>
 		</if>
 		<if test="field=category_id">
 			where ${field} = #{category_id}
+			<if test="order!=null and order!=''">order by ${order} desc</if>
 		</if>
 		
 
@@ -51,10 +53,10 @@
                   on aa.product_id= bb.product_id, 
   				(SELECT @ROWNUM := 0) R
                 <include refid="search"/> 
-                order by aa.product_id desc
+                
                  )a 
                  where img_category='main'
-                 
+                  
             order by rnum desc
             
   </select>
