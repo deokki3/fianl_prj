@@ -121,7 +121,7 @@
 		<div class="mb-4"></div>
 		<div class="row">
 			<div class="col-sm-6">
-				<button class="btn btn-primary btn-block m-1">구매하기</button>
+				<button class="btn btn-primary btn-block m-1" onclick="btnPurchase()">구매하기</button>
 			</div>
 			<div class="col-sm-6">
 				<button class="btn btn-secondary btn-block m-1">장바구니</button>
@@ -258,5 +258,12 @@
 	<!-- JavaScript (jQuery) libraries, plugins and custom scripts-->
 	<script src="${pageContext.request.contextPath}/static/frontend/assets/js/vendor.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/frontend/assets/js/scripts.min.js"></script>
+	<script type="text/javascript">
+	function btnPurchase(){
+		let product_count= document.getElementById("quantity").value;
+		location.href="${pageContext.request.contextPath }/purchase?product_name=${vo.product_name}&selling_price=${vo.selling_price }&product_count=";
+		location.href+= product_count;
+	}
+</script>
 </body>
 </html>
