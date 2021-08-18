@@ -21,7 +21,7 @@
 					<button class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"><i class="icon-menu text-lg"></i>&nbsp;카테고리</button>
 					<div class="dropdown-menu mega-dropdown">
 						<div class="row">
-							<div class="col-sm-3"><a class="d-block navi-link text-center mb-30" href="#"><img class="d-block" src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/header-categories/cpu.png"><span class="text-gray-dark">CPU</span></a></div>
+							<div class="col-sm-3"><a class="d-block navi-link text-center mb-30" href="${pageContext.request.contextPath }/shop/product_list?field=category_id&keyword=3"><img class="d-block" src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/header-categories/cpu.png"><span class="text-gray-dark">CPU</span></a></div>
 							<div class="col-sm-3"><a class="d-block navi-link text-center mb-30" href="#"><img class="d-block" src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/header-categories/mainboard.png"><span class="text-gray-dark">메인보드</span></a></div>
 							<div class="col-sm-3"><a class="d-block navi-link text-center mb-30" href="#"><img class="d-block" src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/header-categories/ram.png"><span class="text-gray-dark">RAM</span></a></div>
 							<div class="col-sm-3"><a class="d-block navi-link text-center mb-30" href="#"><img class="d-block" src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/header-categories/vga.png"><span class="text-gray-dark">그래픽카드</span></a></div>

@@ -21,6 +21,9 @@
 		<if test="field!=null and field!=''">
 			where ${field} like CONCAT('%',#{keyword},'%')
 		</if>
+		<if test="field=category_id">
+			where ${field} = #{category_id}
+		</if>
 
 	</sql>
 	
@@ -42,7 +45,7 @@
 	<select id="list" parameterType="hashmap" resultType="hashmap">
 		select a.* from 
 		 (
-		SELECT @rownum:=@rownum+1  rnum, aa.*,bb.product_img_no,bb.img_name_save,bb.img_name_origin,bb.img_path,bb.img_size,bb.img_category FROM 
+		SELECT @rownum:=@rownum+1  rnum, aa.*,bb.product_img_no,bb.img_name_save,bb.img_name_origin,bb.img_size,bb.img_category FROM 
 				product aa inner join product_img bb 
                   on aa.product_id= bb.product_id, 
   				(SELECT @ROWNUM := 0) R

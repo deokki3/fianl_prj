@@ -15,6 +15,7 @@ import com.jhta.neocom.model.Product_ImgVo;
 import com.jhta.neocom.service.CategoryService;
 import com.jhta.neocom.service.ImgFileService;
 import com.jhta.neocom.service.ProductService;
+import com.jhta.neocom.util.PageUtil;
 
 
 @Controller
@@ -27,8 +28,35 @@ public class ProductController {
 	
 	
 	@RequestMapping(value = "/shop/product_list")
-    public String frontendProductList() {
-        return "frontend/shop/product_list";
+    public ModelAndView frontendProductList(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum, String field,
+			String keyword) {
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+  		map.put("field", field);
+  		map.put("keyword", keyword);
+
+  		int totalRowCount = service.getCount(map);// 전체 글의 갯수
+  		PageUtil pu = new PageUtil(pageNum, 10, 10, totalRowCount);
+  		
+  		int startRow = pu.getStartRow();
+  		int endRow = pu.getEndRow();
+
+  		map.put("startRow", startRow);
+  		map.put("endRow", endRow);
+  		List<HashMap<String, Object>> list = service.list(map);
+  		
+  		ModelAndView mv = new ModelAndView("frontend/shop/product_list");
+  		mv.addObject("list", list);
+  		mv.addObject("pu", pu);
+  		mv.addObject("field", field);
+  		mv.addObject("keyword", keyword);
+  		System.out.println("list===="+list);
+  		
+  	
+
+
+  		return mv;
+       
     }
 	
 	@RequestMapping(value = "/shop/product_detail")
@@ -58,5 +86,7 @@ public class ProductController {
 
 		return mv;
     }
+	
+
 	
 }

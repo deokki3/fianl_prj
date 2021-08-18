@@ -6,7 +6,7 @@
 	
 	<insert id="insert" parameterType="com.jhta.neocom.model.Product_ImgVo">
 		insert into product_img
-        values(get_seq('product_imgSeq'),#{product_id},#{img_name_save},#{img_name_origin},#{img_path},#{img_size},#{img_category})
+        values(get_seq('product_imgSeq'),#{product_id},#{img_name_save},#{img_name_origin},#{img_size},#{img_category})
 	</insert>
 	<delete id="delete" parameterType="int">
 		delete from product_img where product_img_no=#{product_img_no}
@@ -27,7 +27,6 @@
 		img_category=#{img_category}
 		<if test="img_name_origin!=null">
 			,img_name_save = #{img_name_save}
-			,img_path=#{img_path}
 			,img_size=#{img_size}
 			
 			
