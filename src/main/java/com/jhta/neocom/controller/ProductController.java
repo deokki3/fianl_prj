@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,7 +28,7 @@ public class ProductController {
 	@Autowired CategoryService service2;
 	
 	
-	@RequestMapping(value = "/shop/product_list")
+	@RequestMapping(value = "/shop/product_list",produces= {MediaType.APPLICATION_JSON_VALUE})
     public ModelAndView frontendProductList(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum, String field,
 			String keyword,String order) {
 		

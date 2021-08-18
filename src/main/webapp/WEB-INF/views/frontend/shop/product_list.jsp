@@ -25,59 +25,7 @@
 	<!-- Modernizr-->
 	<script src="${pageContext.request.contextPath}/static/frontend/assets/js/modernizr.min.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/static/frontend/assets/js/jquery-3.6.0.min.js"></script>
-<script type="text/javascript">
-var currentPage=1;
-function list(pageNum){
-	currentPage=pageNum;
-	$("#commList").empty();
-	$.ajax({
-		url:"${pageContext.request.contextPath}/shop/product_list",
-		data:{"pageNum":pageNum,"order":order},
-		dataType:"json",
-		success:function(data){
-			//alert(data);
-			///data.list[0].num
-			$(data.list).each(function(i,d){
-				
-				
-				let id=d.id;
-				let comments=d.comments;
-				let num=d.num;			
-				const idx="comm"+ i;
-				const data={num:num,id:id,comments:comments,idx:idx};
-				const param=JSON.stringify(data);
-				let html="<div class='comm1' id='"+ idx +"'>";
-				html += "아이디:" + id +"<br>";
-				html += "영화평:" + comments +"<br>";
-				html += "<input type='button' value='삭제' onclick='removeComm("+ num + ")'>";
-				html += "<input type='button' value='수정' onclick='modifyForm(" + param +")'>";
-				html +="</div>";					
-				$("#commList").append(html);					
-			});
-			//페이징 처리
-			let startPage=data.startPageNum;
-			let endPage=data.endPageNum;
-			
-			let pageCount=data.totalPageCount;
-			let pageHtml="";
-			if(startPage>5){
-				pageHtml += "<a href='javascript:list("+ (startPage-1) + ")'>이전</a>";
-			}
-			for(let i=startPage;i<=endPage;i++){
-				if(i==pageNum){
-					pageHtml += "<a href='javascript:list("+ i + ")'><span style='color:blue' >"+ i + "</span></a> ";
-				}else{
-					pageHtml += "<a href='javascript:list("+ i + ")'><span style='color:gray' >"+ i + "</span></a> ";
-				}	
-			}
-			if(endPage<pageCount){
-				pageHtml += "<a href='javascript:list("+ (endPage+1) + ")'>다음</a>";
-			}
-			$("#page").html(pageHtml);
-		}		
-	});		
-}
-</script>
+
 </head>
 <body>
 
@@ -109,8 +57,9 @@ function list(pageNum){
 <div class="container padding-top-3x padding-bottom-2x mb-2">
 <div class="row">
 	<!-- ///////////////////// 상품리스트 그리드 ///////////////////// -->
-	<div class="col-lg-9 order-lg-2">
-		<!-- 정렬순서 -->
+	
+	<div class="col-lg-9 order-lg-2">  
+		<!-- 정렬순서 --> <!--  
 		<div class="shop-toolbar padding-bottom-1x mb-2">
 			<div class="column">
 				<div class="shop-sorting">
@@ -125,21 +74,22 @@ function list(pageNum){
 					</select>
 				</div>
 			</div>
-			<div class="column">
+			<div class="column">  
 				<!-- grid / list 두가지 버전 구현 가능할 때 쓰기 
 				<div class="shop-view">
 					<a class="grid-view active" href="#"><span></span><span></span><span></span></a>
 					<a class="list-view" href="#"><span></span><span></span><span></span></a>
 				</div>
-				-->
-			</div>
+				
+ 		</div>
 		</div>
 		<!-- 상품리스트 -->
-		
+		<!-- 
 		<div class="row">
 		<c:forEach var="vo" items="${list }">
-			
-			<!-- forEach 시작 부분 -->
+			-->
+			<!-- forEach 시작 부분 --> 
+			<!--  
 			<div class="col-md-3 col-sm-6">
 				<div class="product-card mb-30">
 					<a class="product-thumb" href="${pageContext.request.contextPath}/shop/product_detail?n=${vo.product_id}&m=${vo.category_id}">
@@ -152,6 +102,7 @@ function list(pageNum){
 					</div>
 					<div class="product-button-group">
 						<!-- 위시리스트 토스트 수정은 scripts.min.js 파일 -->
+						<!--
 						<a class="product-button btn-wishlist" href="#"><i class="icon-heart"></i><span>관심상품</span></a>
 						<a class="product-button" href="#" 
 							data-toast 
@@ -166,12 +117,12 @@ function list(pageNum){
 				</div>
 			</div>
 			</c:forEach>	
-			<!-- forEach 끝 부분 -->
+			<!-- forEach 끝 부분 --> 
 		</div>
 		
 	</div>
 	<!-- ///////////////////// 상품리스트 그리드 끝 ///////////////////// -->
-	
+	</div>
 	<!-- ///////////////////// 상품리스트 사이드바 ///////////////////// -->
 	<div class="col-lg-3 order-lg-1">
 		<div class="sidebar-toggle position-left">
@@ -292,8 +243,7 @@ function list(pageNum){
 		</aside>
 	</div>
 	<!-- ///////////////////// 상품리스트 사이드바 끝 ///////////////////// -->
-</div>
-</div>
+
 <!-- 페이지 컨텐트 끝 -->
 
 
@@ -306,5 +256,105 @@ function list(pageNum){
 	<!-- JavaScript (jQuery) libraries, plugins and custom scripts-->
 	<script src="${pageContext.request.contextPath}/static/frontend/assets/js/vendor.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/frontend/assets/js/scripts.min.js"></script>
+	<script type="text/javascript">
+	$(function(){
+	var currentPage=1;
+	function list(pageNum){
+		currentPage=pageNum; 
+		$("#product_list").empty();
+		$.ajax({
+			url:"${pageContext.request.contextPath}/shop/product_list",
+			data:{"pageNum":pageNum,"order":order,"m":product_id,"n":category_id},
+			dataType:"json",
+			success:function(data){
+				//alert(data);
+				///data.list[0].num
+				$(data.list).each(function(i,d){
+					//이게 맞는지도 모르겠지만...
+					
+	
+					let html="<div class='col-lg-9 order-lg-2'>"
+					<!-- 정렬순서 -->
+					    html+="<div class='shop-toolbar padding-bottom-1x mb-2'>"
+					    html+="<div class='column'>"
+					    html+="	<div class='shop-sorting'>"
+					    
+								 
+					    html+=	"	<label for='sorting'>정렬 순서</label> "
+		
+					    html+="	</div>"
+					    html+="</div>"
+					    html+="<div class='column'>"
+							<!-- grid / list 두가지 버전 구현 가능할 때 쓰기 
+							<div class="shop-view">
+								<a class="grid-view active" href="#"><span></span><span></span><span></span></a>
+								<a class="list-view" href="#"><span></span><span></span><span></span></a>
+							</div>
+							-->
+							html+="</div>"
+							html+="	</div>"
+					<!-- 상품리스트 -->
+					
+					html+=	"<div class='row'>"
+				 
+						
+						<!-- forEach 시작 부분 -->
+						html+=	"	<div class='col-md-3 col-sm-6'>"
+						html+=	"<div class='product-card mb-30'>"
+						html+=		"<a class='product-thumb' href='${pageContext.request.contextPath}/shop/product_detail"+"?n="+this.product_id+"&"+"m="+this.category_id+"'>"
+						html+=		"	<img src='<c:url value='/upload/"+this.img_name_save+"' />' alt='<c:url value='/upload/"+this.img_name_save+"' />' />"
+										html+=	"	</a> "
+										html+=	"	<div class='product-card-body'>"
+										html+=		"	<div class='product-category'><a href='#'>"+this.brand+"</a></div>"
+										html+=			"<h3 class='product-title'><a href='#'>"+this.product_name +"</a></h3>"
+										html+=		"	<h4 class='product-price'><fmt:formatNumber pattern='###,###,###' value='"+this.selling_price+"'/>원</h4>" 
+										html+=		"	</div> "
+										html+=	"	<div class='product-button-group'>"
+									<!-- 위시리스트 토스트 수정은 scripts.min.js 파일 -->
+									html+=			"	<a class='product-button btn-wishlist' href='#'><i class='icon-heart'></i><span>관심상품</span></a>"
+									html+=	"	<a class='product-button' href='#'" 
+										html+=		"	data-toast " 
+										html+=		"	data-toast-type='success'" 
+											html+=		"	data-toast-position='topRight'" 
+												html+=		"	data-toast-icon='icon-check-circle' " 
+													html+=		"	data-toast-title=' ' " 
+														html+=		"	data-toast-message='장바구니에 상품을 담았습니다!'> "
+									html+=	"	<i class="icon-shopping-cart"></i><span>장바구니</span> "
+									html+=	"	</a>"
+									html+=	"</div>"
+									html+=	"</div>"
+									html+=	"</div>"
+									
+						<!-- forEach 끝 부분 -->
+						html+=	"</div>"
+					
+						html+=	"</div>	"				
+					$("#commList").append(html);					
+				});
+				//페이징 처리
+				let startPage=data.startPageNum;
+				let endPage=data.endPageNum;
+				
+				let pageCount=data.totalPageCount;
+				let pageHtml="";
+				if(startPage>5){
+					pageHtml += "<a href='javascript:list("+ (startPage-1) + ")'>이전</a>";
+				}
+				for(let i=startPage;i<=endPage;i++){
+					if(i==pageNum){
+						pageHtml += "<a href='javascript:list("+ i + ")'><span style='color:blue' >"+ i + "</span></a> ";
+					}else{
+						pageHtml += "<a href='javascript:list("+ i + ")'><span style='color:gray' >"+ i + "</span></a> ";
+					}	
+				}
+				if(endPage<pageCount){
+					pageHtml += "<a href='javascript:list("+ (endPage+1) + ")'>다음</a>";
+				}
+				$("#page").html(pageHtml);
+			}		
+		});		
+	}
+	});
+</script>
 </body>
 </html>
