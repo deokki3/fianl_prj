@@ -29,11 +29,12 @@ public class ProductController {
 	
 	@RequestMapping(value = "/shop/product_list")
     public ModelAndView frontendProductList(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum, String field,
-			String keyword) {
+			String keyword,String order) {
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();
   		map.put("field", field);
   		map.put("keyword", keyword);
+  		map.put("order", order);
 
   		int totalRowCount = service.getCount(map);// 전체 글의 갯수
   		PageUtil pu = new PageUtil(pageNum, 10, 10, totalRowCount);
@@ -50,6 +51,7 @@ public class ProductController {
   		mv.addObject("pu", pu);
   		mv.addObject("field", field);
   		mv.addObject("keyword", keyword);
+  		mv.addObject("order", order);
   		System.out.println("list===="+list);
   		
   	

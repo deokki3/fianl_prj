@@ -167,6 +167,7 @@
 					</div>
 				</div>
 			</div>
+			
 			<div class="pt-3">
 				<!-- 5점 -->
 				<label class="text-medium text-sm">5stars <span class="text-muted"> --- 20</span></label>
