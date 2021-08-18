@@ -35,7 +35,7 @@
 <div class="page-title">
 	<div class="container">
 		<div class="column">
-			<h1>상품디테일</h1>
+			<h1 style="font-size:50px">${cvo }</h1>
 		</div>
 		<div class="column">
 			<ul class="breadcrumbs">
@@ -86,7 +86,9 @@
 		</div>
 		<h2 class="mb-3">${goods.product_name }</h2>
 		<span class="h3 d-block"><del class="text-muted"><fmt:formatNumber pattern="###,###,###" value="${goods.selling_price }"/>원</del>&nbsp; 할인가</span>
-		<p class="text-muted">////////////// 상품정보 간단하게 요약해서 두 줄 정도로 요약 //////////////</p>
+		<c:forEach var="clist" items="${clist }">
+		<p class="text-muted">${clist.category_name }</p>
+		</c:forEach>
 		<div class="row margin-top-2x">
 			<div class="col-sm-6">
 				<div class="form-group">

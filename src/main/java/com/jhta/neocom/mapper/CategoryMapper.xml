@@ -31,7 +31,7 @@
   		select c.category_name from category_rel r inner join category c on r.category_id=c.category_id 
   		 <![CDATA[ 
   		where r.product_id=#{product_id} and c.category_id=#{category_id} ]]>
-  	</select>
+  	</select> 
   	
   		<!-- 참조 카테고리 리스트 갖고오기 --> 
 	<select id="selectjoin" parameterType="int" resultType="hashmap"> 

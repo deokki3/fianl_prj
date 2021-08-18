@@ -63,7 +63,7 @@ public class ProductInsertController {
 			// 2.업로드된 파일정보 DB에 저장하기
 			
 			System.out.println(vo.getProduct_id());
-			vo1 = new Product_ImgVo(0, vo.getProduct_id(), img_name_save, img_name_origin, img_path, img_size,
+			vo1 = new Product_ImgVo(0, vo.getProduct_id(), img_name_save, img_name_origin, img_size,
 					img_category);
 
    
@@ -108,7 +108,7 @@ public class ProductInsertController {
 				// 2.업로드된 파일정보 DB에 저장하기
 				
 				
-				vo1 = new Product_ImgVo(0, product_id, img_name_save, img_name_origin, img_path, img_size,
+				vo1 = new Product_ImgVo(0, product_id, img_name_save, img_name_origin, img_size,
 						img_category);
 
 	   
