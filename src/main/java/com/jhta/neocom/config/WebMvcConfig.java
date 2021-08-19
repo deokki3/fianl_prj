@@ -11,8 +11,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @EnableWebMvc
 public class WebMvcConfig implements WebMvcConfigurer {
-	@Value("${spring.servlet.multipart.location}")
-	private String uploadFilePath;
+    @Value("${spring.servlet.multipart.location}")
+    private String uploadFilePath;
 
     // Cors 정책을 모두 허용으로 설정
     @Override

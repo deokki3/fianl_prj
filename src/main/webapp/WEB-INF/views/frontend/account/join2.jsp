@@ -52,7 +52,7 @@
 </div>
 	<!-- 페이지 타이틀 끝 -->
 	
-	<!-- 페이지 컨텐트 -->
+	<!-- 페이지  컨텐트 -->
 <div class="container padding-bottom-3x mb-2">
 	<div class="row">
 		<div class="col-md-3"></div>

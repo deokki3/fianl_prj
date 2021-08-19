@@ -12,4 +12,5 @@ public interface MemberInfoMapper {
 	List<MemberInfoVo> list();
 	MemberInfoVo isMember(HashMap<String, String> map);
 	int searchNo(String id);
+	String searchNickname(String id);
 }

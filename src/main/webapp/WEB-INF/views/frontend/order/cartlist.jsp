@@ -39,7 +39,7 @@
 <a href="${pageContext.request.contextPath }">메인</a>
 
 </body>
-<script type="text/javascript" src="static/admin/assets/js/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/static/frontend/assets/js/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
 	$(".checkbox_group").on("click", "#allchk",function(){
 		var checked=$(this).is(":checked");

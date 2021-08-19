@@ -12,4 +12,8 @@
 	  	<select id="isMember" parameterType="hashmap" resultType="com.jhta.neocom.model.MemberInfoVo">
   		select * from member_Info where id=#{id} and password=#{password}
   	</select>
+  	
+  	<select id="searchNickname" resultType="String" parameterType="String">
+  		select nickname from member_Info where id=#{id}
+  	</select>
   </mapper>

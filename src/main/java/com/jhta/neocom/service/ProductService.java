@@ -46,6 +46,10 @@ public class ProductService {
 //	public List<ProductVo> selectone(int product_id) {
 //		return mapper.selectone(product_id);
 //	}
+	public List<HashMap<String, Object>> optionlist(HashMap<String,Object> map){
+		return mapper.list(map);
+		
+	}
 	
 	
 

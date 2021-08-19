@@ -14,6 +14,7 @@ public class OrderMainVo {
 	private int mem_no;
 	private int product_id;
 	private int discount_ref_no;
+	private int order_num;
 	private String orderer_name;
 	private String recipient_name;
 	private String zip_code;
@@ -28,5 +29,7 @@ public class OrderMainVo {
 	private String delivery_status;
 	private String request_item;
 
+	private String img_name_save;
+	private String product_name;
 
 }

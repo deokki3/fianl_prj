@@ -6,9 +6,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.jhta.neocom.model.ProductVo;
@@ -19,7 +21,8 @@ import com.jhta.neocom.service.ProductService;
 import com.jhta.neocom.util.PageUtil;
 
 
-@Controller
+
+@RestController
 public class ProductController {
 	 @Value("${spring.servlet.multipart.location}")
 	    private String uploadFilePath;
@@ -28,40 +31,67 @@ public class ProductController {
 	@Autowired CategoryService service2;
 	
 	
-	@RequestMapping(value = "/shop/product_list",produces= {MediaType.APPLICATION_JSON_VALUE})
-    public ModelAndView frontendProductList(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum, String field,
-			String keyword,String order) {
+	@RequestMapping(value = "/shop/ajaxlist",produces= {MediaType.APPLICATION_JSON_VALUE}) //ajax부분...
+	public @ResponseBody HashMap<String,Object> cpulist(@RequestParam(value="pageNum",defaultValue = "1") int pageNum,String order,String field,int category_id){
+		HashMap<String,Object> map=new HashMap<String, Object>();
+		int totalRowCount = service.getCount(map);// 전체 글의 갯수
+		PageUtil pu = new PageUtil(pageNum, 10, 10, totalRowCount);
+		HashMap<String,Object> pmap=new HashMap<String, Object>();
+		pmap.put("startRowNum",pu.getStartRow());
+		pmap.put("endRowNum", pu.getEndRow());
+		map.put("field", field);
+		map.put("order",order);
+		map.put("category_id", category_id);
 		
-		HashMap<String, Object> map = new HashMap<String, Object>();
-  		map.put("field", field);
-  		map.put("keyword", keyword);
-  		map.put("order", order);
+		List<HashMap<String, Object>> list = service.list(map);
+//		System.out.println("product_list========="+list); 
+		System.out.println("order==="+order); 
+		System.out.println("pageNum==="+pageNum); 
+		map.put("list", list);
+		map.put("startPageNum", pu.getStartPageNum());
+		map.put("endPageNum", pu.getEndPageNum());
+		map.put("pageCount", pu.getTotalPageCount());
+		System.out.println(pu.getTotalPageCount());
+		map.put("pageNum", pageNum);
+		System.out.println(map);
+		return map;
+	} 
+	
+	
+	@GetMapping(value = "/shop/product_list") //페이지 이동 쪽
+    public ModelAndView frontendProductList(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum, String field,
+			String keyword,String order) { 
+		
+//		HashMap<String, Object> map = new HashMap<String, Object>();
+//  		map.put("field", field);
+//  		map.put("keyword", keyword);
+//  		map.put("order", order);
 
-  		int totalRowCount = service.getCount(map);// 전체 글의 갯수
-  		PageUtil pu = new PageUtil(pageNum, 10, 10, totalRowCount);
-  		
-  		int startRow = pu.getStartRow();
-  		int endRow = pu.getEndRow();
-
-  		map.put("startRow", startRow);
-  		map.put("endRow", endRow);
-  		List<HashMap<String, Object>> list = service.list(map);
-  		
+//  		int totalRowCount = service.getCount(map);// 전체 글의 갯수
+//  		PageUtil pu = new PageUtil(pageNum, 10, 10, totalRowCount);
+//  		
+//  		int startRow = pu.getStartRow();
+//  		int endRow = pu.getEndRow();
+//
+//  		map.put("startRow", startRow);
+//  		map.put("endRow", endRow);
+//  		List<HashMap<String, Object>> list = service.list(map);
+  		 
   		ModelAndView mv = new ModelAndView("frontend/shop/product_list");
-  		mv.addObject("list", list);
-  		mv.addObject("pu", pu);
-  		mv.addObject("field", field);
-  		mv.addObject("keyword", keyword);
-  		mv.addObject("order", order);
-  		System.out.println("list===="+list);
+//  		mv.addObject("list", list);
+//  		mv.addObject("pu", pu);
+//  		mv.addObject("field", field);
+//  		mv.addObject("keyword", keyword);
+//  		mv.addObject("order", order);
+//  		System.out.println("list===="+list);
   		
   	
 
 
-  		return mv;
+  		return mv; 
        
     }
-	
+
 	@RequestMapping(value = "/shop/product_detail")
     public ModelAndView frontendProductDetail(@RequestParam("n") int product_id,@RequestParam("m") int category_id) {
 		HashMap<String, Integer> map = new HashMap<String, Integer>();

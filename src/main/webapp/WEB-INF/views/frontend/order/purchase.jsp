@@ -25,11 +25,11 @@
     <link rel="apple-touch-icon" sizes="180x180" href="touch-icon-iphone-retina.png">
     <link rel="apple-touch-icon" sizes="167x167" href="touch-icon-ipad-retina.png">
     <!-- Vendor Styles including: Bootstrap, Font Icons, Plugins, etc.-->
-    <link rel="stylesheet" media="screen" href="static/frontend/assets/css/vendor.min.css">
+    <link rel="stylesheet" media="screen" href="${pageContext.request.contextPath}/static/frontend/assets/css/vendor.min.css">
     <!-- Main Template Styles-->
-    <link id="mainStyles" rel="stylesheet" media="screen" href="static/frontend/assets/css/styles.min.css">
+    <link id="mainStyles" rel="stylesheet" media="screen" href="${pageContext.request.contextPath}/static/frontend/assets/css/styles.min.css">
     <!-- Modernizr-->
-    <script src="static/frontend/assets/js/modernizr.min.js"></script>
+    <script src="${pageContext.request.contextPath}/static/frontend/assets/js/modernizr.min.js"></script>
 
 </head>
 <body>
@@ -303,6 +303,7 @@ function payment() {
   }else
    document.sub1.submit();
 }
+
 </script>
 
 </html>

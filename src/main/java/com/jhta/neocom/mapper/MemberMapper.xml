@@ -5,5 +5,16 @@
 		insert into member_Info(id,password,nickname,name,phone,birth_date,reg_date,mem_no)
 		values (#{id},#{password},#{nickname},#{name},#{phone},#{birth_date},now(),#{mem_no})
 	</insert>
-
+	
+	<select id="select" parameterType="String" resultType="com.jhta.neocom.model.MemberVo">
+		select * from member_Info where id in #{id}
+	</select>
+	
+	<select id="isMember" parameterType="hashmap" resultType="com.jhta.neocom.model.MemberVo">
+		select id,password from member_Info where id=#{id} and password=#{password}
+	</select>
+	<select id="searchNo" resultType="int" parameterType="string">
+  		select mem_no from member_Info where id=#{id}
+  	</select>
 </mapper>
+<!-- 주석 -->

@@ -24,12 +24,12 @@
 <link rel="apple-touch-icon" sizes="167x167"
 	href="touch-icon-ipad-retina.png">
 <!-- Vendor Styles including: Bootstrap, Font Icons, Plugins, etc.-->
-<link rel="stylesheet" media="screen" href="static/frontend/assets/css/vendor.min.css">
+<link rel="stylesheet" media="screen" href="${pageContext.request.contextPath}/static/frontend/assets/css/vendor.min.css">
 <!-- Main Template Styles-->
 <link id="mainStyles" rel="stylesheet" media="screen"
-	href="static/frontend/assets/css/styles.min.css">
+	href="${pageContext.request.contextPath}/static/frontend/assets/css/styles.min.css">
 <!-- Modernizr-->
-<script src="js/modernizr.min.js"></script>
+<script src="${pageContext.request.contextPath}/static/frontend/assets/js/modernizr.min.js"></script>
 <script type="text/javascript"
 		src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 	<script type="text/javascript"
@@ -171,6 +171,10 @@
 				</tbody>
 				
 			</table>
+				<div>
+					주문번호 보내기<input type="text" id="order_no" value="${order_no }">
+				</div>
+			
 				<div class="d-flex justify-content-between paddin-top-1x mt-4">
 					<a class="btn btn-outline-secondary" href="cart.html"><i
 						class="icon-arrow-left"></i><span class="hidden-xs-down">&nbsp;Back
@@ -179,6 +183,9 @@
 						class="hidden-xs-down">결제하기&nbsp;</span><i
 						class="icon-arrow-right"></i></button>
 				</div>
+				<form method="post">
+				<input type="text" name="ab">ab
+				</form>
 		</div>
 	</div>
 
@@ -186,6 +193,8 @@
 <script>
 	$("#check_module").click(function() {
 		var IMP = window.IMP; // 생략가능
+		var order_no=$("#order_no").val();
+		console.log(order_no);
 		IMP.init('imp55782149');
 		// 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
 		// i'mport 관리자 페이지 -> 내정보 -> 가맹점식별코드
@@ -221,7 +230,7 @@
 			 */
 			name : '상품',
 			//결제창에서 보여질 이름
-			amount : 500,
+			amount : 100,
 			//가격
 			buyer_email : 'iamport@siot.do',
 			buyer_name : '구매자이름',
@@ -235,13 +244,36 @@
 		 (카카오페이, 페이코, 다날의 경우는 필요없음. PC와 마찬가지로 callback함수로 결과가 떨어짐)
 		 */
 		}, function(rsp) {
+			
 			console.log(rsp);
 			if (rsp.success) {
-				var msg = '결제가 완료되었습니다.';
-				msg += '고유ID : ' + rsp.imp_uid;
-				msg += '상점 거래ID : ' + rsp.merchant_uid;
-				msg += '결제 금액 : ' + rsp.paid_amount;
-				msg += '카드 승인번호 : ' + rsp.apply_num;
+				jQuery.ajax({
+					url:"${pageContext.request.contextPath}/paymentInsert",
+					
+					data:{
+						imp_uid : rsp.imp_uid,
+						
+			            "order_no":order_no,
+			            "payment_amount":rsp.paid_amount,
+			            "payer_name":rsp.name,
+			            "payment_status":rsp.status
+			        },
+					type:"post",
+					dataType:"json",
+				}).done(function(data) {
+					//[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
+		    		if ( rsp.success ) {
+						var msg = '결제가 완료되었습니다.';
+						msg += '고유ID : ' + rsp.imp_uid;
+						msg += '상점 거래ID : ' + rsp.merchant_uid;
+						msg += '결제 금액 : ' + rsp.paid_amount;
+						msg += '카드 승인번호 : ' + rsp.apply_num;
+						alert(msg);
+		    		} else {
+		    			//[3] 아직 제대로 결제가 되지 않았습니다.
+		    			//[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
+		    		}
+		    	});
 			} else {
 				var msg = '결제에 실패하였습니다.';
 				msg += '에러내용 : ' + rsp.error_msg;
@@ -249,5 +281,6 @@
 			alert(msg);
 		});
 	});
+	
 </script>
 </html>

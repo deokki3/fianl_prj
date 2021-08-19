@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <title>약관 페이지</title>
-<!-- SEO Meta Tags-->
+<!-- SEO Meta Tagsㅇ-->
 <meta name="description"
 	content="Unishop - Universal E-Commerce Template">
 <meta name="keywords"

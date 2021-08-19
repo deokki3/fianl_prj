@@ -74,7 +74,7 @@
 								src="${pageContext.request.contextPath}/static/frontend/assets/img/hero-slider/sony-headphone-iu4.jpg"
 								alt="">
 						</div>
-					</div> 
+					</div>
 				</div>
 			</div>
 			<div class="item">
@@ -151,35 +151,45 @@
 		<h2 class="h3 pb-3 text-center">New Arrivals</h2>
 		<div class="row">
 			<c:forEach var="vo" items="${list }">
-				
-		<div class="col-lg-3 col-md-4 col-sm-6">
-			<div class="product-card mb-30">
-				<a class="product-thumb" href="${pageContext.request.contextPath}/shop/product_detail?n=${vo.product_id}&m=${vo.category_id}">
-				
-				<img src="<c:url value='/upload/${vo.img_name_save}' />" alt="<c:url value='/upload/${vo.img_name_save}' />" />
-				</a>
-				<div class="product-card-body">
-					<div class="product-category">
-						<a href="#">${vo.brand }</a>
+
+				<div class="col-lg-3 col-md-4 col-sm-6">
+					<div class="product-card mb-30">
+						<a class="product-thumb"
+							href="${pageContext.request.contextPath}/shop/product_detail?n=${vo.product_id}&m=${vo.category_id}">
+
+							<img src="<c:url value='/upload/${vo.img_name_save}' />"
+							alt="<c:url value='/upload/${vo.img_name_save}' />" />
+						</a>
+						<div class="product-card-body">
+							<div class="product-category">
+								<a href="#">${vo.brand }</a>
+							</div>
+							<h3 class="product-title">
+								<a
+									href="${pageContext.request.contextPath }/productDetail?mem_no=${sessionScope.mem_no}&product_id=${vo.product_id}">상품보기:${vo.product_name }</a>
+
+							</h3>
+							<h4 class="product-price">
+								<fmt:formatNumber pattern="###,###,###"
+									value="${vo.selling_price }" />
+								원
+							</h4>
+						</div>
+						<div class="product-button-group">
+							<a class="product-button btn-wishlist" href="#"><i
+								class="icon-heart"></i><span>관심상품</span></a> <a
+								class="product-button"
+								href="${pageContext.request.contextPath }/insertCart?mem_no=${sessionScope.mem_no}&product_id=${vo.product_id}"
+								data-toast data-toast-type="success"
+								data-toast-position="topRight"
+								data-toast-icon="icon-check-circle" data-toast-title=" "
+								data-toast-message="장바구니에 상품을 담았습니다!"> <i
+								class="icon-shopping-cart"></i><span>장바구니</span>
+							</a>
+						</div>
 					</div>
-					<h3 class="product-title">
-						<a href="#">${vo.product_name }</a>
-						
-					</h3>
-					<h4 class="product-price"><fmt:formatNumber pattern="###,###,###" value="${vo.selling_price }"/>원</h4>
 				</div>
-				<div class="product-button-group">
-					<a class="product-button btn-wishlist" href="#"><i
-						class="icon-heart"></i><span>관심상품</span></a> <a class="product-button"
-						href="#" data-toast data-toast-type="success"
-						data-toast-position="topRight" data-toast-icon="icon-check-circle"
-						data-toast-title=" " data-toast-message="장바구니에 상품을 담았습니다!"> <i
-						class="icon-shopping-cart"></i><span>장바구니</span>
-					</a>
-				</div>
-			</div>
-		</div>
-		</c:forEach>
+			</c:forEach>
 		</div>
 		<div class="text-center">
 			<a class="btn btn-outline-secondary" href="#">신상품 보러가기</a>

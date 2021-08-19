@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>neocom</title>
-	<!-- SEO Meta Tags-->
+	<!-- SEO Meta  Tags-->
 	<meta name="description" content="Unishop - Universal E-Commerce Template">
 	<meta name="keywords" content="shop, e-commerce, modern, flat style, responsive, online store, business, mobile, blog, bootstrap 4, html5, css3, jquery, js, gallery, slider, touch, creative, clean">
 	<meta name="author" content="Rokaux">

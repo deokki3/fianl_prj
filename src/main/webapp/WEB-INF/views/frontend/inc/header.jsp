@@ -48,7 +48,7 @@
 	</div>
 	<!-- 검색 및 카테고리 끝 -->
 	
-	<!-- 툴바 -->
+<!-- 툴바 -->
 	<div class="toolbar d-flex">
 		<div class="toolbar-item">
 			<a href="${pageContext.request.contextPath }/account/join1">
@@ -81,7 +81,9 @@
 
 		</div>
 		<div class="toolbar-item">
-			<a class="#" href="${pageContext.request.contextPath }/cartlist?id=${sessionScope.id}">
+	
+			<a class="#" href="${pageContext.request.contextPath }/cart?id=${sessionScope.id}">
+
 
 				<div>
 					<span class="cart-icon">
@@ -194,9 +196,9 @@
 			</li>
 			<li class="has-submenu"><a href="#">Community</a>
 				<ul class="sub-menu">
-					<li><a href="${pageContext.request.contextPath }/community/notice_board">공지사항</a></li>
-					<li><a href="#">자유게시판</a></li>
-					<li><a href="#">Q&A</a></li>
+					<li><a href="${pageContext.request.contextPath }/community/noticeboard_list">공지사항</a></li>
+					<li><a href="${pageContext.request.contextPath }/community/qnaboard_list">Q&A</a></li>
+					<li><a href="${pageContext.request.contextPath }/community/freeboard_list">자유게시판</a></li>
 					<li><a href="#">갤러리</a></li>
 				</ul>
 			</li>

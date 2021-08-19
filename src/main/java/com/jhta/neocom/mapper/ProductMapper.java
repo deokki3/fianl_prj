@@ -20,5 +20,6 @@ public interface ProductMapper {
 	List<ProductVo> listTest();
 	ProductVo select(int product_id);
 //	List<ProductVo> selectone(int product_id);
+	List<HashMap<String, Object>> optionlist(HashMap<String,Object> map);
 	
 }

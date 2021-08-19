@@ -26,4 +26,7 @@ public class MemberInfoService {
 	public int searchNo(String id) {
 		return mapper.searchNo(id);
 	}
+	public String searchNickname(String id) {
+		return mapper.searchNickname(id);
+	}
 }

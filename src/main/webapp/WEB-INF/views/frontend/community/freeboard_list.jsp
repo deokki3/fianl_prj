@@ -22,12 +22,6 @@
 	<link id="mainStyles" rel="stylesheet" media="screen" href="${pageContext.request.contextPath}/static/frontend/assets/css/styles.min.css">
 	<!-- Modernizr-->
 	<script src="${pageContext.request.contextPath}/static/frontend/assets/js/modernizr.min.js"></script>
-<style>
-.table tbody tr td {
-	height: 100px;
-	vertical-align: middle;
-}
-</style>
 </head>
 <body>
 
@@ -39,13 +33,15 @@
 <div class="page-title">
 	<div class="container">
 		<div class="column">
-			<h1>마이페이지</h1>
+			<h1>자유게시판</h1>
 		</div>
 		<div class="column">
 			<ul class="breadcrumbs">
 				<li><a href="#">Home</a></li>
 				<li class="separator">&nbsp;</li>
-				<li>My Page</li>
+				<li><a href="#">Community</a></li>
+				<li class="separator">&nbsp;</li>
+				<li>Community Board</li>
 			</ul>
 		</div>
 	</div>
@@ -54,15 +50,8 @@
 
 
 <!-- 페이지 컨텐트 -->
-<div class="container padding-bottom-3x mb-2">
-<div class="row">
-	<!-- mypage_sidebar -->
-	<jsp:include page="/WEB-INF/views/frontend/account/inc/mypage_sidebar.jsp"/>
-	
-	<!-- 주문내역 -->
-	
-</div>
-</div>
+<!-- 여기서부터 작성 -->
+
 <!-- 페이지 컨텐트 끝 -->
 
 

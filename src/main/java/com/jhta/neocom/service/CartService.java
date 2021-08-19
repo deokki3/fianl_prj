@@ -10,7 +10,6 @@ import com.jhta.neocom.mapper.CartMapper;
 import com.jhta.neocom.model.CartVo;
 
 
-
 @Service
 public class CartService {
 	@Autowired private CartMapper mapper;
@@ -25,6 +24,10 @@ public class CartService {
 	
 	public List<CartVo> cartList(int mem_no){
 		return mapper.cartList(mem_no);
+	}
+	
+	public int update(HashMap<String, Object> map) {
+		return mapper.update(map);
 	}
 
 }

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jhta.neocom.mapper.NoticeBoardMapper">
+	
+	<insert id="insert" parameterType="noticeboard">
+		insert into notice_board 
+		values(get_seq('noticeboardSeq'),#{mem_no},#{n_password},#{n_secret_chk},#{n_title},#{n_content},#{n_regdate},#{n_hit},#{n_group_no},#{n_group_order},#{n_group_depth})
+	</insert>
+	
+	<delete id="delete" parameterType="int">
+		delete from notice_Baord where n_board_no=#{n_board_no}
+	</delete>
+	
+	<update id="update" parameterType="noticeboard">
+		update notice_board set 
+		n_password=#{n_password},
+		n_secret_chk=#{n_secret_chk},
+		n_title=#{n_title},
+		n_content=#{n_content},
+		n_regdate=#{n_regdate} 
+		where n_board_no=#{n_board_no}
+	</update>
+	
+	<select id="list" resultType="hashmap" parameterType="hashmap">
+		select n.* ,m.* from notice_board n join member_Info m on n.mem_no=m.mem_no order by n_board_no desc
+	</select>
+	
+	<select id="detail" resultType="noticeboard" parameterType="int">
+		select * from notice_board where n_board_no=#{n_board_no}
+	</select>
+	
+	<!-- 이전글 -->
+	<select id="prev" resultType="noticeboard" parameterType="int">
+	<![CDATA[
+		select * from notice_board where n_board_no =
+		(select n_board_no from notice_board where n_board_no < #{n_board_no} order by n_board_no desc limit 1)
+	]]>
+	</select>
+	
+	<!-- 다음글 -->
+	<select id="next" resultType="noticeboard" parameterType="int">
+	<![CDATA[
+		select * from notice_board where n_board_no =
+		(select n_board_no from notice_board where n_board_no > #{n_board_no} order by n_board_no limit 1)
+	]]>
+	</select>
+	
+</mapper>
