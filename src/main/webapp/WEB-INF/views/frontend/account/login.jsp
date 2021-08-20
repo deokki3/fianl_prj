@@ -58,7 +58,7 @@
 	<div class="row">
 		<div class="col-md-3"></div>
 		<div class="col-md-6">
-			<form class="card" method="post" action="${pageContext.request.contextPath }/account/login">
+			<form method="post" action="${pageContext.request.contextPath }/account/login">
 				<div class="card-body">
 					<div class="row margin-bottom-1x">
 						<div class="col-xl-4 col-md-6 col-sm-4">
@@ -72,11 +72,11 @@
 							</a>
 						</div>
 						<div class="col-xl-4 col-md-6 col-sm-4">
-							<a class="btn btn-sm btn-block google-btn" href="#">
-								<i class="socicon-googleplus"></i>&nbsp; Google+ login
-							</a>
-						</div>
+							<div id="naver_id_login" style="text-align:center"><a href="${url}">
+<img width="223" src="https://developers.naver.com/doc/review_201802/CK_bEFnWMeEBjXpQ5o8N_20180202_7aot50.png"/></a></div>
+						</div>			
 					</div>
+					
 					<h4 class="margin-bottom-1x text-center">로그인 하기</h4>
 					<div class="form-group input-group">
 
@@ -89,7 +89,7 @@
 
 						<input class="form-control" type="password" name="password" placeholder="PWD">
 						<div class="errormsg">${errMsg }</div>
-
+	
 						
 					</div>
 					
@@ -104,7 +104,7 @@
 					</div>
 					<div class="text-center text-sm-right">
 						<button class="btn btn-primary margin-bottom-none" type="submit">로그인</button>
-							<div style='color:red;'>${errMsg }</div>
+							
 					</div>
 				</div>
 			</form>

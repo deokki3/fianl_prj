@@ -36,6 +36,7 @@
 				</div>
 				<!-- 카테고리 끝 -->
 				<!-- 헤더 검색창 -->
+
 				<form class="input-group" method="get" action="${pageContext.request.contextPath }/shop/product_list">
 					<input class="form-control" type="search" placeholder="검색어를 입력하세요." name="keyword" value=${keyword }>
 					<input type="hidden" name="category_id" value="10000">
@@ -51,41 +52,42 @@
 	
 <!-- 툴바 -->
 	<div class="toolbar d-flex">
-		<div class="toolbar-item">
-			<a href="${pageContext.request.contextPath }/account/join1">
-				<div><i class="icon-pocket"></i><span class="text-label">회원가입</span></div>
-			</a>
-		</div>
-		<div class="toolbar-item">
-			<a href="${pageContext.request.contextPath }/account/login">
-				<div><i class="icon-user"></i><span class="text-label">로그인</span></div>
-			</a>
-		</div>
-		<div class="toolbar-item">
-			<a href="#">
-				<div><i class="icon-slash"></i><span class="text-label">로그아웃</span></div>
-			</a>
-		</div>
-		<div class="toolbar-item">
-			<a href="${pageContext.request.contextPath }/account/mypage_order">
-				<div><i class="icon-box"></i><span class="text-label">마이페이지</span></div>
-			</a>
-			<c:if test="${sessionScope.id !=null }">
-				<a class="#" href="${pageContext.request.contextPath }/memlogout">
-					<div>
-						<i class="icon-user"></i>
-						<span class="text-label">로그아웃</span>
-					</div>
-				</a>
 
-			</c:if>
-
-		</div>
+		
+		<c:choose>
+			<c:when test="${id == null }">
+				<div class="toolbar-item">
+					<a href="${pageContext.request.contextPath }/account/join1">
+						<div><i class="icon-pocket"></i><span class="text-label">회원가입</span></div>
+					</a>
+				</div>
+				<div class="toolbar-item">
+					<a href="${pageContext.request.contextPath }/account/login">
+						<div><i class="icon-user"></i><span class="text-label">로그인</span></div>
+					</a>
+				</div>
+			</c:when>
+			<c:otherwise>
+				<div class="toolbar-item">
+					<a href="#">
+						<div><i class="icon-user"></i><span class="text-label">${id }님</span></div>
+					</a>
+				</div>
+				<div class="toolbar-item">
+					<a href="${pageContext.request.contextPath }/account/logout">
+						<div><i class="icon-slash"></i><span class="text-label">로그아웃</span></div>
+					</a>
+				</div>
+				<div class="toolbar-item">
+					<a href="${pageContext.request.contextPath }/account/mypage_order">
+						<div><i class="icon-box"></i><span class="text-label">마이페이지</span></div>
+					</a>
+				</div>
+			</c:otherwise>
+		</c:choose>
+		
 		<div class="toolbar-item">
-	
-			<a class="#" href="${pageContext.request.contextPath }/cart?id=${sessionScope.id}">
-
-
+			<a class="" href="${pageContext.request.contextPath }/cart?id=${sessionScope.id}">
 				<div>
 					<span class="cart-icon">
 						<i class="icon-shopping-cart"></i>
@@ -151,10 +153,10 @@
 	
 	<!-- navbar 메인 네비게이션 -->
 	<nav class="site-menu">
-		<ul>
-			<li class="has-submenu active"><a href="#">Home</a>
+		<ul class="nav-ul">
+			<li class="has-submenu" id="home-li"><a href="${pageContext.request.contextPath }/">Home</a>
 			</li>
-			<li class="has-megamenu"><a href="${pageContext.request.contextPath }/shop/product_list?category_id=20000">Shop</a>
+			<li class="has-megamenu" id="shop-li"><a href="${pageContext.request.contextPath }/shop/product_list?category_id=20000">Shop</a>
 				<ul class="mega-menu">
 					<li><span class="mega-menu-title">컴퓨터부품</span>
 						<ul class="sub-menu">
@@ -191,12 +193,12 @@
 					</li>
 				</ul>
 			</li>
-			<li class="has-submenu"><a href="#">Service</a>
+			<li class="has-submenu" id="service-li"><a href="${pageContext.request.contextPath }/service/advboard_list">Service</a>
 				<ul class="sub-menu">
-					<li><a href="#">견적문의</a></li>
+					<li><a href="${pageContext.request.contextPath }/service/advboard_list">견적문의</a></li>
 				</ul>
 			</li>
-			<li class="has-submenu"><a href="#">Community</a>
+			<li class="has-submenu" id="community-li"><a href="${pageContext.request.contextPath }/community/noticeboard_list">Community</a>
 				<ul class="sub-menu">
 					<li><a href="${pageContext.request.contextPath }/community/noticeboard_list">공지사항</a></li>
 					<li><a href="${pageContext.request.contextPath }/community/qnaboard_list">Q&A</a></li>
@@ -204,7 +206,7 @@
 					<li><a href="#">갤러리</a></li>
 				</ul>
 			</li>
-			<li class="has-submenu"><a href="#">About Us</a>
+			<li class="has-submenu" id="aboutus-li"><a href="${pageContext.request.contextPath }/aboutus/introduce">About Us</a>
 			</li>
 		</ul>
 	</nav>
@@ -213,28 +215,41 @@
 	<!-- navbar 툴바 -->
 	<div class="toolbar">
 		<div class="toolbar-inner">
+
+			<c:choose>
+				<c:when test="${id == null }">
+					<div class="toolbar-item">
+						<a href="${pageContext.request.contextPath }/account/join1">
+							<div><i class="icon-pocket"></i><span class="text-label">회원가입</span></div>
+						</a>
+					</div>
+					<div class="toolbar-item">
+						<a href="${pageContext.request.contextPath }/account/login">
+							<div><i class="icon-user"></i><span class="text-label">로그인</span></div>
+						</a>
+					</div>
+				</c:when>
+				<c:otherwise>
+					<div class="toolbar-item">
+						<a href="#">
+							<div><i class="icon-user"></i><span class="text-label">${id }님</span></div>
+						</a>
+					</div>
+					<div class="toolbar-item">
+						<a href="${pageContext.request.contextPath }/account/logout">
+							<div><i class="icon-slash"></i><span class="text-label">로그아웃</span></div>
+						</a>
+					</div>
+					<div class="toolbar-item">
+						<a href="${pageContext.request.contextPath }/account/mypage_order">
+							<div><i class="icon-box"></i><span class="text-label">마이페이지</span></div>
+						</a>
+					</div>
+				</c:otherwise>
+			</c:choose>
+
 			<div class="toolbar-item">
-				<a href="${pageContext.request.contextPath }/account/join1">
-					<div><i class="icon-pocket"></i><span class="text-label">회원가입</span></div>
-				</a>
-			</div>
-			<div class="toolbar-item">
-				<a href="${pageContext.request.contextPath }/account/login">
-					<div><i class="icon-user"></i><span class="text-label">로그인</span></div>
-				</a>
-			</div>
-			<div class="toolbar-item">
-			<a href="#">
-				<div><i class="icon-slash"></i><span class="text-label">로그아웃</span></div>
-			</a>
-			</div>
-			<div class="toolbar-item">
-				<a href="${pageContext.request.contextPath }/account/mypage_order">
-					<div><i class="icon-box"></i><span class="text-label">마이페이지</span></div>
-				</a>
-			</div>
-			<div class="toolbar-item">
-				<a class="#">
+				<a class="" href="${pageContext.request.contextPath }/cart?id=${sessionScope.id}">
 					<div>
 						<span class="cart-icon">
 							<i class="icon-shopping-cart"></i>
@@ -278,3 +293,22 @@
 </div>
 </header>
 <!-- end of header -->
+<script type="text/javascript" src="${pageContext.request.contextPath}/static/frontend/assets/js/jquery-3.6.0.min.js"></script>
+<script>
+	let pageName = location.pathname.split("/");
+	console.log(pageName);
+	let pageIndex = pageName[2];
+	if(pageIndex == ''){
+		$("#home-li").addClass("active");
+	}else if(pageIndex == 'shop'){
+		$("#shop-li").addClass("active");
+	}else if(pageIndex == 'service'){
+		$("#service-li").addClass("active");
+	}else if(pageIndex == 'community'){
+		$("#community-li").addClass("active");
+	}else if(pageIndex == 'aboutus'){
+		$("#aboutus-li").addClass("active");
+	}else{
+		$(".nav-ul li").removeClass("active");
+	}
+</script>

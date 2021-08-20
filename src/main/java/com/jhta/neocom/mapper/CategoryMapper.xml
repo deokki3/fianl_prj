@@ -2,19 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.jhta.neocom.mapper.CategoryMapper">
-	<insert id="insert" parameterType="com.jhta.neocom.model.CategoryVo">
+	<insert id="insert" parameterType="CategoryVo">
 		insert into category
-        values(get_seq('cateSeq'),#{category_name},#{category_parent},#{category_order})
+        values(#{category_id},#{category_name},#{category_parent},#{category_order})
 	</insert>
 	<delete id="delete" parameterType="int">
 		delete from category where category_id=#{category_id}
 	</delete>
 
-	<select id="find" parameterType="int" resultType="com.jhta.neocom.model.CategoryVo">
+	<select id="find" parameterType="int" resultType="CategoryVo">
 		select * from category where category_id=#{category_id}
 	</select>
 
-	<update id="update" parameterType="com.jhta.neocom.model.CategoryVo">
+	<select id="findChild" parameterType="int" resultType="CategoryVo">
+		select * from category where category_parent=#{category_parent}
+	</select>
+
+	<update id="update" parameterType="CategoryVo">
 		update category set
 		category_name = #{category_name},
 		category_parent = #{category_parent},
@@ -22,21 +26,19 @@
 		where category_id=#{category_id}
 	</update>
 
-	<select id="list" resultType="com.jhta.neocom.model.CategoryVo">
+	<select id="list" resultType="CategoryVo">
 	  select * from category;
   </select>
-  
-  	<!-- 카테고리 name 및 순서 -->
-  	<select id="selectone"  parameterType="hashmap" resultType="string"> <!--  상위 카테 명 뽑아오기 -->
-  		select c.category_name from category_rel r inner join category c on r.category_id=c.category_id 
-  		 <![CDATA[ 
+	<!-- 카테고리 name 및 순서 -->
+	<select id="selectone" parameterType="hashmap" resultType="string">
+		<!--  상위 카테 명 뽑아오기 -->
+		select c.category_name from category_rel r inner join category c on r.category_id=c.category_id
+		<![CDATA[ 
   		where r.product_id=#{product_id} and c.category_id=#{category_id} ]]>
-  	</select> 
-  	
-  		<!-- 참조 카테고리 리스트 갖고오기 --> 
-	<select id="selectjoin" parameterType="int" resultType="hashmap"> 
+	</select>
+	<!-- 참조 카테고리 리스트 갖고오기 -->
+	<select id="selectjoin" parameterType="int" resultType="hashmap">
 		select r.category_rel_no,r.product_id,c.* from category_rel r inner join category c on r.category_id=c.category_id
 		<![CDATA[  where product_id=#{product_id} ]]>
 	</select>
-  	
 </mapper>

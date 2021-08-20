@@ -11,8 +11,9 @@ import com.jhta.neocom.model.OrderMainVo;
 
 @Service
 public class OrderMainService {
-	@Autowired private OrderMainMapper mapper;
-	
+	@Autowired
+	private OrderMainMapper mapper;
+
 	public int insert(OrderMainVo vo) {
 		return mapper.insert(vo);
 	}
@@ -20,11 +21,11 @@ public class OrderMainService {
 	public int delete(int order_no) {
 		return mapper.delete(order_no);
 	}
-	
+
 	public int searchno(HashMap<String, Object> map) {
 		return mapper.searchno(map);
 	}
-	
+
 	public OrderMainVo searchRndNo(HashMap<String, Object> map) {
 		return mapper.searchRndNo(map);
 	}
@@ -32,9 +33,13 @@ public class OrderMainService {
 	public int updateno(HashMap<String, Object> map) {
 		return mapper.updateno(map);
 	}
-	
-	public List<OrderMainVo> myOrderList(int mem_no){
+
+	public List<OrderMainVo> myOrderList(int mem_no) {
 		return mapper.myOrderList(mem_no);
+	}
+
+	public List<OrderMainVo> list() {
+		return mapper.list();
 	}
 
 }

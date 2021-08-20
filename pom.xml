@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -12,15 +9,39 @@
 	</parent>
 	<groupId>com.jhta</groupId>
 	<artifactId>neocom</artifactId>
-	<version>0.0.1</version>
-	<packaging>war</packaging>
+	<version>1.1.0</version>
+	<packaging>jar</packaging>
 	<name>neocom</name>
 	<description>Final Project for jhta</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
 	<dependencies>
-
+		<!-- 제이슨 파싱 --> 
+		<dependency> 
+			<groupId>com.googlecode.json-simple</groupId> 
+			<artifactId>json-simple</artifactId> 
+			<version>1.1.1</version> 
+		</dependency>
+		<!-- 네이버api 디펜던시 -->
+		<dependency> 
+		    <groupId>com.github.scribejava</groupId> 
+		    <artifactId>scribejava-core</artifactId> 
+		    <version>2.8.1</version> 
+		</dependency>
+		<!-- hibernate  추가했습니당  -->
+		<!-- File Upload (대용량 파일 처리) -->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.11.0</version>
+		</dependency>
+		<!-- File Upload (file upload 기능 사용) -->
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.4</version>
+		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
@@ -33,9 +54,6 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
 		</dependency>
-
-
-		<!-- hibernate 추가했습니당 -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-annotations</artifactId>
@@ -46,7 +64,6 @@
 			<artifactId>hibernate-validator</artifactId>
 			<version>6.1.5.Final</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>

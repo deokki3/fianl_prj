@@ -31,4 +31,24 @@ public class MyPageController {
         return "frontend/account/mypage_delivery";
     }
 	
+	@RequestMapping(value = "/account/mypage_question")
+    public String frontendMyPageQuestion() {
+        return "frontend/account/mypage_question";
+    }
+	
+	@RequestMapping(value = "/account/mypage_wishlist")
+    public String frontendMyPageWishlist() {
+        return "frontend/account/mypage_wishlist";
+    }
+
+	@RequestMapping(value = "/account/mypage_myreview")
+    public String frontendMyPageMyreview() {
+        return "frontend/account/mypage_myreview";
+    }
+	
+	@RequestMapping(value = "/account/mypage_modify")
+    public String frontendMyPageModify() {
+        return "frontend/account/mypage_modify";
+    }
+	
 }

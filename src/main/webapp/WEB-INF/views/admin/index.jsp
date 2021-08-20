@@ -49,7 +49,7 @@
 						<div class="stats-icon stats-icon-lg"><i class="fa fa-globe fa-fw"></i></div>
 						<div class="stats-content">
 							<div class="stats-title">방문자 수</div>
-							<div class="stats-number">아직구현안함</div>
+							<div class="stats-number"></div>
 							<div class="stats-progress progress">
 								<div class="progress-bar" style="width: 0.0%;"></div>
 							</div>
@@ -64,7 +64,7 @@
 						<div class="stats-icon stats-icon-lg"><i class="fa fa-dollar-sign fa-fw"></i></div>
 						<div class="stats-content">
 							<div class="stats-title">순이익</div>
-							<div class="stats-number">아직구현안함</div>
+							<div class="stats-number"></div>
 							<div class="stats-progress progress">
 								<div class="progress-bar" style="width: 40.0%;"></div>
 							</div>
@@ -79,7 +79,7 @@
 						<div class="stats-icon stats-icon-lg"><i class="fa fa-archive fa-fw"></i></div>
 						<div class="stats-content">
 							<div class="stats-title">주문 증가</div>
-							<div class="stats-number">아직구현안함</div>
+							<div class="stats-number"></div>
 							<div class="stats-progress progress">
 								<div class="progress-bar" style="width: 50.0%;"></div>
 							</div>
@@ -94,7 +94,7 @@
 						<div class="stats-icon stats-icon-lg"><i class="fa fa-comment-alt fa-fw"></i></div>
 						<div class="stats-content">
 							<div class="stats-title">게시글 등록수</div>
-							<div class="stats-number">아직구현안함</div>
+							<div class="stats-number"></div>
 							<div class="stats-progress progress">
 								<div class="progress-bar" style="width: 70.0%;"></div>
 							</div>
@@ -196,56 +196,14 @@
 							<h4 class="panel-title">오늘의 신규 가입자</h4>
 							<span class="badge bg-teal">15</span>
 						</div>
-						<ul class="registered-users-list">
+						<%-- <ul class="registered-users-list">
 							<li>
 								<h4 class="username text-ellipsis">
 									Savory Posh
 									<small>Algerian</small>
 								</h4>
 							</li>
-							<li>
-								<h4 class="username text-ellipsis">
-									Ancient Caviar
-									<small>Korean</small>
-								</h4>
-							</li>
-							<li>
-								<h4 class="username text-ellipsis">
-									Marble Lungs
-									<small>Indian</small>
-								</h4>
-							</li>
-							<li>
-								<h4 class="username text-ellipsis">
-									Blank Bloke
-									<small>Japanese</small>
-								</h4>
-							</li>
-							<li>
-								<h4 class="username text-ellipsis">
-									Hip Sculling
-									<small>Cuban</small>
-								</h4>
-							</li>
-							<li>
-								<h4 class="username text-ellipsis">
-									Flat Moon
-									<small>Nepalese</small>
-								</h4>
-							</li>
-							<li>
-								<h4 class="username text-ellipsis">
-									Packed Puffs
-									<small>Malaysian</small>
-								</h4>
-							</li>
-							<li>
-								<h4 class="username text-ellipsis">
-									Clay Hike
-									<small>Swedish</small>
-								</h4>
-							</li>
-						</ul>
+						</ul> --%>
 						<div class="panel-footer text-center">
 							<a href="javascript:;" class="text-decoration-none text-inverse">View All</a>
 						</div>

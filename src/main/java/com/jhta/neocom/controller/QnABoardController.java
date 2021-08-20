@@ -20,33 +20,40 @@ import com.jhta.neocom.util.PageUtil;
 @Controller
 public class QnABoardController {
 	@Autowired private QnABoardService service;
-	@Autowired private MemberInfoService m_service;
+	@Autowired private MemberInfoService m_service;  //접속중인 id 세션값 받아와서 mem_no 회원번호 가져오기
 	
 	//문의게시판 리스트 페이지 이동
 	@RequestMapping(value = "/community/qnaboard_list")
-	public String qnaboard_list(@RequestParam(value = "pageNum",defaultValue = "1")int pageNum,String field,String keyword,Model model,HttpSession session) {
-		String id = (String)session.getAttribute("id");
-		HashMap<String,Object> map =new HashMap<String,Object>();
+	public String qnaboard_list(@RequestParam(value = "pageNum",defaultValue = "1")
+								int pageNum,String field,String keyword,Model model,HashMap<String,Object> map,HttpSession session,HttpServletRequest req) {
+		String id = (String)session.getAttribute("id");  //로그인 되있는 상태에서만 문의하기 버튼 사용 가능
+	//	String spageNum = req.getParameter("pageNum");
+		
+	/*	if(spageNum!=null) {
+			pageNum = Integer.parseInt(spageNum);
+		} */
+		
 		map.put("field", field);
 		map.put("keyword", keyword);
 		
 		int totalRowCount = service.getCount(map);  //전체 글 개수
 		PageUtil pu = new PageUtil(pageNum, 10, 10, totalRowCount);
-		int startRow = pu.getStartRow();
-//		int endRow = pu.getEndRow();
-		map.put("startRow",startRow-1);
-//		map.put("endRow",endRow);
+		int startRow = pu.getStartRow()-1;
+		int endRow = pu.getEndRow();
+				
+		map.put("startRow",startRow);
+		map.put("endRow",endRow);
 		
 		model.addAttribute("list",service.list(map));
 		model.addAttribute("pu",pu);
+	/*	model.addAttribute("pageNum",pageNum); */
 		model.addAttribute("field",field);
 		model.addAttribute("keyword",keyword);
-		model.addAttribute("id",id);
-		System.out.println("startRow======"+startRow);
+		model.addAttribute("id",id);  //세션에 있는 로그인 정보 가져오기
 		
-		System.out.println("리스트=" + service.list(map));
-		System.out.println("전체글개수=" + totalRowCount);
-		System.out.println(field + "/" + keyword);
+	/*	System.out.println("리스트" + service.list(map));
+		System.out.println("전체글개수" + totalRowCount);
+		System.out.println(field + "/" + keyword); */
 		
 		return "frontend/community/qnaboard_list";
 	}
@@ -54,8 +61,10 @@ public class QnABoardController {
 	//문의게시판 상세 페이지 이동
 	@RequestMapping(value = "/community/qnaboard_detail", method = RequestMethod.GET)
 	public String qnaboard_detail(Model model,int qna_board_no) {
-		QnABoardVo vo = service.detail(qna_board_no);
-		model.addAttribute("vo",vo);
+		HashMap<String,Object> map = service.detail(qna_board_no);
+		service.cntHit(qna_board_no);  //조회수 증가 쿼리
+		model.addAttribute("map",map);
+		
 		return "frontend/community/qnaboard_detail";
 	}
 	

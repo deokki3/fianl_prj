@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 @Data
 public class MemberInfoVo {
 	private int mem_no;
-	private String NickName;
-	private String Phone;
-	private Date Birth_date;
+	private String nickname;
+	private String phone;
+	private Date birth_date;
 	private Date reg_date;
 	private String name;
 	private String id;

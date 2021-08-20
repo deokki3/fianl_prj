@@ -69,7 +69,7 @@
 	</select>
 	 -->
  
-	<!--카테고리별 및 페이징처리 --> 
+	<!--카테고리별 및 페이징처리 -->
 	<select id="list" parameterType="hashmap" resultType="hashmap">
 		select a.* from 
 		 (
@@ -77,17 +77,12 @@
 				product aa inner join product_img bb 
                   on aa.product_id= bb.product_id, 
   				(SELECT @ROWNUM := 0) R
-  				
-                <include refid="cate"/> 
-                
-                 )a 
+		<include refid="cate" />
+		)a 
                  where img_category='main'
+	</select>
 
-  </select>
-  
-  
-  
-	<update id="update" parameterType="com.jhta.neocom.model.ProductVo" >
+	<update id="update" parameterType="ProductVo">
 		update product set
 		product_code = #{product_code},
 		category_id = #{category_id},
@@ -103,15 +98,26 @@
 		availability =#{availability}
 		where product_id=#{product_id}
 	</update>
-	
-	<select id="select" parameterType="int" resultType="com.jhta.neocom.model.ProductVo">
+
+	<select id="select" parameterType="int" resultType="ProductVo">
   		select * from product where product_id=#{product_id}
   	</select>
-  	
-  	<select id="listTest" resultType="com.jhta.neocom.model.ProductVo">
+
+	<select id="selectAll" resultType="ProductVo">
+
   		select * from product
   	</select>
-  	<select id="optionlist" parameterType="hashmap" resultType="hashmap">
+  	
+  	 	<!-- 주문 목록(구매희망 목록) -->
+ 	<select id="purchaseList" resultType="com.jhta.neocom.model.ProductVo" parameterType="int">
+ 		select p.product_id,img_name_save,product_name,selling_price from product p left join 
+ 		product_img pi on p.product_id=pi.product_id where p.product_id=#{product_id} and img_category='main';
+ 	</select>
+  	
+
+	<select id="optionlist" parameterType="hashmap" resultType="hashmap">
   		select * from product p inner join buy_option b on p.product_id=b.product_id where optionName=#{optionName}
   	</select>
+
+
 </mapper>

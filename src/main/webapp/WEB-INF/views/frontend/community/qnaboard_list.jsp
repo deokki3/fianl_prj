@@ -75,11 +75,12 @@
 							<option value="nickname" <c:if test="${field=='nickname'}">selected</c:if> >작성자</option>
 							<option value="qna_title" <c:if test="${field=='qna_title'}">selected</c:if> >제목</option>
 							<option value="qna_content" <c:if test="${field=='qna_content'}">selected</c:if> >내용</option>
+							<option value="combined" <c:if test="${field=='combined'}">selected</c:if> >제목+내용</option>
 						</select>
 					<input type="text" class="form-control col-sm-3 p-1" value="${keyword}" name="keyword" >
 					<button type="submit" class="form-control col-sm-1 w-1 p-2">검색</button>
 					<div class="ml-md-auto" style="margin-right:20px;">
-						<button type="button" id="insertBtn" class="form-control btn-sm btn-outline-info" onclick="location.href='${pageContext.request.contextPath}/community/qnaboard_insert'">문의하기 <i class="icon-arrow-right-circle"></i></button>
+						<button type="button" id="insertBtn" class="form-control btn-sm btn-outline-info" onclick="clickInsert()">문의하기 <i class="icon-arrow-right-circle"></i></button>
 					</div>
 				</div>
 			</form>
@@ -108,28 +109,75 @@
 				</c:forEach>
 				</tbody>
 			</table>
-			
 		</div>
 		
-		<c:forEach var="i" begin="${pu.startPageNum }" end="${pu.endPageNum }">
-			<c:choose>
-				<c:when test="${pu.pageNum==i }">
-					<a href="${pageContext.request.contextPath}/community/qnaboard_list?pageNum=${i }&field=${field}&keyword=${keyword}">
-						<span style="color:blue; font-weight:bold">[${i }]</span>
-					</a>
-				</c:when>
-				<c:otherwise>
-					<a href="${pageContext.request.contextPath}/community/qnaboard_list?pageNum=${i }&field=${field}&keyword=${keyword}">
-						<span style="color:gray;">[${i }]</span>
-					</a>
-				</c:otherwise>
-			</c:choose>
-		</c:forEach>
+		<!-- 페이징 -->
+		<nav class="pagination" style="margin-top:20px;">
+			<div class="column">
+				<c:choose>
+					<c:when test="${pu.prevPage }">
+						<a class="btn btn-outline-secondary btn-sm" href="${pageContext.request.contextPath}/community/qnaboard_list?pageNum=${pu.pageNum-1 }&field=${field}&keyword=${keyword}"><i class="icon-chevron-left"></i> 이전</a>
+					</c:when>
+					<c:otherwise>
+						<a class="btn btn-outline-secondary btn-sm disabled"><i class="icon-chevron-left"></i> 이전</a>
+					</c:otherwise>
+				</c:choose>
+			</div>
+			<div class="column">
+			<ul class="pages" style="margin-top:20px;">
+			
+			<c:forEach var="i" begin="${pu.startPageNum }" end="${pu.endPageNum }">
+				<c:choose>
+					<c:when test="${pu.pageNum==i }">
+						<li class="active">
+							<a href="${pageContext.request.contextPath}/community/qnaboard_list?pageNum=${i }&field=${field}&keyword=${keyword}">${i }</a>
+						</li>
+					</c:when>
+					<c:otherwise>
+						<li>
+							<a href="${pageContext.request.contextPath}/community/qnaboard_list?pageNum=${i }&field=${field}&keyword=${keyword}">${i }</a>
+						</li>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+			</ul>
+			</div>
+			<div class="column">
+				<c:choose>
+					<c:when test="${pu.nextPage }">
+						<a class="btn btn-outline-secondary btn-sm" href="${pageContext.request.contextPath}/community/qnaboard_list?pageNum=${pu.pageNum+1 }&field=${field}&keyword=${keyword}">다음 <i class="icon-chevron-right"></i></a>
+					</c:when>
+					<c:otherwise>
+						<a class="btn btn-outline-secondary btn-sm disabled">다음 <i class="icon-chevron-right"></i></a>
+					</c:otherwise>
+				</c:choose>
+			</div>
+		</nav>
+		<div class="mb-4"></div>
 		
 	</div>
 </div>
 </div>
 <!-- 페이지 컨텐트 끝 -->
+
+	<!-- modal -->
+	<div class="modal fade" id="insertModal">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">로그인이 필요한 서비스입니다.</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
+				</div>
+				<div class="modal-body">
+					<p>로그인 하시겠습니까?</p>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-info btn-sm" onclick="location.href='${pageContext.request.contextPath}/account/login'">Yes</button>
+					<button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal" onclick="return false;">No</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 
 <!-- footer -->
@@ -142,12 +190,16 @@
 	<script src="${pageContext.request.contextPath}/static/frontend/assets/js/vendor.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/frontend/assets/js/scripts.min.js"></script>
 <script>
-	/*var sessionId = "${id}";
-	$("#insertBtn").on("click",function(){
-		if(sessionId!=null) {
-			function clickInsert();
-		}
-	});*/
+/* 로그인 상태에서만 문의하기 가능 */
+function clickInsert(){
+	var sessionId = "${id}";
+	console.log(sessionId);
+	if(sessionId!=null && sessionId!='') {
+		location.href='${pageContext.request.contextPath}/community/qnaboard_insert';
+	}else{
+		$("#insertModal").modal();
+	}
+}
 </script>
 </body>
 </html>

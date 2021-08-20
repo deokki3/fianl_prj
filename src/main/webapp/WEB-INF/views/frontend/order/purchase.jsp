@@ -31,34 +31,94 @@
     <!-- Modernizr-->
     <script src="${pageContext.request.contextPath}/static/frontend/assets/js/modernizr.min.js"></script>
 
+<style>
+	#order_product {
+		width:850px;
+	}
+	.sidebar {
+		position: absolute;
+	}
+	#sidebar{
+		height: 200px;
+	}
+</style>
 </head>
 <body>
-	<h1>주문서 작성/결제</h1>
+
+	<jsp:include page="/WEB-INF/views/frontend/inc/header.jsp"/>
+	
+	 <!-- Page Title-->
+    <div class="page-title">
+      <div class="container">
+        <div class="column">
+          <h1>주문서 작성/결제</h1>
+        </div>
+        <div class="column">
+          <ul class="breadcrumbs">
+            <li><a href="index.html">Home</a>
+            </li>
+            <li class="separator">&nbsp;</li>
+            <li>주문/결제</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- Page Content-->
+	
 	
 	
 	<!-- Page Content-->
-	<div class="container padding-bottom-3x mb-2">
+	
+	
+	<div class="container padding-bottom-3x mb-2" style=margin-top:80px;>
+	<form name="sub1" method="post" action="${pageContext.request.contextPath }/purchase">
+		<h3 class="widget-title" id="order_product">주문 제품(Order Product)</h3>
 		<div class="row">
 			<div class="col-xl-9  col-lg-8">
-		<table class="table table-hover">
-        	<thead class="thead-default">
-           	 	<tr>
-            		<th>이미지</th>
-           			<th>상품명</th>
-            		<th>상품금액</th>
-            		<th>수량</th>
-            		<th>주문금액</th>
-       	    	</tr>
-       	    	<tr>
-       	    		<td></td>
-       	    		<td>${product_name }</td>
-       	    		<td>${selling_price }</td>
-       	    		<td>${product_count }</td>
-       	    		<td>${selling_price }</td>
-       	    	</tr>
-            </thead>
-      	</table>
+			
+			<table class="table table-hover">
+	        	<thead class="thead-default">
+	           	 	<tr>
+	            		<th class="text-center">이미지</th>
+	           			<th class="text-center">상품명</th>
+	            		<th class="text-center">상품금액</th>
+	            		<th class="text-center">수량</th>
+	            		<th class="text-center">주문금액</th>
+	       	    	</tr>
+	       	    	<c:choose>
+	       	    
+		       	    	<c:when test="${!empty purchaseList }">
+		       	  
+		       	    		<c:forEach var="vo" items="${purchaseList }"  varStatus="i">
+			       	    		<tr>	
+			       	    			<td><img width=45; height=45; src="<c:url value='/upload/product_img/${vo.img_name_save}' />" alt="<c:url value='/upload/product_img/${vo.img_name_save}' />" /></td>
+				       	    		<td>${vo.product_name }</td>
+				       	    		<td>${vo.selling_price }</td>
+				       	    		<td>${cnt[i.index] }</td>
+				       	    		<td>${vo.selling_price * vo.product_count }</td>
+				       	    		
+			       	    		</tr>
+			       	    		<input type="hidden" name="product_id" value="${vo.product_id }">
+			       	    		<input type="hidden" name="product_count" value="${cnt[i.index] }">
+			       	    	</c:forEach>
+			       	    		
+		       	    	</c:when>
+		       	        	<c:otherwise>
+			       	    	<tr>
+			       	    		<td></td>
+			       	    		<td>${product_name }</td>
+			       	    		<td>${selling_price }</td>
+			       	    		<td>${product_count }</td>
+			       	    		<td>${selling_price * product_count }</td>
+			       	    	</tr>
+		       	    	</c:otherwise>
+	       	    	</c:choose>
+	            </thead>
+	      	</table>
 	</div>
+	
+	
+	
 			<!-- Checkout Adress-->
 			<div class="col-xl-9 col-lg-8">
 				<div class="steps flex-sm-nowrap mb-5">
@@ -73,11 +133,13 @@
 					</a>
 				</div>
 				<h4>주문 정보</h4>
-				<form name="sub1" method="post" action="${pageContext.request.contextPath }/purchase">
-				
-					<input type="hidden" name="tot_price" value="${selling_price }">
+
 					<input type="hidden" name="product_id" value="${product_id }">
-				
+					<input type="hidden" name="tot_price" value="${selling_price*product_count }">
+					<!--  <input type="hidden" name="product_id" value="${product_id }">-->
+					<input type="hidden" name="product_count" value="${product_count }">
+					
+					
 					<hr class="padding-bottom-1x">
 					<div class="row">
 						
@@ -115,7 +177,7 @@
 					<div class="row">
 						<div class="col-sm-6">
 							<div class="form-group">
-								<label for="checkout-address">주소</label> <input
+								<label for="checkout-zip_code">주소</label> <input
 									class="form-control" type="text" 
 									name="zip_code" id="zip_code">
 									<input class="form-control" type="text"
@@ -192,23 +254,24 @@
 							class="hidden-xs-down">결제하기&nbsp;</span><i
 							class="icon-arrow-right"></i></button>
 					</div>
-				</form>
+				
 			</div>
+			
 			<!-- Sidebar          -->
-			<div class="col-xl-3 col-lg-4">
-				<aside class="sidebar">
+			<div class="col-xl-3 col-lg-4" id="sidebar">
+				<aside class="sidebar" >
 					<div class="padding-top-2x hidden-lg-up"></div>
 					<!-- Order Summary Widget-->
 					<section class="widget widget-order-summary">
 						<h3 class="widget-title">주문정보(Order Summary)</h3>
 						<table class="table">
 							<tr>
-								<td>장바구니 총액(Cart Subtotal):</td>
-								<td class="text-gray-dark">$2,548.50</td>
+								<td>총 결제금액 : </td>
+								<td class="text-gray-dark">${selling_price*product_count } 원</td>
 							</tr>
 							<tr>
-								<td>배송비(Shipping): </td>
-								<td class="text-gray-dark">$26.50</td>
+								<td>배송비(Shipping):  </td>
+								<td class="text-gray-dark">0원</td>
 							</tr>
 							<tr>
 								<td>추정세(Estimated tax):</td>
@@ -222,7 +285,7 @@
 					</section>
 					<!-- Featured Products Widget-->
 					<section class="widget widget-featured-products">
-						<h3 class="widget-title">Recently Viewed</h3>
+						<h3 class="widget-title">최근 본 상품</h3>
 						<!-- Entry-->
 						<div class="entry">
 							<div class="entry-thumb">
@@ -233,7 +296,7 @@
 								<h4 class="entry-title">
 									<a href="shop-single.html">GoPro Hero4 Silver</a>
 								</h4>
-								<span class="entry-meta">$287.99</span>
+								<span class="entry-meta">150000 원</span>
 							</div>
 						</div>
 						<!-- Entry-->
@@ -244,9 +307,9 @@
 							</div>
 							<div class="entry-content">
 								<h4 class="entry-title">
-									<a href="shop-single.html">Puro Sound Labs BT2200</a>
+									<a href="shop-single.html">키보드</a>
 								</h4>
-								<span class="entry-meta">$95.99</span>
+								<span class="entry-meta">250000 원</span>
 							</div>
 						</div>
 						<!-- Entry-->
@@ -292,17 +355,67 @@
 					</a>
 				</aside>
 			</div>
+	
+			
 		</div>
+		</form>
 	</div>
+	
+	<!-- footer -->
+	<jsp:include page="/WEB-INF/views/frontend/inc/footer.jsp" />
+
+
+	<!-- Back To Top Button-->
+	<a class="scroll-to-top-btn" href="#"><i class="icon-chevron-up"></i></a>
+	<!-- Backdrop-->
+	<div class="site-backdrop"></div>
 </body>
+<script type="text/javascript" src="${pageContext.request.contextPath}/static/admin/assets/js/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">	
-function payment() {
-        if (document.getElementById("orderer_name").value == "") {
-            alert("이름을 입력하세요.");
-            return false;
-  }else
-   document.sub1.submit();
-}
+
+	function payment() {
+	        if (document.getElementById("orderer_name").value == "") {
+	            alert("이름을 입력하세요.");
+	            return false;
+	  }else
+	   document.sub1.submit();
+	}
+	
+	
+	$(function(){
+		const scrollHeight = 260;
+		var body = document.body,
+
+	    html = document.documentElement;
+		var height = Math.max( body.scrollHeight, body.offsetHeight, 
+			 html.clientHeight, html.scrollHeight, html.offsetHeight );
+		$(".sidebar").css({
+			"top":-height+1703
+		});
+		var endScroll=height-1221
+		var endPx=height-1471
+		//사이드바 스크롤
+
+		function sidebar(){
+			if($(window).scrollTop()>endScroll){
+				document.getElementById('sidebar').style.top = endPx + 'px';
+			}else if($(window).scrollTop() > scrollHeight){
+				let top = $(window).scrollTop() - scrollHeight + 10;
+				document.getElementById('sidebar').style.top = top + 'px';
+				console.log($(window).scrollTop());
+				console.log(height);
+			}else if($(window).scrollTop()<scrollHeight){
+				document.getElementById('sidebar').style.top = '0px';
+			}
+		}
+
+		sidebar();
+
+		$(window).scroll(()=>{
+			sidebar();
+		});
+
+	});
 
 </script>
 

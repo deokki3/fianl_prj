@@ -9,8 +9,10 @@ public interface NoticeBoardMapper {
 	int insert(NoticeBoardVo vo);
 	int delete(int n_board_no);
 	int update(NoticeBoardVo vo);
+	int getCount(HashMap<String,Object> map);
 	List<HashMap<String,Object>> list(HashMap<String,Object> map);
-	NoticeBoardVo detail(int n_board_no);
+	HashMap<String,Object> detail(int n_board_no);
+	int cntHit(int n_board_no);
 	NoticeBoardVo prev(int n_board_no);
 	NoticeBoardVo next(int n_board_no);
 }

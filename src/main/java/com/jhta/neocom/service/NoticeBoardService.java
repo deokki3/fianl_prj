@@ -25,12 +25,20 @@ public class NoticeBoardService {
 		return mapper.update(vo);
 	}
 	
+	public int getCount(HashMap<String,Object> map) {
+		return mapper.getCount(map);
+	}
+	
 	public List<HashMap<String,Object>> list(HashMap<String,Object> map) {
 		return mapper.list(map);
 	}
 	
-	public NoticeBoardVo detail(int n_board_no) {
+	public HashMap<String,Object> detail(int n_board_no) {
 		return mapper.detail(n_board_no);
+	}
+	
+	public int cntHit(int n_board_no) {
+		return mapper.cntHit(n_board_no);
 	}
 	
 	public NoticeBoardVo prev(int n_board_no) {

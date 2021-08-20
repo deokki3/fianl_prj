@@ -4,6 +4,9 @@
 <configuration>
     <!-- Alias 설정 -->
     <typeAliases>
+        <typeAlias type="com.jhta.neocom.model.ProductVo" alias="ProductVo" />
+        <typeAlias type="com.jhta.neocom.model.CategoryVo" alias="CategoryVo" />
+        <typeAlias type="com.jhta.neocom.model.Category_relVo" alias="Category_relVo" />
         <typeAlias type="com.jhta.neocom.model.CartVo" alias="CartVo" />
         <typeAlias type="com.jhta.neocom.model.NoticeBoardVo" alias="noticeboard" />
         <typeAlias type="com.jhta.neocom.model.QnABoardVo" alias="qnaboard" />

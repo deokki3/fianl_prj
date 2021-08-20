@@ -12,16 +12,33 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.jhta.neocom.model.MemberVo;
+import com.jhta.neocom.model.NaverLoginVo;
 import com.jhta.neocom.service.MemberService;
 
 @Controller
 public class LoginController {
+	private NaverLoginVo naverLoginVo;
+	private String apiResult = null;
+	
+	@Autowired
+	private void setNaverLoginBO(NaverLoginVo naverLoginVo) {
+		this.naverLoginVo = naverLoginVo;
+	}
 
 	@Autowired
 	private MemberService memberService;
 
 	@RequestMapping(value = "/account/login", method = RequestMethod.GET)
-	public String loginForm() {
+	public String loginForm(Model model, HttpSession session) {
+		
+		/* 네이버아이디로 인증 URL을 생성하기 위하여 naverLoginBO클래스의 getAuthorizationUrl메소드 호출 */
+		String naverAuthUrl = naverLoginVo.getAuthorizationUrl(session);
+		
+		System.out.println("네이버:" + naverAuthUrl);
+		
+		//네이버
+		model.addAttribute("url", naverAuthUrl);
+		
 		return "frontend/account/login";
 	}
 

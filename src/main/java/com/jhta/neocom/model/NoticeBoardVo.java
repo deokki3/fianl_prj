@@ -21,4 +21,5 @@ public class NoticeBoardVo {
 	private int n_group_no;
 	private int n_group_order;
 	private int n_group_depth;
+	private String Nickname;
 }

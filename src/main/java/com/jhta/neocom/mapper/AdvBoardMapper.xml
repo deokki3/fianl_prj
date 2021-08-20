@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jhta.neocom.mapper.AdvBoardMapper">
+    <!-- 작성 -->
+ <insert id="create" parameterType="com.jhta.neocom.model.AdvBoardVo">
+  insert into adv_board(adv_board_no, mem_no, adv_password, adv_secret_chk, adv_title, adv_content, adv_regdate,adv_hit,adv_group_no,adv_group_order,adv_group_depth)
+      values (get_seq('advboardSeq'),#{mem_no}, #{adv_password}, #{adv_secret_chk}, #{adv_title},#{adv_content},now(),0,(select max(adv_board_no)+1 from adv_board tmp),1,1)
+ </insert>
+ <select id="list" resultType="com.jhta.neocom.model.AdvBoardVo">
+  select * from adv_board
+ </select>
+ <select id="find" parameterType="int" resultType="com.jhta.neocom.model.AdvBoardVo">
+ select * from adv_board where adv_board_no=#{adv_board_no}
+ </select>
+ <delete id="delete" parameterType="int">
+ delete from adv_board where adv_board_no=#{adv_board_no}
+ </delete>
+ <update id="update" parameterType="com.jhta.neocom.model.AdvBoardVo">
+ update adv_board set 
+ adv_password = #{adv_password},
+ adv_secret_chk = #{adv_secret_chk},
+ adv_title = #{adv_title},
+ adv_content = #{adv_content}
+ where adv_board_no=#{adv_board_no}
+ </update>
+ <select id="selectBoardList" resultType="hashmap" parameterType="hashmap"> 
+    <![CDATA[
+     		select a.* from 
+		 (
+		SELECT @rownum:=@rownum+1  rnum, aa.* FROM 
+				adv_board aa, 
+  				(SELECT @ROWNUM := 0) R
+		
+	
+         )a  where rnum>=#{startRow} and rnum<=#{endRow}
+    ]]>
+</select>
+<!-- 전체 글의 갯수 -->
+	<select id="count" resultType="int" parameterType="hashmap">
+	select ifnull(count(*),0) cnt from adv_board <!-- 나오는값이 NULL일때 특정값초기화 -->
+	
+	</select> 
+ </mapper>

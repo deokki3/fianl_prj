@@ -289,7 +289,7 @@ $(function(){
 			dataType:"json", 
 			Type:"GET", 
 			success:function(data){ 
-				console.log(data.list);	
+				//console.log(data.list);	
 				if(data.list.length==0) {
 					let	html=	"<div class='col-md-4 col-sm-6'>";			
 					html+=	"<div class='product-card mb-30'>";

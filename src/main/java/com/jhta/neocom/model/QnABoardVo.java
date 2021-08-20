@@ -21,5 +21,5 @@ public class QnABoardVo {
 	private int qna_group_no;
 	private int qna_group_order;
 	private int qna_group_depth;
-	private String nickname;  //게시글 작성자
+	private String Nickname;
 }

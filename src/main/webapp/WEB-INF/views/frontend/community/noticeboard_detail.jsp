@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -66,31 +67,38 @@
 		<div class="col-lg-12">
 			<table class="table text-center">
 				<colgroup>
-					<col width="8%"/>
-					<col width="8%"/>
-					<col width="8%"/>
-					<col width="56%"/>
-					<col width="8%"/>
-					<col width="12%"/>
+					<col width="10%"/>
+					<col width="15%"/>
+					<col width="15%"/>
+					<col width="30%"/>
+					<col width="10%"/>
+					<col width="20%"/>
 				</colgroup>
 				<thead class="thead-default">
 					<tr>
 						<th scope="row">글번호</th>
-						<td>${vo.n_board_no }</td>
+						<td>${map.n_board_no }</td>
+						<th scope="row">작성자</th>
+						<td>${map.Nickname }</td>
+						<th scope="row">작성일</th>
+						<td><fmt:parseDate value="${map.n_regdate }" var="n_regdate" pattern="yyyy-MM-dd'T'HH:mm:ss" /><fmt:formatDate value="${n_regdate }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+					</tr>
+					<tr>
 						<th scope="row">제목</th>
-						<td>${vo.n_title }</td>
+						<td colspan="3">${map.n_title }</td>
 						<th scope="row">조회수</th>
-						<td>${vo.n_hit }</td>
+						<td>${map.n_hit }</td>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
 						<td colspan="10">
-							<p>${vo.n_content }</p>
+							<p>${map.n_content }</p>
 						</td>
 					</tr>
 				</tbody>
 			</table>
+			
 			<div class="single-post-footer" style="margin-bottom:50px;">
 				<div class="entry-navigation">
 					<div class="column text-left">
@@ -110,6 +118,7 @@
 					</div>
 				</div>
 			</div>
+			
 		</div>
 	</div>
 </div>

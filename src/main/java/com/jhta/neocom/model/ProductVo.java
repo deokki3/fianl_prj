@@ -26,5 +26,6 @@ public class ProductVo {
 	private Date regdate; //등록날짜
 	private Byte availability; //판매여부
 	
-
+	private int product_count;
+	private String img_name_save;
 }

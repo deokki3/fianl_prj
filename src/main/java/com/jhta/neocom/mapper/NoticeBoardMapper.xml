@@ -23,13 +23,40 @@
 		where n_board_no=#{n_board_no}
 	</update>
 	
-	<select id="list" resultType="hashmap" parameterType="hashmap">
-		select n.* ,m.* from notice_board n join member_Info m on n.mem_no=m.mem_no order by n_board_no desc
+	<sql id="search">
+		<if test="field!=null and field!=''">
+			where ${field} like CONCAT('%',#{keyword},'%')
+		</if>
+	</sql>
+	
+	<!-- 전체 게시글 수 -->
+	<select id="getCount" resultType="int" parameterType="int">
+		select IFnull(count(*),0) from notice_board nn inner join member_Info mm on nn.mem_no=mm.mem_no
+		<include refid="search" />
 	</select>
 	
-	<select id="detail" resultType="noticeboard" parameterType="int">
-		select * from notice_board where n_board_no=#{n_board_no}
+<!-- <select id="list" resultType="hashmap" parameterType="hashmap">
+		select n.* ,m.* from notice_board n join member_Info m on n.mem_no=m.mem_no order by n_board_no desc
+	</select> -->
+	
+	<select id="list" resultType="hashmap" parameterType="hashmap">
+		select nn.*,mm.mem_no,mm.Nickname 
+		from notice_board nn inner join member_Info mm on nn.mem_no=mm.mem_no 
+		<include refid="search" />
+		order by nn.n_board_no desc
+		limit #{startRow},10
 	</select>
+	
+	<select id="detail" resultType="hashmap" parameterType="int">
+		select nn.*,mm.mem_no,mm.Nickname 
+		from notice_board nn inner join member_Info mm on nn.mem_no=mm.mem_no 
+		where n_board_no=#{n_board_no}
+	</select>
+	
+	<!-- 조회수 -->
+	<update id="cntHit">
+		update notice_board set n_hit=n_hit+1 where n_board_no=#{n_board_no}
+	</update>
 	
 	<!-- 이전글 -->
 	<select id="prev" resultType="noticeboard" parameterType="int">

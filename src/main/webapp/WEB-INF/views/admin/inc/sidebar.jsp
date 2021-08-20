@@ -52,19 +52,19 @@
 						<div class="menu-submenu">
 							<div class="menu-item has-sub">
 								<a href="javascript:;" class="menu-link">
-									<div class="menu-text">회원 관리</div>
+									<div class="menu-text">회원</div>
 								</a>
 								<div class="menu-submenu">
 									<div class="menu-item has-sub">
 										<a href="javascript:;" class="menu-link">
-											<div class="menu-text">회원 목록</div>
+											<a href="${pageContext.request.contextPath }/admin/member/memlist" class="menu-link"><div class="menu-text">회원 목록</div><a>
 										</a>
 									</div>
 								</div>
 							</div>
 							<div class="menu-item has-sub">
 								<a href="javascript:;" class="menu-link">
-									<div class="menu-text">카테고리 관리</div>
+									<div class="menu-text">상품 카테고리</div>
 								</a>
 								<div class="menu-submenu">
 									<div class="menu-item has-sub">
@@ -81,7 +81,7 @@
 							</div>
 							<div class="menu-item has-sub">
 								<a href="javascript:;" class="menu-link">
-									<div class="menu-text">상품 관리</div>
+									<div class="menu-text">상품</div>
 								</a>
 								<div class="menu-submenu">
 									<div class="menu-item has-sub">
@@ -92,6 +92,54 @@
 									<div class="menu-item has-sub">
 										<a href="javascript:;" class="menu-link">
 											<a href="${pageContext.request.contextPath}/admin/product/productinsert" class="menu-link"><div class="menu-text">상품 추가</div></a>
+										</a>
+									</div>
+									<div class="menu-item has-sub">
+										<a href="javascript:;" class="menu-link">
+											<a href="${pageContext.request.contextPath}/admin/product/addimg" class="menu-link"><div class="menu-text">이미지 추가/수정/삭제</div></a>
+										</a>
+									</div>
+								</div>
+							</div>
+							<div class="menu-item has-sub">
+								<a href="javascript:;" class="menu-link">
+									<div class="menu-text">주문</div>
+								</a>
+								<div class="menu-submenu">
+									<div class="menu-item has-sub">
+										<a href="javascript:;" class="menu-link">
+											<a href="${pageContext.request.contextPath }/admin/order/orderlist" class="menu-link"><div class="menu-text">전체 주문 목록</div></a>
+										</a>
+									</div>
+								</div>
+							</div>
+							<div class="menu-item has-sub">
+								<a href="javascript:;" class="menu-link">
+									<div class="menu-text">커뮤니티</div>
+								</a>
+								<div class="menu-submenu">
+									<div class="menu-item has-sub">
+										<a href="javascript:;" class="menu-link">
+											<a href="${pageContext.request.contextPath }/admin/comunity/" class="menu-link">전체 게시글 목록<div class="menu-text"></div></a>
+										</a>
+									</div>
+								</div>
+							</div>
+							<div class="menu-item has-sub">
+								<a href="javascript:;" class="menu-link">
+									<div class="menu-text">통계</div>
+								</a>
+								<div class="menu-submenu">
+									<div class="menu-item has-sub">
+										<a href="javascript:;" class="menu-link">
+											<a href="${pageContext.request.contextPath }/admin/stats/" class="menu-link"><div class="menu-text">매출 통계</div></a>
+										</a>
+									</div>
+								</div>
+								<div class="menu-submenu">
+									<div class="menu-item has-sub">
+										<a href="javascript:;" class="menu-link">
+											<a href="${pageContext.request.contextPath }/admin/stats/" class="menu-link"><div class="menu-text">상품 통계</div></a>
 										</a>
 									</div>
 								</div>

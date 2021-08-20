@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jhta.neocom.mapper.Category_relMapper">
+    <insert id="insert" parameterType="Category_relVo">
+		insert into category_rel
+        values(get_seq('cate_relSeq'),#{product_id},#{category_id})
+	</insert>
+    <delete id="delete" parameterType="int">
+		delete from category_rel where category_id=#{category_id}
+	</delete>
+
+    <select id="find" parameterType="int" resultType="Category_relVo">
+		select * from category_rel where category_id=#{category_id}
+	</select>
+
+    <select id="list" resultType="Category_relVo">
+	  select * from category_rel;
+    </select>
+</mapper>

@@ -79,16 +79,15 @@
 	<div class="col-lg-12 col-md-10 order-md-2 text-center">
 		<!-- <hr class="margin-bottom-1x"> -->
 		<div>
-			<form action="" method="post">
+			<form action="${pageContext.request.contextPath}/community/noticeboard_list" method="post">
 				<div class="row">
 					<div class="p-2"></div>
 						<select class="form-control col-sm-2 p-2" name="field" id="field">
-							<option value="">제목</option>
-							<option value="">내용</option>
-							<option value="">제목+내용</option>
+							<option value="n_title" <c:if test="${field=='n_title'}">selected</c:if> >제목</option>
+							<option value="n_content" <c:if test="${field=='n_content'}">selected</c:if> >내용</option>
 						</select>
-					<input type="text" class="form-control col-sm-3 p-1" name="keyword" id="keyword">
-					<button type="button" class="form-control col-sm-1 w-1 p-2" onclick="">검색</button>
+					<input type="text" class="form-control col-sm-3 p-1" value="${keyword }" name="keyword" id="keyword">
+					<button type="submit" class="form-control col-sm-1 w-1 p-2">검색</button>
 				</div>
 			</form>
 		</div>
@@ -117,6 +116,51 @@
 				</tbody>
 			</table>
 		</div>
+		
+		<!-- 페이징 -->
+		<nav class="pagination" style="margin-top:20px;">
+			<div class="column">
+				<c:choose>
+					<c:when test="${pu.prevPage }">
+						<a class="btn btn-outline-secondary btn-sm" href="${pageContext.request.contextPath}/community/noticeboard_list?pageNum=${pu.pageNum-1 }&field=${field}&keyword=${keyword}"><i class="icon-chevron-left"></i> 이전</a>
+					</c:when>
+					<c:otherwise>
+						<a class="btn btn-outline-secondary btn-sm disabled"><i class="icon-chevron-left"></i> 이전</a>
+					</c:otherwise>
+				</c:choose>
+			</div>
+			<div class="column">
+			<ul class="pages" style="margin-top:20px;">
+			
+			<c:forEach var="i" begin="${pu.startPageNum }" end="${pu.endPageNum }">
+				<c:choose>
+					<c:when test="${pu.pageNum==i }">
+						<li class="active">
+							<a href="${pageContext.request.contextPath}/community/noticeboard_list?pageNum=${i }&field=${field}&keyword=${keyword}">${i }</a>
+						</li>
+					</c:when>
+					<c:otherwise>
+						<li>
+							<a href="${pageContext.request.contextPath}/community/noticeboard_list?pageNum=${i }&field=${field}&keyword=${keyword}">${i }</a>
+						</li>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+			</ul>
+			</div>
+			<div class="column">
+				<c:choose>
+					<c:when test="${pu.nextPage }">
+						<a class="btn btn-outline-secondary btn-sm" href="${pageContext.request.contextPath}/community/noticeboard_list?pageNum=${pu.pageNum+1 }&field=${field}&keyword=${keyword}">다음 <i class="icon-chevron-right"></i></a>
+					</c:when>
+					<c:otherwise>
+						<a class="btn btn-outline-secondary btn-sm disabled">다음 <i class="icon-chevron-right"></i></a>
+					</c:otherwise>
+				</c:choose>
+			</div>
+		</nav>
+		<div class="mb-4"></div>
+		
 	</div>
 </div>
 </div>

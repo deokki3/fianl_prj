@@ -162,10 +162,10 @@ opacity: 0;
 		<hr class="padding-bottom-1x">
 		
 		<form class="row" name="qnaForm" method="post" action="${pageContext.request.contextPath}/community/qnaboard_insert">
-		<!-- <input type="hidden" name="qna_group_no" value="${vo.qna_group_no }">
+			<input type="hidden" name="qna_board_no" value="${vo.qna_board_no }">
+			<input type="hidden" name="qna_group_no" value="${vo.qna_group_no }">
 			<input type="hidden" name="qna_group_order" value="${vo.qna_group_order }">
-			<input type="hidden" name="qna_group_depth" value="${vo.qna_group_depth }">  
-			<input type="hidden" name="Nickname" value="${mvo.Nickname }">-->
+			<input type="hidden" name="qna_group_depth" value="${vo.qna_group_depth }">
 			<div class="col-md-12">
 				<div class="form-group">
 					<label for="qna_title">제목</label>

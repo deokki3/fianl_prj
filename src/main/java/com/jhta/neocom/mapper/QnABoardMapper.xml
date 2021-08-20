@@ -4,9 +4,40 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jhta.neocom.mapper.QnABoardMapper">
 
-	<insert id="insert" parameterType="qnaboard">
+<!-- <insert id="insert" parameterType="qnaboard">
 		insert into qna_board 
 		values(get_seq('qnaboardSeq'),#{mem_no},#{qna_password},#{qna_secret_chk},#{qna_title},#{qna_content},sysdate(),0,qna_board_no,0,0)
+	</insert> -->
+	
+	<insert id="insert" parameterType="qnaboard">
+		insert into qna_board values
+		(get_seq('qnaboardSeq'),
+		#{mem_no},
+		#{qna_password},
+		#{qna_secret_chk},
+		#{qna_title},
+		#{qna_content},
+		sysdate(),
+		0,
+		#{qna_group_no},
+		0,
+		0
+		)
+	</insert>
+	
+	<insert id="insertReply" parameterType="qnaboard">
+		insert into qna_board values
+		(get_seq('qnaboardSeq'),
+		#{mem_no},
+		#{qna_password},
+		#{qna_secret_chk},
+		#{qna_title},
+		#{qna_content},
+		sysdate(),
+		#{qna_group_no},
+		#{qna_group_order}+1,
+		#{qna_group_depth}+1
+		)
 	</insert>
 	
 	<delete id="delete" parameterType="int">
@@ -25,27 +56,46 @@
 	
 	<!-- 게시글 검색 -->
 	<sql id="search">
-		<if test="field!=null and field!=''">
-			where ${field} like CONCAT('%',#{keyword},'%')
-			
-		</if> 
+		<choose>
+			<when test="field=='combined'">
+				where qna_title like CONCAT('%',#{keyword},'%') 
+				or qna_content like CONCAT('%',#{keyword},'%')
+			</when>
+			<otherwise>
+				<if test="field!=null and field!=''">
+					where ${field} like CONCAT('%',#{keyword},'%')
+				</if>
+			</otherwise>
+		</choose>
 	</sql>
 	
 	<!-- 전체 게시글 수 -->
 	<select id="getCount" resultType="int" parameterType="int">
-		select IFnull(count(*),0) from qna_board q inner join member_Info m on q.mem_no=m.mem_no
+		select IFnull(count(*),0) from qna_board qq inner join member_Info mm on qq.mem_no=mm.mem_no
 		<include refid="search" />
 	</select>
 	
+<!-- <select id="list" resultType="hashmap" parameterType="hashmap">
+		select n.* ,m.* from qna_board n join member_Info m on n.mem_no=m.mem_no order by qna_board_no desc
+	</select> -->
+	
 	<select id="list" resultType="hashmap" parameterType="hashmap">
-		select q.*,m.Nickname  from qna_board q inner join member_Info m on q.mem_no=m.mem_no
+		select qq.*,mm.mem_no,mm.Nickname 
+		from qna_board qq inner join member_Info mm on qq.mem_no=mm.mem_no 
 		<include refid="search" />
-		order by q.qna_board_no desc
+		order by qq.qna_board_no desc
 		limit #{startRow},10
 	</select>
 	
-	<select id="detail" resultType="qnaboard" parameterType="int">
-		select * from qna_board where qna_board_no=#{qna_board_no}
+	<select id="detail" resultType="hashmap" parameterType="int">
+		select qq.*,mm.mem_no,mm.Nickname 
+		from qna_board qq inner join member_Info mm on qq.mem_no=mm.mem_no 
+		where qna_board_no=#{qna_board_no}
 	</select>
+	
+	<!-- 조회수 -->
+	<update id="cntHit">
+		update qna_board set qna_hit=qna_hit+1 where qna_board_no=#{qna_board_no}
+	</update>
 
 </mapper>

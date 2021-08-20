@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -66,34 +67,49 @@
 		<div class="col-lg-10">
 			<table class="table text-center">
 				<colgroup>
-					<col width="8%"/>
-					<col width="8%"/>
-					<col width="8%"/>
-					<col width="56%"/>
-					<col width="8%"/>
-					<col width="12%"/>
+					<col width="10%"/>
+					<col width="15%"/>
+					<col width="15%"/>
+					<col width="30%"/>
+					<col width="10%"/>
+					<col width="20%"/>
 				</colgroup>
 				<thead class="thead-default">
 					<tr>
 						<th scope="row">글번호</th>
-						<td>${vo.qna_board_no }</td>
+						<td>${map.qna_board_no }</td>
+						<th scope="row">작성자</th>
+						<td>${map.Nickname }</td>
+						<th scope="row">작성일</th>
+						<td><fmt:parseDate value="${map.qna_regdate }" var="qna_regdate" pattern="yyyy-MM-dd'T'HH:mm:ss" /><fmt:formatDate value="${qna_regdate }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+					</tr>
+					<tr>
 						<th scope="row">제목</th>
-						<td>${vo.qna_title }</td>
+						<td colspan="3">${map.qna_title }</td>
 						<th scope="row">조회수</th>
-						<td>${vo.qna_hit }</td>
+						<td>${map.qna_hit }</td>
 					</tr>
 				</thead>
-				<tbody>
-					<tr>
+				<tbody> 
+					<tr> 
 						<td colspan="10">
-							<p>${vo.qna_content }</p>
+							<p>${map.qna_content }</p>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 			
-			<div class="single-post-footer"></div>
-			
+			<div class="single-post-footer" style="margin-bottom:50px;">
+				<div class="entry-navigation">
+					<div class="column text-left"></div>
+					<div class="column">
+						<a class="btn btn-outline-secondary view-all" href="${pageContext.request.contextPath }/community/qnaboard_list">
+							<i class="icon-menu"></i>
+						</a>
+					</div>
+					<div class="column text-right"></div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

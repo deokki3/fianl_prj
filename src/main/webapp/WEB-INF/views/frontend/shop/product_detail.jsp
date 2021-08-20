@@ -124,7 +124,7 @@
 	
 
 					<!-- ///////옵션을 넣어야함 -->
-					
+					<!-- 세션없으면 alert메세지 주기  -->
 					<div class="row align-items-end pb-4">
 						<div class="col-sm-6">
 							<div class="form-group mb-0">
@@ -137,7 +137,7 @@
 					<div class="mb-4"></div>
 					<div class="row">
 						<div class="col-sm-6">
-						<button type="submit" class="btn btn-primary btn-block m-1" formaction="${pageContext.request.contextPath}/purchase"
+						<button type="submit" class="btn btn-primary btn-block m-1" formaction="${pageContext.request.contextPath}/purchase0"
                           formmethod="get" formtarget="_self">구매하기</button>
 							
 						</div>
@@ -145,9 +145,9 @@
 						</div>
 						<div class="col-sm-6">
 							
-							<button type="submit" class="btn btn-secondary btn-block m-1" formaction="action1.html"
+							<button type="submit" class="btn btn-secondary btn-block m-1" formaction="${pageContext.request.contextPath }/cart?id=${sessionScope.id}"
                           formmethod="get" formtarget="_self">장바구니</button>	
-						</div>
+						</div> <!-- 장바구니 url -->
 						
 					</div>
 					</fieldset>
@@ -161,7 +161,6 @@
 
 			</div>
 		</div>
-	
 	<!-- 상품설명 -->
 	<div class="bg-secondary padding-top-3x padding-bottom-2x mb-3"
 		id="details">

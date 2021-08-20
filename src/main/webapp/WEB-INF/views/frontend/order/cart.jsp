@@ -28,6 +28,11 @@
     <script src="${pageContext.request.contextPath}/static/frontend/assets/js/modernizr.min.js"></script>
   </head>
   <!-- Body-->
+  <style>
+  	.fl {
+  		float:left;
+  	}
+  </style>
 <body>
 
   <jsp:include page="/WEB-INF/views/frontend/inc/header.jsp"/>
@@ -72,7 +77,7 @@
             </div>
           </div>
 
-    <!-- Page Title-->
+    <!-- 페이지 타이틀 부분-->
     <div class="page-title">
       <div class="container">
         <div class="column">
@@ -88,7 +93,7 @@
         </div>
       </div>
     </div>
-    <!-- Page Content-->
+    <!-- 타이틀끝 컨텐츠 부분 -->
     <div class="container padding-bottom-3x mb-1">
       <!-- Alert-->
       <div class="alert alert-info alert-dismissible fade show text-center" style="margin-bottom: 30px;"><span class="alert-close" data-dismiss="alert"></span><i class="icon-award"></i>&nbsp;&nbsp;With this purchase you will earn <span class='text-medium'>2,549</span> Reward Points.</div>
@@ -96,53 +101,59 @@
 	        <div class="table-responsive shopping-cart" id="checkbox_group">
 				 
 				<!-- /////////////////////////////////////// -->
-				
-				<table class="table">
-					<thead>	
-						<tr>
-							<th class="text-center"><input type="checkbox" id="allchk" checked="checked"></th>
-							<th class="text-center">상품이미지</th>
-							<th class="text-center">상품명</th>
-							<th class="text-center">상품금액</th>
-							<th class="text-center">수량</th>
-							<th class="text-center">주문금액</th>
-							<th class="text-center">삭제</th>
-						</tr>
-					</thead>
-					<tbody id="tbody">
-				   	<c:forEach var="vo" items="${cart }">
-				   	
-						<tr>
-							<td class="text-center"><input type="checkbox" class="normal" checked="checked"></td>
-								<td class="text-center text-lg"><img width=100; height=100; src="<c:url value='/upload/product_img/${vo.img_name_save}' />" alt="<c:url value='/upload/product_img/${vo.img_name_save}' />" /></td>
-								<td class="text-center text-lg">${vo.product_name }</td>
-								<td class="text-center text-lg">${vo.selling_price }</td>
+				<form method="post" id="cartForm" name="form" action="${pageContext.request.contextPath}/purchase1">
+					<table class="table">
+						<thead>	
+							<tr>
+								<th class="text-center"><input type="checkbox" name="allchk" id="allchk"
+									onClick="allchkFC(this.form);"></th>
+								<th class="text-center">상품이미지</th>
+								<th class="text-center">상품명</th>
+								<th class="text-center">상품금액</th>
+								<th class="text-center">수량</th>
+								<th class="text-center">주문금액</th>
+								<th class="text-center">삭제</th>
+							</tr>
+						</thead>
+						<tbody id="tbody">
+					   	<c:forEach var="vo" items="${cart }">
+					   	
+							<tr>
+								<td class="text-center"><input type="checkbox" name="chkbox" class="normal" 
+								value="${vo.product_id }" ></td>
+									<td class="text-center text-lg"><img width=100; height=100; src="<c:url value='/upload/product_img/${vo.img_name_save}' />" alt="<c:url value='/upload/product_img/${vo.img_name_save}' />" /></td>
+									<td class="text-center text-lg">${vo.product_name }</td>
+									<td class="text-center text-lg">${vo.selling_price }</td>									
+									<td class="text-center">
+										<div class="count-input">
+						                	<p style="display:table;margin:0 auto;"><input style="width:22px; height:20px; border:1px solid #c8c8c8;"
+							                	class="fl" type="text" id="${vo.cart_no }" value="${vo.product_count }"
+							                	onfocus="chk_only('0');" size="2" maxlength="2">
+						                		<img class="fl" src="https://ftp.coitcom.co.kr/img/btn_cnt2.gif">
+						                	</p>
+						                	 <input style="margin-top:5px;" type="button" value="변경" onclick="update(${vo.cart_no})">	
+							                
+							                <a href="">	
+							                	<img src="https://ftp.coitcom.co.kr/img/cart_change_btn.png" style="margin-top:5px;">
+							                </a>	
+						                </div>
+									</td>
+									<td class="text-center">
+										${vo.product_count*vo.selling_price }
+									</td>
+									 <td class="text-center"><a class="remove-from-cart" onclick="remove(${vo.cart_no})" 
+									 data-toggle="tooltip" title="삭제"><i class="icon-x"></i></a>
+									 </td>
 								
-								
-								<td class="text-center">
-									<div class="count-input">
-					                	<p style=margin-bottom:0><input type="text" id="${vo.cart_no }" value="${vo.product_count }" size="2" maxlength="2">
-					                	</p>
-						                <a href="">
-						                	 <input type="button" value="수정" onclick="update(${vo.cart_no})">
-						                	<img src="https://ftp.coitcom.co.kr/img/cart_change_btn.png" style="margin-top:5px;">
-						                </a>	
-					                </div>
-								</td>
-								<td class="text-center">
-									${vo.product_count}x${vo.selling_price } = ${vo.product_count*vo.selling_price }
-								</td>
-								 <td class="text-center"><a class="remove-from-cart" onclick="remove(${vo.cart_no})" 
-								 data-toggle="tooltip" title="삭제"><i class="icon-x"></i></a>
-								 </td>
-							
-						</tr>
-					
-					</c:forEach>
-					</tbody>
-	       		 </table>
+							</tr>
+						
+						</c:forEach>
+						</tbody>
+		       		 </table>
+
+	       		 </form>	 
 	        <!-- /////////////////////////////////////// -->
-	        
+
 	      </div>
 	      <div class="shopping-cart-footer">
 	        <div class="column">
@@ -151,16 +162,38 @@
 	            <button class="btn btn-outline-primary btn-sm" type="submit">Apply Coupon</button>
 	          </form>
 	        </div>
-	        <div class="column text-lg"><span class="text-muted">총액 (?):&nbsp; </span><span class="text-gray-dark"></span></div>
+
+			<button type="button" class="btn btn-outline btn-primary pull-right" id="selectBtn">선택</button>	
+	        <table>
+	        	<thead>
+	        		<tr>
+	        			<th>상품 금액</th>
+	        			<th>배송비</th>
+	        			<th>할인 금액</th>
+	        			<th>총 결제금액</th>	
+	        		</tr>
+	        	</thead>
+	        	<tr>
+	        		<td>ab</td>
+	        		<td>2500원</td>
+	        		<td></td>
+	        		<td> 원</td>
+	        	</tr>
+	        </table>
+	        <div id="ex1"></div>
+	        <div id="ex2"></div>	        
+	        
+	        <div class="column text-lg"><span class="text-muted">총액 :&nbsp;<input type="text" size="10" id="tot_sum" name="tot_sum" value="0" readonly>&nbsp;원 </span><span class="text-gray-dark"></span></div>
 	      </div>
 	      <div class="shopping-cart-footer">
 	        <div class="column"><a class="btn btn-outline-secondary" href="shop-grid-ls.html"><i class="icon-arrow-left"></i>&nbsp;쇼핑 계속하기</a></div>
-	        <div class="column"><a class="btn btn-secondary" href="#" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-check-circle" data-toast-title="Your cart" data-toast-message="is updated successfully!">Update Cart</a><a class="btn btn-primary" href="checkout-address.html">구매하기</a></div>
+	        <div class="column"><a class="btn btn-secondary" href="#" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-check-circle" data-toast-title="Your cart" data-toast-message="is updated successfully!">Update Cart</a>
+	         <input type="submit" form="cartForm" class="btn btn-primary" id="save" value="구매하기" type="submit" ></div>
+	        
 	      </div>
 	      
-	      
 	      <!-- Related Products Carousel-->
-	      <h3 class="text-center padding-top-2x mt-2 padding-bottom-1x">너가 또 좋아할 만한것들(You May Also Like)</h3>
+	      <h3 class="text-center padding-top-2x mt-2 padding-bottom-1x">★★추천 상품★★(You May Also Like)</h3>
 	      <!-- Carousel-->
 	      <div class="owl-carousel" data-owl-carousel="{ &quot;nav&quot;: false, &quot;dots&quot;: true, &quot;margin&quot;: 30, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:1},&quot;576&quot;:{&quot;items&quot;:2},&quot;768&quot;:{&quot;items&quot;:3},&quot;991&quot;:{&quot;items&quot;:4},&quot;1200&quot;:{&quot;items&quot;:4}} }">
 	        <!-- Product-->
@@ -239,7 +272,8 @@
 	        </div>
 	      </div>
 	    </div>
-   
+	     <input type="text" id="user" value="huskdoll">
+ 
     <!-- Site Footer-->
    <jsp:include page="/WEB-INF/views/frontend/inc/footer.jsp"/>
     <!-- Back To Top Button--><a class="scroll-to-top-btn" href="#"><i class="icon-chevron-up"></i></a>
@@ -248,7 +282,8 @@
     <!-- JavaScript (jQuery) libraries, plugins and custom scripts-->
     <script src="${pageContext.request.contextPath}/static/frontend/assets/js/vendor.min.js"></script>
     <script src="${pageContext.request.contextPath}/static/frontend/assets/js/scripts.min.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath}/static/frontend/assets/js/jquery-3.6.0.min.js"></script>
+
+<script type="text/javascript" src="${pageContext.request.contextPath}/static/frontend/assets/js/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
 	$("#checkbox_group").on("click", "#allchk",function(){
 	var checked=$(this).is(":checked");	
@@ -314,7 +349,7 @@
 				}
 			});
 		}
-		
+
 		function update(cart_no){
 			var product_count=$("#"+cart_no).val();	
 				$.ajax({
@@ -340,7 +375,125 @@
 				}
 			});
 		};
+		function allchkFC(frm){
+			var sum=0;
+			 var count = frm.chkbox.length;
+			if(frm.allchk.checked == true){
+				 for(var i=0; i < count; i++ ){
+					 sum+= parseInt(frm.chkbox[i].value);
+				 }
+				document.querySelector('#tot_sum').value=sum;
+			}else{
+				document.querySelector('#tot_sum').value='0';
+			}
+		}
+		
+		$("input[name='chkbox']").click(function(){
 
+			var frm=document.getElementById("cartForm");
+		   var sum = 0;
+		   var count = frm.chkbox.length;
+		  
+		   for(var i=0; i < count; i++ ){
+
+			   if( frm.chkbox[i].checked == true ){
+				   sum += parseInt(frm.chkbox[i].value);
+
+			   }
+			   
+		   }
+		   var cnt=$(this).parent().parent().find(".fl");
+		   	console.log(cnt);
+			$(cnt).prop("name","cnt");
+
+
+			document.querySelector('#tot_sum').value=sum;
+		});
+		
+		
+		
+
+		
+		
+		$("#selectBtn").click(function(){ 
+			
+			var rowData = new Array();
+			var tdArr = new Array();
+			var checkbox = $("input[name=chkbox]:checked");
+			
+			// 체크된 체크박스 값을 가져온다
+			checkbox.each(function(i) {
+	
+				// checkbox.parent() : checkbox의 부모는 <td>이다.
+				// checkbox.parent().parent() : <td>의 부모이므로 <tr>이다.
+				var tr = checkbox.parent().parent().eq(i);
+				var td = tr.children();
+				
+				// 체크된 row의 모든 값을 배열에 담는다.
+				rowData.push(tr.text());
+				
+				// td.eq(0)은 체크박스 이므로  td.eq(1)의 값부터 가져온다.
+				var no = td.eq(1).text()+", "
+				var userid = td.eq(2).text()+", ";
+				var name = td.eq(3).text()+", ";
+				var email = td.eq(4).text()+", ";
+				
+				// 가져온 값을 배열에 담는다.
+				tdArr.push(no);
+				tdArr.push(userid);
+				tdArr.push(name);
+				tdArr.push(email);
+				
+				//console.log("no : " + no);
+				//console.log("userid : " + userid);
+				//console.log("name : " + name);
+				//console.log("email : " + email);
+			});
+			
+			$("#ex1").html(" * 체크된 Row의 모든 데이터 = "+rowData);	
+			$("#ex2").html(tdArr);	
+		});
+
+/*		 $(document).ready(function(){
+	            
+	            $("#save").click(function(e) {
+	            	e.preventDefault();
+	                //배열 선언
+	                var cartArray = [];
+
+	                $('input[name="chkbox"]:checked').each(function(i){//체크된 리스트 저장
+	                	cartArray.push($(this).val());
+	                	  console.log(cartArray)
+	                });
+	                var objParams = {
+	                        "cartList" : cartArray        //장바구니 배열 저장
+	                    };
+	                
+	                //ajax 호출
+	                $.ajax({
+	                    url         :   "${pageContext.request.contextPath}/purchase1",
+	                    dataType    :   "json",
+	                    contentType :   "application/x-www-form-urlencoded; charset=UTF-8",
+	                    type        :   "post",
+	                    data        :   objParams,
+	                    success     :   function(retVal){
+	 
+	                        if(retVal.code == "OK") {
+	                            alert(retVal.message);
+	                        } else {
+	                            alert(retVal.message);
+	                        }
+	                         
+	                    },
+	                    error       :   function(request, status, error){
+	                    	alert("code = "+ request.status +  " error = " + error);
+	                    	console.log("AJAX_ERROR");
+	                    }
+	                });
+	                
+	            })
+	            
+	        });*/
 		
 	</script>  
 </body>

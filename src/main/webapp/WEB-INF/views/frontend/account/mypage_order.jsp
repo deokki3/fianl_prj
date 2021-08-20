@@ -24,10 +24,11 @@
 	<!-- Modernizr-->
 	<script src="${pageContext.request.contextPath}/static/frontend/assets/js/modernizr.min.js"></script>
 <style>
-.table tbody tr td {
-	height: 100px;
-	vertical-align: middle;
-}
+	.table tbody tr td {
+		height: 100px;
+		vertical-align: middle;
+	}
+	.table-responsive a {width:120px;}
 </style>
 </head>
 <body>
@@ -87,11 +88,18 @@
 								<td class="text-center text-lg">${vo.order_date }</td>
 								<td class="text-center text-lg">${vo.tot_price }</td>
 								<td class="text-center text-lg">${vo.order_status }</td>
-								<c:if test="${vo.order_status !='배송중'}">
-									<td class="text-center text-lg"><a class="btn btn-sm btn-outline-info" href="#">주문취소</a></td>
-								
+								<c:if test="${vo.order_status !='배송 완료'}">
+									<td class="text-center text-lg"><a class="btn btn-sm btn-outline-warning" href="#" style=margin-bottom:5px;>배송조회</a>
+										<a class="btn btn-sm btn-outline-info" href="#">주문취소</a></td>
+									<td class="text-center text-lg"></td>
+									
 								</c:if>
-								
+								<c:if test="${vo.order_status =='배송 완료'}">
+									<td class="text-center text-lg"><a class="btn btn-sm btn-outline-warning" href="#" style=margin-bottom:5px;>배송조회</a>
+										<a class="btn btn-sm btn-outline-info" href="#" style=margin-bottom:5px;>교환,반품 신청</a>
+										<a class="btn btn-sm btn-outline-success" href="#">후기 작성하기</a></td>
+									<td class="text-center text-lg"></td>
+								</c:if>
 
 						</tr>
 					

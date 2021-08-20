@@ -14,11 +14,12 @@
  	<update id="update" parameterType="hashmap">
  		update cart set product_count=#{product_count} where cart_no=${cart_no}
  	</update>
- 	 	
-  	<select id="cartList" resultType="com.jhta.neocom.model.CartVo" parameterType="int">
-  		SELECT cart_no,mem_no,product_name,product_count, selling_price, img_name_save 
+
+	<select id="cartList" resultType="com.jhta.neocom.model.CartVo" parameterType="int">
+  		SELECT cart_no,mem_no,p.product_id,product_name,product_count, selling_price, img_name_save 
   		FROM cart c LEFT JOIN product p ON c.product_id = p.product_id 
-  		JOIN product_img pi ON c.product_id = pi.product_id where mem_no=#{mem_no} and img_category='main'
+  		JOIN product_img pi ON c.product_id = pi.product_id where mem_no=#{mem_no} 
+  		and img_category='main' order by cart_no asc
   	</select>
   	
   	<select id="isMember" parameterType="hashmap" resultType="com.jhta.neocom.model.CartVo">

@@ -1,6 +1,7 @@
 package com.jhta.neocom.model;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,8 +13,6 @@ import lombok.NoArgsConstructor;
 public class OrderMainVo {
 	private int order_no;
 	private int mem_no;
-	private int product_id;
-	private int discount_ref_no;
 	private int order_num;
 	private String orderer_name;
 	private String recipient_name;
@@ -28,8 +27,7 @@ public class OrderMainVo {
 	private String od_cc_status;
 	private String delivery_status;
 	private String request_item;
-
+	
 	private String img_name_save;
 	private String product_name;
-
 }

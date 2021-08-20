@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  <mapper namespace="com.jhta.neocom.mapper.MemberInfoMapper">
-  	<insert id="insert" parameterType="com.jhta.neocom.model.MemberInfoVo">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jhta.neocom.mapper.MemberInfoMapper">
+	<insert id="insert" parameterType="com.jhta.neocom.model.MemberInfoVo">
   		insert into member_Info values(#{mem_no},#{nickname},#{phone},#{birth_date},now(),#{name},#{id},#{password})
   	</insert>
-  	<select id="searchNo" resultType="int" parameterType="string">
-  		select mem_no from member_Info where id=#{id}
+	<select id="searchNo" resultType="int" parameterType="string">
+  		select mem_no from member_Info where id=#{id} 
   	</select>
-	  	<select id="isMember" parameterType="hashmap" resultType="com.jhta.neocom.model.MemberInfoVo">
+	<select id="isMember" parameterType="hashmap" resultType="com.jhta.neocom.model.MemberInfoVo">
   		select * from member_Info where id=#{id} and password=#{password}
   	</select>
-  	
-  	<select id="searchNickname" resultType="String" parameterType="String">
+	<select id="searchNickname" resultType="String" parameterType="String">
   		select nickname from member_Info where id=#{id}
   	</select>
-  </mapper>
+</mapper>
