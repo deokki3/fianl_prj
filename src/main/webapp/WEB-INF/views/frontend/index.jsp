@@ -143,7 +143,7 @@
 
 </section>
  deals 끝 -->
-
+ 
 
 	<!-- New Arrivals -->
 
@@ -157,16 +157,15 @@
 						<a class="product-thumb"
 							href="${pageContext.request.contextPath}/shop/product_detail?n=${vo.product_id}&m=${vo.category_id}">
 
-							<img src="<c:url value='/upload/${vo.img_name_save}' />"
-							alt="<c:url value='/upload/${vo.img_name_save}' />" />
+							<img src="<c:url value='/upload/product_img/${vo.img_name_save}' />"
+							alt="<c:url value='/upload/product_img/${vo.img_name_save}' />" />
 						</a>
 						<div class="product-card-body">
 							<div class="product-category">
 								<a href="#">${vo.brand }</a>
 							</div>
 							<h3 class="product-title">
-								<a
-									href="${pageContext.request.contextPath }/productDetail?mem_no=${sessionScope.mem_no}&product_id=${vo.product_id}">상품보기:${vo.product_name }</a>
+								 ${vo.product_name }
 
 							</h3>
 							<h4 class="product-price">

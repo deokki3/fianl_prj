@@ -19,23 +19,40 @@
 		<sql id="search">
 
 		<if test="field!=null and field!=''">
-			where ${field} like CONCAT('%',#{keyword},'%')
+			where product_name like CONCAT('%',#{keyword},'%')
 			
 		</if> 
 		</sql>
 		<sql id="cate">
-		<if test="field=='category_id'">
-			where ${field} = #{category_id}
-			<if test="order=='new'">order by product_id desc</if>
-			<if test="order=='low'">order by selling_price asc </if>
-			<if test="order=='high'">order by selling_price desc </if>
-			<if test="order=='name_high'">order by product_name asc </if>
-			<if test="order==name_low">order by product_name desc </if> 
-			
-		</if>
-		
-		
-
+				<choose>
+				<when  test="category_id==10000">
+					where product_name like CONCAT('%',#{keyword},'%')
+						<if test="order=='new'">order by product_id desc</if>
+						<if test="order=='low'">order by selling_price asc </if>
+						<if test="order=='high'">order by selling_price desc </if>
+						<if test="order=='name_high'">order by product_name asc </if>
+						<if test="order=='name_low'">order by product_name desc </if> 
+				</when>
+				<when test="category_id==20000">
+						<if test="order=='new'">order by product_id desc</if>
+						<if test="order=='low'">order by selling_price asc </if>
+						<if test="order=='high'">order by selling_price desc </if>
+						<if test="order=='name_high'">order by product_name asc </if>
+						<if test="order=='name_low'">order by product_name desc </if> 
+				</when>
+				
+				<otherwise>
+				<if test="category_id!=null and category_id!=''">
+					where category_id=#{category_id}
+					<if test="order=='new'">order by product_id desc</if>
+					<if test="order=='low'">order by selling_price asc </if>
+					<if test="order=='high'">order by selling_price desc </if>
+					<if test="order=='name_high'">order by product_name asc </if>
+					<if test="order=='name_low'">order by product_name desc </if> 
+				
+				</if>
+				</otherwise>
+				</choose>
 		</sql>
 	
 		<!--해당 전체 상품의 갯수 -->
@@ -52,7 +69,7 @@
 	</select>
 	 -->
  
-	<!-- 페이징처리 --> 
+	<!--카테고리별 및 페이징처리 --> 
 	<select id="list" parameterType="hashmap" resultType="hashmap">
 		select a.* from 
 		 (
@@ -60,14 +77,15 @@
 				product aa inner join product_img bb 
                   on aa.product_id= bb.product_id, 
   				(SELECT @ROWNUM := 0) R
+  				
                 <include refid="cate"/> 
                 
                  )a 
                  where img_category='main'
-                  
-          
-            
+
   </select>
+  
+  
   
 	<update id="update" parameterType="com.jhta.neocom.model.ProductVo" >
 		update product set

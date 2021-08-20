@@ -46,11 +46,11 @@ public class ProductService {
 //	public List<ProductVo> selectone(int product_id) {
 //		return mapper.selectone(product_id);
 //	}
-	public List<HashMap<String, Object>> optionlist(HashMap<String,Object> map){
-		return mapper.list(map);
-		
-	}
-	
+//	public List<HashMap<String, Object>> search(HashMap<String,Object> map){
+//		return mapper.list(map);
+//		
+//	} 만들어놓긴했었는데
+//	
 	
 
 

@@ -84,7 +84,7 @@ public class ProductInsertController {
 	public String insertImg(Model model, MultipartFile img, Product_ImgVo vo1, String img_category, int product_id) {
 		// 업로드할 폴더의 절대 경로 구하기
 
-		String img_path = uploadFilePath;
+		String img_path = uploadFilePath + "\\product_img";
 
 		System.out.println(img_path);
 		String img_name_origin = img.getOriginalFilename(); // 전송된 파일명

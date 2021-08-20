@@ -29,7 +29,7 @@ public class PurchaseController {
 	
 	@GetMapping("/purchase")
 	public ModelAndView purchase(int product_id,String product_name,int selling_price,int product_count,
-			HttpSession session,Model model) {
+			HttpSession session) {
 	/*	if(session!=null) { //회원인 경우 세션에 아이디 담기
 			session.setAttribute("id", id);
 			return "order_dc/purchase";
