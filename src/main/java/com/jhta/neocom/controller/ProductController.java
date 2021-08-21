@@ -99,6 +99,30 @@ public class ProductController {
 		return mv;
     }
 	
+	//상품 리스트ajax
+		@RequestMapping(value = "/review/ajaxlist",produces= {MediaType.APPLICATION_JSON_VALUE})
+		public @ResponseBody HashMap<String,Object> reviewlist(@RequestParam(value="pageNum",defaultValue = "1") int pageNum,int product_id,int mem_no){
+			HashMap<String,Object> map=new HashMap<String, Object>();
+			int totalRowCount = service.getCount(map);// 전체 글의 갯수
+			PageUtil pu = new PageUtil(pageNum, 3, 3, totalRowCount);
+			HashMap<String,Object> pmap=new HashMap<String, Object>();
+			pmap.put("startRowNum",pu.getStartRow());
+			pmap.put("endRowNum", pu.getEndRow());
+//			map.put("order",order);
+//			map.put("category_id", category_id);
+//			map.put("keyword", keyword);
+//			System.out.println("order==="+order);
+//			System.out.println("category_id==="+category_id);
+			List<HashMap<String, Object>> list = service.list(map);
+//			System.out.println("list==========="+list);
+			map.put("list", list);
+			map.put("startPageNum", pu.getStartPageNum());
+			map.put("endPageNum", pu.getEndPageNum());
+			map.put("pageCount", pu.getTotalPageCount());
+			map.put("pageNum", pageNum);
+			return map;
+		} 
+	
 
 	
 }

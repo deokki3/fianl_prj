@@ -105,7 +105,7 @@
 		       	    	</c:when>
 		       	        	<c:otherwise>
 			       	    	<tr>
-			       	    		<td></td>
+			       	    		<td><img width=45; height=45; src="<c:url value='/upload/product_img/${ img_name_save}' />" alt="<c:url value='/upload/product_img/${img_name_save}' />" /></td>
 			       	    		<td>${product_name }</td>
 			       	    		<td>${selling_price }</td>
 			       	    		<td>${product_count }</td>
