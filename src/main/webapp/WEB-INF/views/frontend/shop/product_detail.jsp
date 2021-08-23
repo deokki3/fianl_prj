@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -62,6 +63,7 @@
 		</div>
 	</div>
 	<!-- 페이지 타이틀 끝 -->
+
 
 
 	<!-- 페이지 컨텐트 -->
@@ -146,7 +148,7 @@
 							</div>
 							<div></div>
 							<div class="col-sm-6">
-
+								<sec:authentication property="principal.memberVo" var="memberVo"/>
 								<input type="button" class="btn btn-secondary btn-block m-1"
 									name=btn2 value="장바구니" onclick="getPost('02')">
 							</div>
