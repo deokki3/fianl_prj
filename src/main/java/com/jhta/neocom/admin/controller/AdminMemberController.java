@@ -1,6 +1,6 @@
 package com.jhta.neocom.admin.controller;
 
-import com.jhta.neocom.service.MemberInfoService;
+import com.jhta.neocom.service.MemberService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class AdminMemberController {
     @Autowired
-    MemberInfoService service;
+    MemberService service;
 
     @GetMapping("/admin/member/memlist")
     public ModelAndView list() {

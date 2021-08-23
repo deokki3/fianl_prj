@@ -1,18 +1,12 @@
 package com.jhta.neocom.model;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.OAuth2AccessToken;
@@ -39,9 +33,7 @@ public class NaverLoginVo {
 		/* 생성한 난수 값을 session에 저장 */
 		setSession(session, state);
 		/* Scribe에서 제공하는 인증 URL 생성 기능을 이용하여 네아로 인증 URL 생성 */
-		OAuth20Service oauthService = new ServiceBuilder()
-				.apiKey(CLIENT_ID)
-				.apiSecret(CLIENT_SECRET)
+		OAuth20Service oauthService = new ServiceBuilder().apiKey(CLIENT_ID).apiSecret(CLIENT_SECRET)
 				.callback(REDIRECT_URI).state(state) // 앞서 생성한 난수값을 인증 URL생성시 사용함
 				.build(NaverLoginApi.instance());
 		return oauthService.getAuthorizationUrl();
@@ -52,11 +44,8 @@ public class NaverLoginVo {
 		/* Callback으로 전달받은 세선검증용 난수값과 세션에 저장되어있는 값이 일치하는지 확인 */
 		String sessionState = getSession(session);
 		if (StringUtils.pathEquals(sessionState, state)) {
-			OAuth20Service oauthService = new ServiceBuilder()
-					.apiKey(CLIENT_ID)
-					.apiSecret(CLIENT_SECRET)
-					.callback(REDIRECT_URI).state(state)
-					.build(NaverLoginApi.instance());
+			OAuth20Service oauthService = new ServiceBuilder().apiKey(CLIENT_ID).apiSecret(CLIENT_SECRET)
+					.callback(REDIRECT_URI).state(state).build(NaverLoginApi.instance());
 			/* Scribe에서 제공하는 AccessToken 획득 기능으로 네아로 Access Token을 획득 */
 			OAuth2AccessToken accessToken = oauthService.getAccessToken(code);
 			return accessToken;
@@ -81,11 +70,8 @@ public class NaverLoginVo {
 
 	/* Access Token을 이용하여 네이버 사용자 프로필 API를 호출 */
 	public String getUserProfile(OAuth2AccessToken oauthToken) throws IOException {
-		OAuth20Service oauthService = new ServiceBuilder()
-				.apiKey(CLIENT_ID)
-				.apiSecret(CLIENT_SECRET)
-				.callback(REDIRECT_URI)
-				.build(NaverLoginApi.instance());
+		OAuth20Service oauthService = new ServiceBuilder().apiKey(CLIENT_ID).apiSecret(CLIENT_SECRET)
+				.callback(REDIRECT_URI).build(NaverLoginApi.instance());
 		OAuthRequest request = new OAuthRequest(Verb.GET, PROFILE_API_URL, oauthService);
 		oauthService.signRequest(oauthToken, request);
 		Response response = request.send();

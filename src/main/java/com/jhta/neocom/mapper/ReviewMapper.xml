@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jhta.neocom.mapper.ReviewMapper">
+
+	<insert id="insert" parameterType="com.jhta.neocom.model.ReviewVo">
+		insert into review values
+		(get_seq('reviewSeq'),
+		#{mem_no},
+		#{Nickname},
+		#{product_id},
+		#{review_title},
+		#{review_content},
+		#{star},
+		#{review_img},
+		#{review_img_origin},
+		sysdate()
+		)
+	</insert>
+	
+	<!-- 게시글 검색 -->
+	<sql id="search">
+		<choose>
+			<when test="field=='combined'">
+				where review_title like CONCAT('%',#{keyword},'%') 
+				or review_content like CONCAT('%',#{keyword},'%')
+			</when>
+			<when test="field==null and field==''">
+				where product_id=#{product_id}
+			</when>
+			
+		
+			<otherwise>
+				<if test="field!=null and field!=''">
+					where ${field} like CONCAT('%',#{keyword},'%')
+				</if>
+			</otherwise>
+		</choose>
+	</sql>
+	
+	<delete id="delete" parameterType="int">
+		delete from review where board_num=#{board_num}
+	</delete>
+	
+	<update id="update" parameterType="com.jhta.neocom.model.ReviewVo">
+		update review set 
+		mem_no=#{mem_no},
+		Nickname=#{Nickname},
+		product_id=#{product_id},
+		review_title=#{review_title},
+		review_content=#{review_content},
+		star=#{star},
+		review_img=#{review_img},
+		review_img_origin=#{review_img_origin},
+		regdate=sysdate()
+		where board_num=#{board_num}
+	</update>
+	
+	
+	<!-- 전체 게시글 수 -->
+	<select id="getCount" resultType="int" parameterType="int">
+		select IFnull(count(*),0) from review
+			<include refid="search" />
+	</select>
+
+	<select id="list" resultType="hashmap" parameterType="hashmap">
+		select * from review 
+		<include refid="search" />
+		order by board_num desc
+		limit #{startRow},10
+	</select>
+	
+	<select id="ajaxlist" resultType="hashmap" parameterType="hashmap">
+		select * from review 
+		where product_id=#{product_id}
+		order by board_num desc 
+		limit #{startRow},3
+	</select>
+	
+	<select id="detail" resultType="com.jhta.neocom.model.ReviewVo" parameterType="int">
+		select * from review where board_num=#{board_num}
+	</select>
+	
+
+
+</mapper>

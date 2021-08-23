@@ -1,7 +1,6 @@
 package com.jhta.neocom.model;
 
 import java.sql.Date;
-import java.util.ArrayList;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,7 +26,7 @@ public class OrderMainVo {
 	private String od_cc_status;
 	private String delivery_status;
 	private String request_item;
-	
+
 	private String img_name_save;
 	private String product_name;
 }

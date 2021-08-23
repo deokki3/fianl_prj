@@ -24,9 +24,17 @@
 	</update>
 	
 	<sql id="search">
-		<if test="field!=null and field!=''">
-			where ${field} like CONCAT('%',#{keyword},'%')
-		</if>
+		<choose>
+			<when test="field=='combined'">
+				where n_title like CONCAT('%',#{keyword},'%') 
+				or n_content like CONCAT('%',#{keyword},'%')
+			</when>
+			<otherwise>
+				<if test="field!=null and field!=''">
+					where ${field} like CONCAT('%',#{keyword},'%')
+				</if>
+			</otherwise>
+		</choose>
 	</sql>
 	
 	<!-- 전체 게시글 수 -->

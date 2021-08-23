@@ -116,14 +116,14 @@
 					<p class="text-muted">${clist.category_name }</p>
 				</c:forEach>
 
-				<form name="form1" >
+				<form name="form1">
 					<fieldset>
 						<input type="hidden" name="product_id"
 							value="${goods.product_id }"> <input type="hidden"
 							name="product_name" value="${goods.product_name }"> <input
 							type="hidden" name="selling_price"
-							value="${goods.selling_price }">
-						<input type="hidden" name="img_name_save" value="${list[0].img_name_save }">
+							value="${goods.selling_price }"> <input type="hidden"
+							name="img_name_save" value="${list[0].img_name_save }">
 
 
 						<!-- ///////옵션을 넣어야함 -->
@@ -140,17 +140,15 @@
 						<div class="mb-4"></div>
 						<div class="row">
 							<div class="col-sm-6">
-								<button type="submit" class="btn btn-primary btn-block m-1" onclick="clickPurchase()"
-									formaction="${pageContext.request.contextPath}/purchase0"
-									formmethod="POST" formtarget="_self">구매하기</button>
+								<input type="button" class="btn btn-primary btn-block m-1"
+									name=btn1 value="구매하기" onClick="getPost('01')">
 
 							</div>
 							<div></div>
 							<div class="col-sm-6">
 
-								<button type="submit" class="btn btn-secondary btn-block m-1"  onclick="clickCart()"
-									formaction="${pageContext.request.contextPath }/cart"
-									formmethod="get" formtarget="_self">장바구니</button>
+								<input type="button" class="btn btn-secondary btn-block m-1"
+									name=btn2 value="장바구니" onclick="getPost('02')">
 							</div>
 							<!-- 장바구니 url -->
 
@@ -243,133 +241,312 @@
 									aria-valuemin="0" aria-valuemax="100"></div>
 							</div>
 						</div>
-						<div class="pt-2">
-							<a class="btn btn-warning btn-block" href="#">후기 남기기</a>
-						</div>
+						
 					</div>
 				</div>
 			</div>
 
-			<div class="col-md-8">
-				<h3 class="padding-bottom-1x">최신 후기</h3>
-				<div class="comment">
-					<div class="comment-author-ava"></div>
-					<div class="comment-body">
-						<div
-							class="comment-header d-flex flex-wrap justify-content-between">
-							<h4 class="comment-title">후기1........</h4>
-							<div class="mb-2">
-								<div class="rating-stars">
-									<i class="icon-star filled"></i> <i class="icon-star filled"></i>
-									<i class="icon-star filled"></i> <i class="icon-star filled"></i>
-									<i class="icon-star"></i>
-								</div>
-							</div>
-						</div>
-						<p class="comment-text"></p>
-						<div class="comment-footer">
-							<span class="comment-meta">작성자</span>
-						</div>
-					</div>
-				</div>
-				<div class="comment">
-					<div class="comment-author-ava"></div>
-					<div class="comment-body">
-						<div
-							class="comment-header d-flex flex-wrap justify-content-between">
-							<h4 class="comment-title">후기2........</h4>
-							<div class="mb-2">
-								<div class="rating-stars">
-									<i class="icon-star filled"></i> <i class="icon-star filled"></i>
-									<i class="icon-star filled"></i> <i class="icon-star filled"></i>
-									<i class="icon-star"></i>
-								</div>
-							</div>
-						</div>
-						<p class="comment-text"></p>
-						<div class="comment-footer">
-							<span class="comment-meta">작성자</span>
-						</div>
-					</div>
-				</div>
+			<div class="col-md-8" >
+			<h3 class="padding-bottom-1x">최신 후기</h3>
+				<div id="reviewList">
+				
+				
 				<a class="btn btn-secondary btn-block" href="#">더보기</a>
+				</div>
+				
+				
+			
+			<div id="page"></div>
+			<div id="reviewForm" class="card border-default">
+				<form id="addreview" enctype="multipart/form-data">
+				<input type="hidden" id="product_id" value="${goods.product_id }">
+				
+				<input type="text" class="d-inline align-baseline display-5 mr-4"name="title" placeholder="간단한 제목을 적어주세요!" >
+				<div class="rating-stars">
+						
+						<i class="icon-star" id="stars1" onmouseover=show(1) onclick=mark(1) onmouseout=noshow(1)></i>
+						<i class="icon-star" id="stars2" onmouseover=show(2) onclick=mark(2) onmouseout=noshow(2)></i>
+						<i class="icon-star" id="stars3" onmouseover=show(3) onclick=mark(3) onmouseout=noshow(3)></i> 
+						<i class="icon-star" id="stars4" onmouseover=show(4) onclick=mark(4) onmouseout=noshow(4)></i>
+						<i class="icon-star" id="stars5" onmouseover=show(5) onclick=mark(5) onmouseout=noshow(5)></i>
+				</div><br>
+				<input type="hidden" id="star" name="star">
+				후기<br>
+				<textarea class="d-inline align-baseline display-5 mr-4" rows="2" cols="50" id="content" name="review_content"></textarea><br>
+				이미지첨부<br>
+				<input type="file" name="file1" id="selectImg"><br> 
+				<div>
+    				   <div class="select_img" >
+         				  <img id="" />
+     				   </div>
+     			</div>
+				  <input type="button" class="btn btn-warning btn-block" value="후기 남기기" id="btnAdd">
+     		 </form>
+				
+			
+				
+     			
+				</div>
 			</div>
+			
+			
+				
+			
 		</div>
 	</div>
 	<div class="mb-4"></div>
-	<!-- 페이지 컨텐트 끝 -->
-	<!-- modal -->
-	<div class="modal fade" id="insertModal">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title">로그인이 필요한 서비스입니다.</h4>
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">X</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<p>로그인 하시겠습니까?</p>
-				</div>
-				<div class="modal-footer">
-					<button type="submit" class="btn btn-info btn-sm"
-						onclick="location.href='${pageContext.request.contextPath}/account/login'">Yes</button>
-					<button type="button" class="btn btn-secondary btn-sm"
-						data-dismiss="modal" onclick="return false;">No</button>
+	
+			<!-- 페이지 컨텐트 끝 -->
+			<!-- modal -->
+			<div class="modal fade" id="insertModal">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title">로그인이 필요한 서비스입니다.</h4>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">X</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<p>로그인 하시겠습니까?</p>
+						</div>
+						<div class="modal-footer">
+							<button type="submit" class="btn btn-info btn-sm"
+								onclick="location.href='${pageContext.request.contextPath}/account/login'">Yes</button>
+							<button type="button" class="btn btn-secondary btn-sm"
+								data-dismiss="modal" onclick="return false;">No</button>
+						</div>
+					</div>
 				</div>
 			</div>
-		</div>
-	</div>
-	
-	
-	
 
-	<!-- footer -->
-	<jsp:include page="/WEB-INF/views/frontend/inc/footer.jsp" />
 
-	<!-- Back To Top Button-->
-	<a class="scroll-to-top-btn" href="#"><i class="icon-chevron-up"></i></a>
-	<!-- Backdrop-->
-	<div class="site-backdrop"></div>
-	<!-- JavaScript (jQuery) libraries, plugins and custom scripts-->
-	<script
-		src="${pageContext.request.contextPath}/static/frontend/assets/js/vendor.min.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/static/frontend/assets/js/scripts.min.js"></script>
-	<script type="text/javascript">
-	
-	function clickPurchase(){
-		var sessionId = "${param.id}";
-		
-		
-		if(sessionId!=null && sessionId!='') {
-			location.href='${pageContext.request.contextPath}/purchase0';
-		}else{
 
-				if (confirm("로그인이 필요한 서비스입니다")==true)   {
-					location.href='${pageContext.request.contextPath}/account/login';
-				} 
 
-				else {
-					return false;
+			<!-- footer -->
+			<jsp:include page="/WEB-INF/views/frontend/inc/footer.jsp" />
+
+			<!-- Back To Top Button-->
+			<a class="scroll-to-top-btn" href="#"><i class="icon-chevron-up"></i></a>
+			<!-- Backdrop-->
+			<div class="site-backdrop"></div>
+			<!-- JavaScript (jQuery) libraries, plugins and custom scripts-->
+			<script
+				src="${pageContext.request.contextPath}/static/frontend/assets/js/vendor.min.js"></script>
+			<script
+				src="${pageContext.request.contextPath}/static/frontend/assets/js/scripts.min.js"></script>
+			<script type="text/javascript">
+				$(function() {
+					
+					
+					
+				
+					
+				
+				
+					$("#selectImg").change(function(){
+						if(this.files && this.files[0]) {
+							var reader =new FileReader;
+							reader.onload =function(data){
+								$(".select_img img").attr("src",data.target.result).width(50);
+							}
+							reader.readAsDataURL(this.files[0]);
+						}
+					});
+				    
+					
+
+
+					$("#btnAdd").click(function(){
+						var sessionId = "${sessionScope.id}";
+						var file = $("input[name=file1]")[0].files[0];
+						var product_id=$("#product_id").val();
+						var star=$("#star").val();
+						console.log(star);
+						
+
+				
+						var formData =new FormData();
+						formData.append( "file1",file);
+						formData.append("review_title",$("input[name=title]").val());
+						formData.append("review_content",$("#content").val());
+						formData.append("product_id",product_id);
+						formData.append("star",star);
+						$.ajax({
+							url:"${pageContext.request.contextPath}/review/insert",
+							data:formData,
+							type:"post",
+							traditional:true,
+							processData : false,
+							contentType : false,
+							cache:false,
+							dataType:"json",
+							success:function(data){
+								
+								if(data.code=='success'){
+									alert("글이 등록되었습니다.");
+									 $("#addreview").each( function () {
+										 this.reset();
+									 });
+
+										 
+									review(1);
+								}else{
+									alert("오류가 발생하였습니다. 다시 시도해주세요.");
+								}
+							}
+						});
+					});
+					review(1);
+
+				});
+				
+				var locked=0;
+				function show(star) {
+					if(locked)
+						return;
+					var i;
+					var stars;
+					var el;
+					
+					//이미지 변환
+					for(i=1;i<=star;i++){
+						stars ='stars'+i;
+						el =document.getElementById(stars);
+						el.className += " filled"; //처음 별 0개
+						
+					}
+				}
+
+
+				function noshow(star) {
+					if(locked)
+						return;
+					var i;
+					var stars;
+					var el;
+					
+					for(i=1;i<=star;i++) {
+						stars ='stars'+i;
+						el =document.getElementById(stars);
+						el.className = "icon-star"; //처음 별 0개
+					}
+				}
+				function lock(star){
+					show(star);
+					locked=1;
+					
+				}
+				function mark(star){
+					lock(star);
+					document.getElementById("star").value=star;
+					
+					
+							
+					//별이 클릭되었을 때, lock을 걸고 hidden 타입의 input 태그 value 값에 매개변수로 받은 star를 넘겨주는 식으로 수정
+				}
+			
+				var currentPage=1;
+				function review(pageNum){
+					var product_id=$("#product_id").val();
+					
+					console.log(product_id);
+					
+					currentPage=pageNum;
+					$("#reviewList").empty();
+					$.ajax({
+						url:"${pageContext.request.contextPath}/review/ajaxlist",
+						data:{"pageNum":pageNum,"product_id":product_id},
+						dataType:"json",
+						success:function(data){
+							//alert(data);
+							///data.list[0].num
+							$(data.review).each(function(i,d){
+								
+						
+								let html="<div class='comment'>";
+								html+="<div class='comment-author-ava'></div>";
+								html+="<div class='comment-body'>";
+								html+=	"<div class='comment-header d-flex flex-wrap justify-content-between'>";
+								html+=		"<h4 class='comment-title'>"+d.review_title+"</h4>";
+								html+=	"	<div class='mb-2'>";
+								html+=			"<div class='rating-stars'>";
+								
+								for(let i=1;i<=d.star;i++){
+									
+								html+=			"	<i class='icon-star filled'></i>";
+								}
+								for(let j=1;j<=5-d.star;j++){
+								html+=			"	<i class='icon-star'></i>";
+								}
+								html+=		"	</div>";
+								html+=	"	</div>";
+								html+="	</div>";
+								html+= "<p class='comment-text'>";
+								html+="<img width=45px; height=45px; src='<c:url value='/upload/product_img/"+d.review_img +"' />'";
+								html+="alt='<c:url value='/upload/product_img/${img.img_name_save}' />' />";
+								html+="</p>";
+								html+=	"<p class='comment-text'>"+d.review_content+"</p>";
+								html+="	<div class='comment-footer'>";
+								html+="		<span class='comment-meta'>"+d.Nickname+"</span>";
+								html+="	</div>";
+								html+="</div>";
+								html+="</div>";
+									$("#reviewList").append(html);					
+							});
+							//페이징 처리
+							let startPage=data.startPageNum;
+							console.log("startPage=="+startPage);
+							let endPage=data.endPageNum;
+							console.log("endPage=="+endPage);
+							let pageCount=data.pagCount;
+							console.log("pageCount=="+pageCount);
+							let pageHtml="";
+							if(startPage>5){
+								pageHtml += "<a href='javascript:review("+ (startPage-1) + ")'>이전</a>";
+							}
+							for(let i=startPage;i<=endPage;i++){
+								if(i==pageNum){
+									pageHtml += "<a href='javascript:review("+ i + ")'><span style='color:blue' >"+ i + "</span></a> ";
+								}else{
+									pageHtml += "<a href='javascript:review("+ i + ")'><span style='color:gray' >"+ i + "</span></a> ";
+								}	
+							}
+							if(endPage<pageCount){
+								pageHtml += "<a href='javascript:review("+ (endPage+1) + ")'>다음</a>";
+							}
+							$("#page").html(pageHtml);
+						}		
+					});		
+				}
+				
+				
+				function getPost(mode) {
+
+					if (sessionId != null && sessionId != '') {
+						if (mode == "01") {
+							theForm.method = "post";
+
+							theForm.action = "${pageContext.request.contextPath}/purchase0";
+						} else if (mode == "02") {
+							theForm.method = "get";
+
+							theForm.action = "${pageContext.request.contextPath}/cart";
+
+						}
+						theForm.submit();
+
+					} else {
+
+						$("#insertModal").modal();
+
+					}
 				}
 				
 
 				
-		}
-	}
-	
-	function clickCart(){
-		var sessionId = "${id}";
-		
-		
-		if(sessionId!=null && sessionId!='') {
-			location.href='${pageContext.request.contextPath}/cart';
-		}else{
-			$("#insertModal").modal();
-		}
-	}
-	</script>
+				
+</script>
 </body>
 </html>
