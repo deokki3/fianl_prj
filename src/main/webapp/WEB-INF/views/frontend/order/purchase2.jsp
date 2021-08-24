@@ -168,11 +168,14 @@
 						<td class="align-middle">3 - 4 days;</td>
 						<td class="align-middle">$25.00</td>
 					</tr>
-				</tbody>
-				
+				</tbody>	
 			</table>
 				<div>
 					주문번호 보내기<input type="text" id="order_no" value="${order_no }">
+					결제자<input type="text" id="orderer_name" value="${orderer_name }">
+					결제자<input type="text" id="zip_code" value="${zip_code }">
+					결제자<input type="text" id="order_address" value="${order_address }">
+					결제자<input type="text" id="order_address_detail" value="${order_address_detail }">
 				</div>
 			
 				<div class="d-flex justify-content-between paddin-top-1x mt-4">
@@ -194,6 +197,7 @@
 	$("#check_module").click(function() {
 		var IMP = window.IMP; // 생략가능
 		var order_no=$("#order_no").val();
+		var orderer_name=$("#orderer_name").val();
 		console.log(order_no);
 		IMP.init('imp55782149');
 		// 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
@@ -233,7 +237,7 @@
 			amount : 100,
 			//가격
 			buyer_email : 'iamport@siot.do',
-			buyer_name : '구매자이름',
+			buyer_name : '${orderer_name }',
 			buyer_tel : '010-1234-5678',
 			buyer_addr : '서울특별시 강남구 삼성동',
 			buyer_postcode : '123-456',
@@ -252,10 +256,11 @@
 					
 					data:{
 						imp_uid : rsp.imp_uid,
-						
+						"pg" :rsp.pg,
+						"pay_method":rsp.card,
 			            "order_no":order_no,
 			            "payment_amount":rsp.paid_amount,
-			            "payer_name":rsp.name,
+			            "payer_name":orderer_name,
 			            "payment_status":rsp.status
 			        },
 					type:"post",
@@ -268,7 +273,10 @@
 						msg += '상점 거래ID : ' + rsp.merchant_uid;
 						msg += '결제 금액 : ' + rsp.paid_amount;
 						msg += '카드 승인번호 : ' + rsp.apply_num;
+						msg += 'pay_method : ' + rsp.pay_method;
+						
 						alert(msg);
+						location.href = "${pageContext.request.contextPath}/paymentSuccess?order_no="+order_no;
 		    		} else {
 		    			//[3] 아직 제대로 결제가 되지 않았습니다.
 		    			//[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
@@ -277,6 +285,7 @@
 			} else {
 				var msg = '결제에 실패하였습니다.';
 				msg += '에러내용 : ' + rsp.error_msg;
+				location.href = "${pageContext.request.contextPath}/paymentFail?order_no="+order_no;
 			}
 			alert(msg);
 		});

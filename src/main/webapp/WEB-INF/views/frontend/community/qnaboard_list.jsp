@@ -25,12 +25,16 @@
 	<!-- Modernizr-->
 	<script src="${pageContext.request.contextPath}/static/frontend/assets/js/modernizr.min.js"></script>
 <style>
+a {
+	text-decoration: none;
+	color: black;
+} 
 .table {
-	margin-left:auto;
-	margin-right:auto;
+	margin-left: auto;
+	margin-right: auto;
 }
 .table tbody tr td{
-	height:60px;
+	height: 50px;
 	vertical-align: middle;
 }
 </style>
@@ -100,11 +104,22 @@
 				<tbody>
 				<c:forEach var="vo" items="${list }">
 					<tr>
-						<td>${vo.qna_board_no }</td>
-						<td class="text-left"><a href="${pageContext.request.contextPath}/community/qnaboard_detail?qna_board_no=${vo.qna_board_no}">${vo.qna_title }</a></td>
-						<td>${vo.Nickname }</td>
-						<td><fmt:parseDate value="${vo.qna_regdate }" var="qna_regdate" pattern="yyyy-MM-dd'T'HH:mm:ss" /><fmt:formatDate value="${qna_regdate }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
-						<td>${vo.qna_hit }</td>
+					<c:choose>
+						<c:when test="${vo.qna_group_order !=0 }">
+							<td></td>
+							<td class="text-left"><a href="${pageContext.request.contextPath}/community/qnaboard_detail?qna_board_no=${vo.qna_board_no}&qna_secret_chk=${vo.qna_secret_chk}">[Re]&nbsp;&nbsp; ${vo.qna_title }</a></td>
+							<td>${vo.Nickname }</td>
+							<td><fmt:parseDate value="${vo.qna_regdate }" var="qna_regdate" pattern="yyyy-MM-dd'T'HH:mm:ss" /><fmt:formatDate value="${qna_regdate }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+							<td>${vo.qna_hit }</td>
+						</c:when>
+						<c:otherwise>
+							<td>${vo.qna_board_no }</td>
+							<td class="text-left"><a href="${pageContext.request.contextPath}/community/qnaboard_detail?qna_board_no=${vo.qna_board_no}&qna_secret_chk=${vo.qna_secret_chk}">${vo.qna_title }</a></td>
+							<td>${vo.Nickname }</td>
+							<td><fmt:parseDate value="${vo.qna_regdate }" var="qna_regdate" pattern="yyyy-MM-dd'T'HH:mm:ss" /><fmt:formatDate value="${qna_regdate }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+							<td>${vo.qna_hit }</td>
+						</c:otherwise>
+					</c:choose>
 					</tr>
 				</c:forEach>
 				</tbody>

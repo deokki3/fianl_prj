@@ -65,10 +65,11 @@
 									<tr>
 										<th width="10%">고유번호</th>
 										<th width="10%" data-orderable="true">회원번호</th>
-										<th class="text-nowrap">주문코드</th>
 										<th class="text-nowrap">금액</th>
 										<th class="text-nowrap">주문날짜</th>
-										<th class="text-nowrap">상태</th>
+										<th class="text-nowrap">주문상태</th>
+										<th class="text-nowrap">주문취소</th>
+										<th>상세보기</th>
 										<th width="5%"></th>
 										<th width="5%"></th>
 									</tr>
@@ -78,10 +79,11 @@
 										<tr>
 											<td>${vo.order_no }</td>
 											<td>${vo.mem_no }</td>
-											<td>${vo.order_num }</td>
-											<td>${vo.tot_price }</td>
+											<td>${vo.tot_price } 원</td>
 											<td>${vo.order_date }</td>
 											<td>${vo.order_status }</td>
+											<td>${vo.od_cc_status }</td>
+											<td>상세보기</td>
 											<td><a href="${pageContext.request.contextPath }/admin/cate/delete?order_no=${vo.order_no }" class="btn btn-sm btn-primary w-60px me-1">삭제</a></td>
 											<td><a href="#modal-dialog" class="open_modal btn btn-sm btn-white w-60px" data-bs-toggle="modal" 
 											data-order_no="${vo.order_no}" data-mem_no="${vo.mem_no}" data-order_num="${vo.order_num}" data-tot_price="${vo.tot_price}"

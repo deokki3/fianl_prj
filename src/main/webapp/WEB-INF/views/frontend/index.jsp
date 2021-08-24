@@ -179,7 +179,7 @@
 							<a class="product-button btn-wishlist" href="#"><i
 								class="icon-heart"></i><span>관심상품</span></a> <a
 								class="product-button"
-								href="${pageContext.request.contextPath }/insertCart?mem_no=${sessionScope.mem_no}&product_id=${vo.product_id}"
+								onclick="insertCart(${vo.product_id})"
 								data-toast data-toast-type="success"
 								data-toast-position="topRight"
 								data-toast-icon="icon-check-circle" data-toast-title=" "
@@ -240,6 +240,26 @@
 		src="${pageContext.request.contextPath}/static/frontend/assets/js/vendor.min.js"></script>
 	<script
 		src="${pageContext.request.contextPath}/static/frontend/assets/js/scripts.min.js"></script>
+	<script type="text/javascript">
+		
+	function insertCart(product_id){
+			
+		console.log(product_id)
+			$.ajax({
+				url:"${pageContext.request.contextPath}/member/insertCart",
+				dataType:"json",
+				data:{"product_id" : product_id},
+				Type:'post',
+				success:function(data){
+					
+				},error:function(request, status, error){
+
+					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			});	
+	};
+			
+	</script>		
 </body>
 
 </html>

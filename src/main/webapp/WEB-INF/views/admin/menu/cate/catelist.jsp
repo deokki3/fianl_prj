@@ -178,9 +178,11 @@
 			$("#category_parent").val(parent);
 			$("#category_order").val(order);
 		});
+
 		$(document).on("click", "" , function (){
 
 		});
+		
     	$('#data-table-responsive').DataTable({
         	responsive: true,
 			lengthMenu: [10,20,30,50],

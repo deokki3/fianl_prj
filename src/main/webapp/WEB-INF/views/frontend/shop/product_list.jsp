@@ -280,7 +280,8 @@ $(function(){
 		};
 		 
 		currentPage=pageNum;
-		
+		console.log(order);
+		console.log(pageNum);
 		$("#commList").empty();
 		$.ajax({
 			url:"${pageContext.request.contextPath}/shop/ajaxlist",

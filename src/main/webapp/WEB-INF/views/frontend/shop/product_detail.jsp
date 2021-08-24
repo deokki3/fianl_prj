@@ -65,7 +65,6 @@
 	<!-- 페이지 타이틀 끝 -->
 
 
-
 	<!-- 페이지 컨텐트 -->
 
 	<div class="container padding-bottom-3x">
@@ -117,7 +116,7 @@
 				<c:forEach var="clist" items="${clist }">
 					<p class="text-muted">${clist.category_name }</p>
 				</c:forEach>
-
+					
 				<form name="form1">
 					<fieldset>
 						<input type="hidden" name="product_id"
@@ -139,6 +138,7 @@
 								</div>
 							</div>
 						</div>
+
 						<div class="mb-4"></div>
 						<div class="row">
 							<div class="col-sm-6">
@@ -148,13 +148,14 @@
 							</div>
 							<div></div>
 							<div class="col-sm-6">
-								<sec:authentication property="principal.memberVo" var="memberVo"/>
+								
 								<input type="button" class="btn btn-secondary btn-block m-1"
 									name=btn2 value="장바구니" onclick="getPost('02')">
 							</div>
 							<!-- 장바구니 url -->
 
 						</div>
+
 					</fieldset>
 				</form>
 				<div class="pt-1 mb-4"></div>
@@ -253,9 +254,9 @@
 				<div id="reviewList">
 				
 				
-				<a class="btn btn-secondary btn-block" href="#">더보기</a>
-				</div>
 				
+				</div>
+				<a class="btn btn-secondary btn-block" href="${pageContext.request.contextPath}/community/review_list?product_id=${goods.product_id}">더보기</a>
 				
 			
 			<div id="page"></div>
@@ -329,226 +330,231 @@
 			<!-- footer -->
 			<jsp:include page="/WEB-INF/views/frontend/inc/footer.jsp" />
 
-			<!-- Back To Top Button-->
-			<a class="scroll-to-top-btn" href="#"><i class="icon-chevron-up"></i></a>
-			<!-- Backdrop-->
-			<div class="site-backdrop"></div>
-			<!-- JavaScript (jQuery) libraries, plugins and custom scripts-->
-			<script
-				src="${pageContext.request.contextPath}/static/frontend/assets/js/vendor.min.js"></script>
-			<script
-				src="${pageContext.request.contextPath}/static/frontend/assets/js/scripts.min.js"></script>
-			<script type="text/javascript">
-				$(function() {
-					
-					
-					
-				
-					
-				
-				
-					$("#selectImg").change(function(){
-						if(this.files && this.files[0]) {
-							var reader =new FileReader;
-							reader.onload =function(data){
-								$(".select_img img").attr("src",data.target.result).width(50);
-							}
-							reader.readAsDataURL(this.files[0]);
-						}
-					});
-				    
-					
 
-
-					$("#btnAdd").click(function(){
-						var sessionId = "${sessionScope.id}";
-						var file = $("input[name=file1]")[0].files[0];
-						var product_id=$("#product_id").val();
-						var star=$("#star").val();
-						console.log(star);
-						
-
-				
-						var formData =new FormData();
-						formData.append( "file1",file);
-						formData.append("review_title",$("input[name=title]").val());
-						formData.append("review_content",$("#content").val());
-						formData.append("product_id",product_id);
-						formData.append("star",star);
-						$.ajax({
-							url:"${pageContext.request.contextPath}/review/insert",
-							data:formData,
-							type:"post",
-							traditional:true,
-							processData : false,
-							contentType : false,
-							cache:false,
-							dataType:"json",
-							success:function(data){
-								
-								if(data.code=='success'){
-									alert("글이 등록되었습니다.");
-									 $("#addreview").each( function () {
-										 this.reset();
-									 });
-
-										 
-									review(1);
-								}else{
-									alert("오류가 발생하였습니다. 다시 시도해주세요.");
-								}
-							}
-						});
-					});
-					review(1);
-
-				});
-				
-				var locked=0;
-				function show(star) {
-					if(locked)
-						return;
-					var i;
-					var stars;
-					var el;
-					
-					//이미지 변환
-					for(i=1;i<=star;i++){
-						stars ='stars'+i;
-						el =document.getElementById(stars);
-						el.className += " filled"; //처음 별 0개
-						
-					}
+	<!-- Back To Top Button-->
+	<a class="scroll-to-top-btn" href="#"><i class="icon-chevron-up"></i></a>
+	<!-- Backdrop-->
+	<div class="site-backdrop"></div>
+	<!-- JavaScript (jQuery) libraries, plugins and custom scripts-->
+	<script
+		src="${pageContext.request.contextPath}/static/frontend/assets/js/vendor.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/static/frontend/assets/js/scripts.min.js"></script>
+	<script type="text/javascript">
+	$(function() {
+		
+		
+		
+		
+		
+		
+		
+		$("#selectImg").change(function(){
+			if(this.files && this.files[0]) {
+				var reader =new FileReader;
+				reader.onload =function(data){
+					$(".select_img img").attr("src",data.target.result).width(50);
 				}
+				reader.readAsDataURL(this.files[0]);
+			}
+		});
+	    
+		
 
 
-				function noshow(star) {
-					if(locked)
-						return;
-					var i;
-					var stars;
-					var el;
-					
-					for(i=1;i<=star;i++) {
-						stars ='stars'+i;
-						el =document.getElementById(stars);
-						el.className = "icon-star"; //처음 별 0개
-					}
-				}
-				function lock(star){
-					show(star);
-					locked=1;
-					
-				}
-				function mark(star){
-					lock(star);
-					document.getElementById("star").value=star;
-					
-					
-							
-					//별이 클릭되었을 때, lock을 걸고 hidden 타입의 input 태그 value 값에 매개변수로 받은 star를 넘겨주는 식으로 수정
-				}
+		$("#btnAdd").click(function(){
+			var sessionId = "${sessionScope.id}";
+			var file = $("input[name=file1]")[0].files[0];
+			var product_id=$("#product_id").val();
+			var star=$("#star").val();
+			console.log(star);
 			
-				var currentPage=1;
-				function review(pageNum){
-					var product_id=$("#product_id").val();
+
+	
+			var formData =new FormData();
+			formData.append( "file1",file);
+			formData.append("review_title",$("input[name=title]").val());
+			formData.append("review_content",$("#content").val());
+			formData.append("product_id",product_id);
+			formData.append("star",star);
+			$.ajax({
+				url:"${pageContext.request.contextPath}/review/insert",
+				data:formData,
+				type:"post",
+				traditional:true,
+				processData : false,
+				contentType : false,
+				cache:false,
+				dataType:"json",
+				success:function(data){
 					
-					console.log(product_id);
-					
-					currentPage=pageNum;
-					$("#reviewList").empty();
-					$.ajax({
-						url:"${pageContext.request.contextPath}/review/ajaxlist",
-						data:{"pageNum":pageNum,"product_id":product_id},
-						dataType:"json",
-						success:function(data){
-							//alert(data);
-							///data.list[0].num
-							$(data.review).each(function(i,d){
-								
-						
-								let html="<div class='comment'>";
-								html+="<div class='comment-author-ava'></div>";
-								html+="<div class='comment-body'>";
-								html+=	"<div class='comment-header d-flex flex-wrap justify-content-between'>";
-								html+=		"<h4 class='comment-title'>"+d.review_title+"</h4>";
-								html+=	"	<div class='mb-2'>";
-								html+=			"<div class='rating-stars'>";
-								
-								for(let i=1;i<=d.star;i++){
-									
-								html+=			"	<i class='icon-star filled'></i>";
-								}
-								for(let j=1;j<=5-d.star;j++){
-								html+=			"	<i class='icon-star'></i>";
-								}
-								html+=		"	</div>";
-								html+=	"	</div>";
-								html+="	</div>";
-								html+= "<p class='comment-text'>";
-								html+="<img width=45px; height=45px; src='<c:url value='/upload/product_img/"+d.review_img +"' />'";
-								html+="alt='<c:url value='/upload/product_img/${img.img_name_save}' />' />";
-								html+="</p>";
-								html+=	"<p class='comment-text'>"+d.review_content+"</p>";
-								html+="	<div class='comment-footer'>";
-								html+="		<span class='comment-meta'>"+d.Nickname+"</span>";
-								html+="	</div>";
-								html+="</div>";
-								html+="</div>";
-									$("#reviewList").append(html);					
-							});
-							//페이징 처리
-							let startPage=data.startPageNum;
-							console.log("startPage=="+startPage);
-							let endPage=data.endPageNum;
-							console.log("endPage=="+endPage);
-							let pageCount=data.pagCount;
-							console.log("pageCount=="+pageCount);
-							let pageHtml="";
-							if(startPage>5){
-								pageHtml += "<a href='javascript:review("+ (startPage-1) + ")'>이전</a>";
-							}
-							for(let i=startPage;i<=endPage;i++){
-								if(i==pageNum){
-									pageHtml += "<a href='javascript:review("+ i + ")'><span style='color:blue' >"+ i + "</span></a> ";
-								}else{
-									pageHtml += "<a href='javascript:review("+ i + ")'><span style='color:gray' >"+ i + "</span></a> ";
-								}	
-							}
-							if(endPage<pageCount){
-								pageHtml += "<a href='javascript:review("+ (endPage+1) + ")'>다음</a>";
-							}
-							$("#page").html(pageHtml);
-						}		
-					});		
-				}
-				
-				
-				function getPost(mode) {
+					if(data.code=='success'){
+						alert("글이 등록되었습니다.");
+						 $("#addreview").each( function () {
+							 this.reset();
+						 });
 
-					if (sessionId != null && sessionId != '') {
-						if (mode == "01") {
-							theForm.method = "post";
-
-							theForm.action = "${pageContext.request.contextPath}/purchase0";
-						} else if (mode == "02") {
-							theForm.method = "get";
-
-							theForm.action = "${pageContext.request.contextPath}/cart";
-
-						}
-						theForm.submit();
-
-					} else {
-
-						$("#insertModal").modal();
-
+							 
+						review(1);
+					}else{
+						alert("오류가 발생하였습니다. 다시 시도해주세요.");
 					}
 				}
-				
+			});
+		});
+		review(1);
 
+	});
+	
+	var locked=0;
+	function show(star) {
+		if(locked)
+			return;
+		var i;
+		var stars;
+		var el;
+		
+		//이미지 변환
+		for(i=1;i<=star;i++){
+			stars ='stars'+i;
+			el =document.getElementById(stars);
+			el.className += " filled"; //처음 별 0개
+			
+		}
+	}
+
+
+	function noshow(star) {
+		if(locked)
+			return;
+		var i;
+		var stars;
+		var el;
+		
+		for(i=1;i<=star;i++) {
+			stars ='stars'+i;
+			el =document.getElementById(stars);
+			el.className = "icon-star"; //처음 별 0개
+		}
+	}
+	function lock(star){
+		show(star);
+		locked=1;
+		
+	}
+	function mark(star){
+		lock(star);
+		document.getElementById("star").value=star;
+		
+		
 				
-				
-</script>
+		//별이 클릭되었을 때, lock을 걸고 hidden 타입의 input 태그 value 값에 매개변수로 받은 star를 넘겨주는 식으로 수정
+	}
+
+	var currentPage=1;
+	function review(pageNum){
+		var product_id=$("#product_id").val();
+		
+		console.log(product_id);
+		
+		currentPage=pageNum;
+		$("#reviewList").empty();
+		$.ajax({
+			url:"${pageContext.request.contextPath}/review/ajaxlist",
+			data:{"pageNum":pageNum,"product_id":product_id},
+			dataType:"json",
+			success:function(data){
+				//alert(data);
+				///data.list[0].num
+				$(data.review).each(function(i,d){
+					
+			
+					let html="<div class='comment'>";
+					html+="<div class='comment-author-ava'></div>";
+					html+="<div class='comment-body'>";
+					html+=	"<div class='comment-header d-flex flex-wrap justify-content-between'>";
+					html+=		"<h4 class='comment-title'>"+d.review_title+"</h4>";
+					html+=	"	<div class='mb-2'>";
+					html+=			"<div class='rating-stars'>";
+					
+					for(let i=1;i<=d.star;i++){
+						
+					html+=			"	<i class='icon-star filled'></i>";
+					}
+					for(let j=1;j<=5-d.star;j++){
+					html+=			"	<i class='icon-star'></i>";
+					}
+					html+=		"	</div>";
+					html+=	"	</div>";
+					html+="	</div>";
+					html+= "<p class='comment-text'>";
+					html+="<img width=45px; height=45px; src='<c:url value='/upload/product_img/"+d.review_img +"' />'";
+					html+="alt='<c:url value='/upload/product_img/${img.img_name_save}' />' />";
+					html+="</p>";
+					html+=	"<p class='comment-text'>"+d.review_content+"</p>";
+					html+="	<div class='comment-footer'>";
+					html+="		<span class='comment-meta'>"+d.Nickname+"</span>";
+					html+="	</div>";
+					html+="</div>";
+					html+="</div>";
+						$("#reviewList").append(html);					
+				});
+				//페이징 처리
+				let startPage=data.startPageNum;
+				console.log("startPage=="+startPage);
+				let endPage=data.endPageNum;
+				console.log("endPage=="+endPage);
+				let pageCount=data.pagCount;
+				console.log("pageCount=="+pageCount);
+				let pageHtml="";
+				if(startPage>5){
+					pageHtml += "<a href='javascript:review("+ (startPage-1) + ")'>이전</a>";
+				}
+				for(let i=startPage;i<=endPage;i++){
+					if(i==pageNum){
+						pageHtml += "<a href='javascript:review("+ i + ")'><span style='color:blue' >"+ i + "</span></a> ";
+					}else{
+						pageHtml += "<a href='javascript:review("+ i + ")'><span style='color:gray' >"+ i + "</span></a> ";
+					}	
+				}
+				if(endPage<pageCount){
+					pageHtml += "<a href='javascript:review("+ (endPage+1) + ")'>다음</a>";
+				}
+				$("#page").html(pageHtml);
+			}		
+		});		
+	}
+	
+	
+	function getPost(mode) {
+		var sessionId= "${id}";
+		console.log("sessionId=="+sessionId);
+		var theForm = document.form1;
+
+
+//		if (sessionId != null && sessionId != '') {
+			if (mode == "01") {
+				theForm.method = "post";
+
+				theForm.action = "${pageContext.request.contextPath}/member/purchase0";
+			} else if (mode == "02") {
+				theForm.method = "get";
+
+				theForm.action = "${pageContext.request.contextPath}/member/cart";
+
+			}
+			theForm.submit();
+
+	//	} else {
+
+//			$("#insertModal").modal();
+
+	//	}
+	}
+	
+
+	
+	
+	</script>
 </body>
 </html>

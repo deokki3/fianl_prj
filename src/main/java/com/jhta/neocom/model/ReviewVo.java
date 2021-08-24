@@ -1,6 +1,7 @@
 package com.jhta.neocom.model;
 
-import java.sql.Date;
+
+import java.sql.Timestamp;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,5 +21,5 @@ public class ReviewVo {
 	private int star;
 	private String review_img;
 	private String review_img_origin;
-	private Date regdate;
+	private Timestamp regdate;
 }

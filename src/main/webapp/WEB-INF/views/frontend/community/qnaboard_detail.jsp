@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -25,8 +26,8 @@
 	<script src="${pageContext.request.contextPath}/static/frontend/assets/js/modernizr.min.js"></script>
 <style>
 .table tbody tr td p {
-	margin-top: 50px;
-	margin-bottom: 50px;
+	margin-top: 30px;
+	margin-bottom: 30px;
 	margin-left: 100px;
 	margin-right: 100px;
 	vertical-align: middle;
@@ -99,7 +100,7 @@
 				</tbody>
 			</table>
 			
-			<div class="single-post-footer" style="margin-bottom:50px;">
+			<div class="single-post-footer" style="margin-bottom:30px;">
 				<div class="entry-navigation">
 					<div class="column text-left"></div>
 					<div class="column">
@@ -110,6 +111,24 @@
 					<div class="column text-right"></div>
 				</div>
 			</div>
+			
+			
+			<div class="row" style="margin-bottom:40px;">
+				<div style="margin-left:30px;">
+					<a class="btn btn-outline-secondary btn-sm" id="prevAtag" href="${pageContext.request.contextPath }/community/qnaboard_insertReply?qna_board_no=${map.qna_board_no}">
+						답변하기
+					</a>
+				</div>
+				<div class="ml-md-auto" style="margin-right:30px;">
+					<a class="btn btn-outline-secondary btn-sm" id="nextAtag" href="${pageContext.request.contextPath }/community/qnaboard_update?qna_board_no=${map.qna_board_no}">
+						수정
+					</a>
+					<a class="btn btn-outline-secondary btn-sm" id="nextAtag" href="#">
+						삭제
+					</a>
+				</div>
+			</div>
+			
 		</div>
 	</div>
 </div>

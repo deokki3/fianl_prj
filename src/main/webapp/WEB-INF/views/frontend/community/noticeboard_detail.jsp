@@ -27,8 +27,8 @@
 .table tbody tr td p {
 	margin-top: 50px;
 	margin-bottom: 50px;
-	margin-left: 100px;
-	margin-right: 100px;
+	margin-left: 150px;
+	margin-right: 150px;
 	vertical-align: middle;
 }
 </style>

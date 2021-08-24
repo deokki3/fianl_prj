@@ -28,9 +28,17 @@
     <script src="${pageContext.request.contextPath}/static/frontend/assets/js/modernizr.min.js"></script>
   </head>
   <!-- Body-->
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Noto+Serif+KR:wght@500&display=swap" rel="stylesheet">
   <style>
   	.fl {
   		float:left;
+  	}
+  	
+  	#cartform {
+  		font-family: 'Nanum Pen Script', cursive;
+font-family: 'Noto Serif KR', serif;
   	}
   </style>
 <body>
@@ -44,7 +52,7 @@
               <div class="toolbar-dropdown cart-dropdown widget-cart">
                 <!-- Entry-->
                 <div class="entry">
-                  <div class="entry-thumb"><a href="shop-single.html"><img src="img/shop/widget/04.jpg" alt="Product"></a></div>
+                  <div class="entry-thumb"><a href="shop-single.html"><img src="#" alt="Product"></a></div>
                   <div class="entry-content">
                     <h4 class="entry-title"><a href="shop-single.html">Canon EOS M50 Mirrorless Camera</a></h4><span class="entry-meta">1 x $910.00</span>
                   </div>
@@ -52,7 +60,7 @@
                 </div>
                 <!-- Entry-->
                 <div class="entry">
-                  <div class="entry-thumb"><a href="shop-single.html"><img src="img/shop/widget/05.jpg" alt="Product"></a></div>
+                  <div class="entry-thumb"><a href="shop-single.html"><img src="#" alt="Product"></a></div>
                   <div class="entry-content">
                     <h4 class="entry-title"><a href="shop-single.html">Apple iPhone X 256 GB Space Gray</a></h4><span class="entry-meta">1 x $1,450.00</span>
                   </div>
@@ -60,7 +68,7 @@
                 </div>
                 <!-- Entry-->
                 <div class="entry">
-                  <div class="entry-thumb"><a href="shop-single.html"><img src="img/shop/widget/06.jpg" alt="Product"></a></div>
+                  <div class="entry-thumb"><a href="shop-single.html"><img src="#" alt="Product"></a></div>
                   <div class="entry-content">
                     <h4 class="entry-title"><a href="shop-single.html">HP LaserJet Pro Laser Printer</a></h4><span class="entry-meta">1 x $188.50</span>
                   </div>
@@ -101,12 +109,10 @@
 	        <div class="table-responsive shopping-cart" id="checkbox_group">
 				 
 				<!-- /////////////////////////////////////// -->
-				<form method="post" id="cartForm" name="form" action="${pageContext.request.contextPath}/purchase1">
 					<table class="table">
 						<thead>	
 							<tr>
-								<th class="text-center"><input type="checkbox" name="allchk" id="allchk"
-									onClick="allchkFC(this.form);"></th>
+								<th class="text-center"><input type="checkbox" name="allchk" id="allchk"></th>
 								<th class="text-center">상품이미지</th>
 								<th class="text-center">상품명</th>
 								<th class="text-center">상품금액</th>
@@ -115,43 +121,39 @@
 								<th class="text-center">삭제</th>
 							</tr>
 						</thead>
-						<tbody id="tbody">
+						<tbody id="cart_list">
 					   	<c:forEach var="vo" items="${cart }">
-					   	
 							<tr>
-								<td class="text-center"><input type="checkbox" name="chkbox" class="normal" 
-								value="${vo.product_id }" ></td>
-									<td class="text-center text-lg"><img width=100; height=100; src="<c:url value='/upload/product_img/${vo.img_name_save}' />" alt="<c:url value='/upload/product_img/${vo.img_name_save}' />" /></td>
-									<td class="text-center text-lg">${vo.product_name }</td>
+								<td class="text-center"><input type="checkbox" name="cart_no" class="cart_nos" value="${vo.cart_no}" ></td>
+								<td class="text-center text-lg">
+									<img width=100; height=100; src="<c:url value='/upload/product_img/${vo.img_name_save}' />" alt="<c:url value='/upload/product_img/${vo.img_name_save}' />" />
+								</td>
+								<td class="text-center text-lg" style="font-size: 21px;">
+										${vo.product_name }
+									</td>
 									<td class="text-center text-lg">${vo.selling_price }</td>									
 									<td class="text-center">
 										<div class="count-input">
-						                	<p style="display:table;margin:0 auto;"><input style="width:22px; height:20px; border:1px solid #c8c8c8;"
-							                	class="fl" type="text" id="${vo.cart_no }" value="${vo.product_count }"
-							                	onfocus="chk_only('0');" size="2" maxlength="2">
-						                		<img class="fl" src="https://ftp.coitcom.co.kr/img/btn_cnt2.gif">
-						                	</p>
-						                	 <input style="margin-top:5px;" type="button" value="변경" onclick="update(${vo.cart_no})">	
-							                
-							                <a href="">	
-							                	<img src="https://ftp.coitcom.co.kr/img/cart_change_btn.png" style="margin-top:5px;">
-							                </a>	
-						                </div>
+											<p style="display:table;margin:0 auto;">
+												<input style="width:22px; height:20px; border:1px solid #c8c8c8;" class="cart_no_cnt fl" type="text"
+												id="product_count_${vo.cart_no}" name="product_count" value="${vo.product_count }" size="2" maxlength="2">
+												<img class="fl" src="https://ftp.coitcom.co.kr/img/btn_cnt2.gif" ">
+											</p>
+											<a href="javascript:update(${vo.cart_no})" >	
+												<img src="https://ftp.coitcom.co.kr/img/cart_change_btn.png" style="margin-top:5px;">
+											</a>	
+										</div>
 									</td>
+									<td class="text-center">${vo.product_count*vo.selling_price }</td>
 									<td class="text-center">
-										${vo.product_count*vo.selling_price }
-									</td>
-									 <td class="text-center"><a class="remove-from-cart" onclick="remove(${vo.cart_no})" 
-									 data-toggle="tooltip" title="삭제"><i class="icon-x"></i></a>
-									 </td>
-								
+										<a class="remove-from-cart" onclick="remove(${vo.cart_no})" data-toggle="tooltip" title="삭제"><i class="icon-x"></i></a>
+									</td>	
+								</form>
 							</tr>
-						
 						</c:forEach>
 						</tbody>
 		       		 </table>
 
-	       		 </form>	 
 	        <!-- /////////////////////////////////////// -->
 
 	      </div>
@@ -183,12 +185,20 @@
 	        <div id="ex1"></div>
 	        <div id="ex2"></div>	        
 	        
-	        <div class="column text-lg"><span class="text-muted">총액 :&nbsp;<input type="text" size="10" id="tot_sum" name="tot_sum" value="0" readonly>&nbsp;원 </span><span class="text-gray-dark"></span></div>
+	        <div class="column text-lg"><span class="text-muted">총액 :&nbsp;<input type="text" size="10" id="tot_sum" name="tot_sum" value="" readonly>&nbsp;원 </span><span class="text-gray-dark"></span></div>
 	      </div>
 	      <div class="shopping-cart-footer">
 	        <div class="column"><a class="btn btn-outline-secondary" href="shop-grid-ls.html"><i class="icon-arrow-left"></i>&nbsp;쇼핑 계속하기</a></div>
 	        <div class="column"><a class="btn btn-secondary" href="#" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-check-circle" data-toast-title="Your cart" data-toast-message="is updated successfully!">Update Cart</a>
-	         <input type="submit" form="cartForm" class="btn btn-primary" id="save" value="구매하기" type="submit" ></div>
+
+	        	<button class="btn btn-primary" id="purchase_btn" >구매하기</button>
+
+
+				<form id="cart_nos_form" method="post" action="${pageContext.request.contextPath}/cart/purchaseList">
+					<input type="submit" class="btn btn-primary" value="구매하기">
+				</form>
+			</div>
+
 	        
 	      </div>
 	      
@@ -198,7 +208,7 @@
 	      <div class="owl-carousel" data-owl-carousel="{ &quot;nav&quot;: false, &quot;dots&quot;: true, &quot;margin&quot;: 30, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:1},&quot;576&quot;:{&quot;items&quot;:2},&quot;768&quot;:{&quot;items&quot;:3},&quot;991&quot;:{&quot;items&quot;:4},&quot;1200&quot;:{&quot;items&quot;:4}} }">
 	        <!-- Product-->
 	        <div class="product-card">
-	          <div class="product-badge bg-danger">Sale</div><a class="product-thumb" href="shop-single.html"><img src="img/shop/products/01.jpg" alt="Product"></a>
+	          <div class="product-badge bg-danger">Sale</div><a class="product-thumb" href="shop-single.html"><img src="#" alt="Product"></a>
 	          <div class="product-card-body">
 	            <div class="product-category"><a href="#">Smart home</a></div>
 	            <h3 class="product-title"><a href="shop-single.html">무선 마우스</a></h3>
@@ -209,7 +219,7 @@
 	          <div class="product-button-group"><a class="product-button btn-wishlist" href="#"><i class="icon-heart"></i><span>Wishlist</span></a><a class="product-button btn-compare" href="#"><i class="icon-repeat"></i><span>Compare</span></a><a class="product-button" href="#" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-check-circle" data-toast-title="Product" data-toast-message="successfuly added to cart!"><i class="icon-shopping-cart"></i><span>To Cart</span></a></div>
 	        </div>
 	        <!-- Product-->
-	        <div class="product-card"><a class="product-thumb" href="shop-single.html"><img src="img/shop/products/11.jpg" alt="Product"></a>
+	        <div class="product-card"><a class="product-thumb" href="shop-single.html"><img src="#" alt="Product"></a>
 	          <div class="product-card-body">
 	            <div class="product-category"><a href="#">헤드폰</a></div>
 	            <h3 class="product-title"><a href="shop-single.html">헤드폰 W855BT Bluetooth</a></h3>
@@ -220,7 +230,7 @@
 	        <!-- Product-->
 	        <div class="product-card">
 	            <div class="rating-stars"><i class="icon-star filled"></i><i class="icon-star filled"></i><i class="icon-star filled"></i><i class="icon-star filled"></i><i class="icon-star filled"></i>
-	            </div><a class="product-thumb" href="shop-single.html"><img src="img/shop/products/06.jpg" alt="Product"></a>
+	            </div><a class="product-thumb" href="shop-single.html"><img src="#" alt="Product"></a>
 	          <div class="product-card-body">
 	            <div class="product-category"><a href="#">lg 모니터</a></div>
 	            <h3 class="product-title"><a href="shop-single.html">LG 최신모니터</a></h3>
@@ -229,7 +239,7 @@
 	          <div class="product-button-group"><a class="product-button btn-wishlist" href="#"><i class="icon-heart"></i><span>Wishlist</span></a><a class="product-button btn-compare" href="#"><i class="icon-repeat"></i><span>Compare</span></a><a class="product-button" href="#" data-toast data-toast-type="success" data-toast-position="topRight" data-toast-icon="icon-check-circle" data-toast-title="Product" data-toast-message="successfuly added to cart!"><i class="icon-shopping-cart"></i><span>To Cart</span></a></div>
 	        </div>
 	        <!-- Product-->
-	        <div class="product-card"><a class="product-thumb" href="shop-single.html"><img src="img/shop/products/07.jpg" alt="Product"></a>
+	        <div class="product-card"><a class="product-thumb" href="shop-single.html"><img src="#" alt="Product"></a>
 	          <div class="product-card-body">
 	            <div class="product-category"><a href="#">스피커</a></div>
 	            <h3 class="product-title"><a href="shop-single.html">최신 스피커</a></h3>
@@ -239,7 +249,7 @@
 	        </div>
 	        <!-- Product-->
 	        <div class="product-card">
-	          <div class="product-badge bg-secondary border-default text-body">Out of stock</div><a class="product-thumb" href="shop-single.html"><img src="img/shop/products/12.jpg" alt="Product"></a>
+	          <div class="product-badge bg-secondary border-default text-body">Out of stock</div><a class="product-thumb" href="shop-single.html"><img src="#" alt="Product"></a>
 	          <div class="product-card-body">
 	            <div class="product-category"><a href="#">컴퓨터</a></div>
 	            <h3 class="product-title"><a href="shop-single.html">시리즈 3</a></h3>
@@ -250,7 +260,7 @@
 	        <!-- Product-->
 	        <div class="product-card">
 	            <div class="rating-stars"><i class="icon-star filled"></i><i class="icon-star filled"></i><i class="icon-star filled"></i><i class="icon-star filled"></i><i class="icon-star"></i>
-	            </div><a class="product-thumb" href="shop-single.html"><img src="img/shop/products/10.jpg" alt="Product"></a>
+	            </div><a class="product-thumb" href="shop-single.html"><img src="#" alt="Product"></a>
 	          <div class="product-card-body">
 	            <div class="product-category"><a href="#">A &amp; B</a></div>
 	            <h3 class="product-title"><a href="shop-single.html">세트</a></h3>
@@ -260,7 +270,7 @@
 	        </div>
 	        <!-- Product-->
 	        <div class="product-card">
-	          <div class="product-badge bg-danger">Sale</div><a class="product-thumb" href="shop-single.html"><img src="img/shop/products/09.jpg" alt="Product"></a>
+	          <div class="product-badge bg-danger">Sale</div><a class="product-thumb" href="shop-single.html"><img src="#" alt="Product"></a>
 	          <div class="product-card-body">
 	            <div class="product-category"><a href="#">램</a></div>
 	            <h3 class="product-title"><a href="shop-single.html">16gb 램</a></h3>
@@ -279,82 +289,142 @@
     <!-- Back To Top Button--><a class="scroll-to-top-btn" href="#"><i class="icon-chevron-up"></i></a>
     <!-- Backdrop-->
     <div class="site-backdrop"></div>
+
+
     <!-- JavaScript (jQuery) libraries, plugins and custom scripts-->
+	<script src="${pageContext.request.contextPath}/static/frontend/assets/js/jquery-3.6.0.min.js"></script>
     <script src="${pageContext.request.contextPath}/static/frontend/assets/js/vendor.min.js"></script>
     <script src="${pageContext.request.contextPath}/static/frontend/assets/js/scripts.min.js"></script>
 
-<script type="text/javascript" src="${pageContext.request.contextPath}/static/frontend/assets/js/jquery-3.6.0.min.js"></script>
-<script type="text/javascript">
-	$("#checkbox_group").on("click", "#allchk",function(){
-	var checked=$(this).is(":checked");	
-		if(checked){
-			$(this).parents("#checkbox_group").find('input').prop("checked", true);
-		}else{
-			$(this).parents("#checkbox_group").find('input').prop("checked", false);
-		}
-	});
-	// 체크박스 개별 선택
-	$("#checkbox_group").on("click", ".normal", function() {
-	    var is_checked = true;
-	    $("#checkbox_group .normal").each(function(){
-	        is_checked = is_checked && $(this).is(":checked");
-	    });
-	    $("#allchk").prop("checked", is_checked);
-	    update(999);
-	});
+	<script type="text/javascript">
+		$(function(){
+			$("#checkbox_group").on("click", "#allchk",function(){
+				checked=$(this).is(":checked");	
+				if(checked){
+					$('input[name="cart_no"]').prop("checked", true).change();
+				}else{
+					$('input[name="cart_no"]').prop("checked", false).change();
+				}
+			});
+		
+			$("#checkbox_group").on("change","input[name='cart_no']",function(){ 
+				var sum = 0;
+				var checkbox = $("input[name=cart_no]:checked");
+				var cart_nos = new Array();
+				// 체크된 체크박스 값을 가져온다
+				checkbox.each(function(i) {
+					// 총액 계산
+					let selling_price=parseInt(checkbox.parent().parent().eq(i).children().eq(5).text());
+					sum += selling_price;
 
-		
-		
-		function list(mem_no){
-			$("#tbody").empty();
+					// 가져온 값을 배열에 담는다.
+					console.log("장바구니 번호:"+$(this).val());
+					cart_nos.push($(this).val());
+				});
+
+				$('#tot_sum').val(sum);
+				console.log("장바구니 번호 목록 :" + cart_nos);
+				$("#cart_nos_form").find(':hidden').remove();
+				$.each(cart_nos,function(index,item){
+					console.log("배열안의 값들 : "+item);
+					$("#cart_nos_form").append(
+						`<input type="hidden" name="cart_nos" value="\${item}">`
+					);
+
+				});
+			});
+
+		});
+
+				
+
+				// 구매하기 버튼 클릭했을때
+		/*		$("#purchase_btn").on("click",function(){
+					console.log("버튼클릭!");
+					if(cart_vo_list==null)
+						alert("구입할 목록을 선택해 주세요.");
+					
+					$.ajax({
+						url:"${pageContext.request.contextPath}/purchase1", // 어디로 보낼지 모르겠어서...
+						data:{"id": "abc"},
+						dataType: "json", // 서버(컨트롤러)에서 파라미터를 아마 List<CartVo> cart_vo_list 이렇게 받음될거에여
+						type: "post",
+						success:function(data){ // 통신에 성공했을 때 실행하는 callback함수, data는 controller에서 설정해준 @ResponseBody 타입으로 와여...
+							console.log(data);
+							//location.href("url");     // 3개 다 페이지 이동할 때 쓰는건데 자세한건 구글링해보셈 ㅋ
+							// location.replace("url");
+							// history.pushState(""); 
+						},
+						error:function(request, status, error){ // 서버랑 통신하는거 실패했을때 실행하는 callback함수
+							alert("에러 발생"+error);
+							alert("code:"+request.status+"\n"+"error:"+error);
+
+						},
+						complete:function(){ // success나 error callback함수가 실행되고 난 후, 실행되는 callback 함수. 비워도 상관없음
+
+						}
+					}); */
+
+	
+		function list(){
+			$("#cart_list").empty();
 			$.ajax({
-				url:"${pageContext.request.contextPath}/cart2?mem_no="+mem_no,
+				url:"${pageContext.request.contextPath}/cart2",
 				dataType:"json",
 				success:function(data){
-					//data.list[0].num
+					data.list[0].num
 					$(data.list).each(function(i,d){
+						let product_id=d.product_id;
 						let product_name=d.product_name;
 						let selling_price=d.selling_price;
 						let product_count=d.product_count;
 						let img_name_save=d.img_name_save;
 						cart_no=d.cart_no;
-
-							html =	"<tr>";
-							html +=	"<td class='text-center'><input type='checkbox' class='normal' checked='checked'></td>";
-							html +=		"<td class='text-center text-lg'><img src='static/frontend/assets/img/"+img_name_save+"' width='100' height='100'></td>";
-							html +=		"<td class='text-center text-lg'>"+product_name+"</td>";
-							html +=		"<td class='text-center text-lg'>"+selling_price+"</td>";
-							
-							
-							html +=		"<td class='text-center'>";
-							html +=		"<div class='count-input'>";
-							html +=	    	"<p style=margin-bottom:0><input type='text' value='"+product_count+"' size='2' maxlength='2'>";
-							html +=	    	"</p>";
-							html +=	        "<a href='#'>";
-							html +=	        	"<img src='https://ftp.coitcom.co.kr/img/cart_change_btn.png' style='margin-top:5px;'>";
-							html +=	         "</a>";
-							html +=	     "</div>";
-							html +=	"</td>";
-							html +=	"<td class='text-center'>";
-							html +=		product_count+"x"+selling_price +"="+ product_count*selling_price;
-							html +=		"</td>";
-							html +=		"<td class='text-center'><a class='remove-from-cart'";
-							html +=		"href='${pageContext.request.contextPath }/deleteCart?cart_no="+cart_no+ "data-toggle='tooltip' title='Remove item'><i class='icon-x'></i></a>";
-							html +=	"<input type='button' value='삭제' onclick='remove("+cart_no + ")'></td>";
+							$("#cart_list").append(
+							`		
+							<tr>
+									<td class="text-center"><input type="checkbox" name="cart_no" class="cart_nos" value="\$cart_no}" ></td>
+									<td class="text-center text-lg">
+										<img width=100; height=100; src="<c:url value='/upload/product_img/\${img_name_save}' />" alt="<c:url value='/upload/product_img/\${img_name_save}' />" />
+									</td>
+									<td class="text-center text-lg" style="font-size: 21px;">
+										<input type="hidden" name="product_name" class="product_names" value="\${product_name}">
+										\${product_name }
+									</td>
+									<td class="text-center text-lg">\${selling_price }</td>									
+									<td class="text-center">
+										<div class="count-input">
+											<p style="display:table;margin:0 auto;">
+												<input style="width:22px; height:20px; border:1px solid #c8c8c8;" class="cart_no_cnt fl" type="text"
+												id="product_count_\${cart_no}" name="product_count" value="\${product_count }" size="2" maxlength="2">
+												<img class="fl" src="https://ftp.coitcom.co.kr/img/btn_cnt2.gif" ">
+											</p>
+											<a href="javascript:update(\${cart_no})" >	
+												<img src="https://ftp.coitcom.co.kr/img/cart_change_btn.png" style="margin-top:5px;">
+											</a>	
+										</div>
+									</td>
+									<td class="text-center">\${product_count*selling_price }</td>
+									<td class="text-center">
+										<a class="remove-from-cart" onclick="remove(\${cart_no})" data-toggle="tooltip" title="삭제"><i class="icon-x"></i></a>
+									</td>	
+							</tr>					
+							`
+						);
 						
-						html +=	"</tr>";
-							
-							$(".table").append(html);
 					});
 				}
 			});
 		}
 
 		function update(cart_no){
-			var product_count=$("#"+cart_no).val();	
+			var product_count=$("#product_count_" + cart_no).val();	
+			console.log(product_count , cart_no)
 				$.ajax({
-					url:"${pageContext.request.contextPath}/updateC?product_count="+product_count+"&cart_no="+cart_no,
+					url:"${pageContext.request.contextPath}/updateC",
 					dataType:"json",
+					data:{"product_count" : product_count, "cart_no" : cart_no},
+					Type:'post',
 					success:function(data){
 						alert('success');
 						
@@ -363,7 +433,7 @@
 				});
 
 		};
-		
+
 		function remove(cart_no){
 			$.ajax({
 				url:"${pageContext.request.contextPath}/deleteC?cart_no="+cart_no,
@@ -375,125 +445,7 @@
 				}
 			});
 		};
-		function allchkFC(frm){
-			var sum=0;
-			 var count = frm.chkbox.length;
-			if(frm.allchk.checked == true){
-				 for(var i=0; i < count; i++ ){
-					 sum+= parseInt(frm.chkbox[i].value);
-				 }
-				document.querySelector('#tot_sum').value=sum;
-			}else{
-				document.querySelector('#tot_sum').value='0';
-			}
-		}
-		
-		$("input[name='chkbox']").click(function(){
 
-			var frm=document.getElementById("cartForm");
-		   var sum = 0;
-		   var count = frm.chkbox.length;
-		  
-		   for(var i=0; i < count; i++ ){
-
-			   if( frm.chkbox[i].checked == true ){
-				   sum += parseInt(frm.chkbox[i].value);
-
-			   }
-			   
-		   }
-		   var cnt=$(this).parent().parent().find(".fl");
-		   	console.log(cnt);
-			$(cnt).prop("name","cnt");
-
-
-			document.querySelector('#tot_sum').value=sum;
-		});
-		
-		
-		
-
-		
-		
-		$("#selectBtn").click(function(){ 
-			
-			var rowData = new Array();
-			var tdArr = new Array();
-			var checkbox = $("input[name=chkbox]:checked");
-			
-			// 체크된 체크박스 값을 가져온다
-			checkbox.each(function(i) {
-	
-				// checkbox.parent() : checkbox의 부모는 <td>이다.
-				// checkbox.parent().parent() : <td>의 부모이므로 <tr>이다.
-				var tr = checkbox.parent().parent().eq(i);
-				var td = tr.children();
-				
-				// 체크된 row의 모든 값을 배열에 담는다.
-				rowData.push(tr.text());
-				
-				// td.eq(0)은 체크박스 이므로  td.eq(1)의 값부터 가져온다.
-				var no = td.eq(1).text()+", "
-				var userid = td.eq(2).text()+", ";
-				var name = td.eq(3).text()+", ";
-				var email = td.eq(4).text()+", ";
-				
-				// 가져온 값을 배열에 담는다.
-				tdArr.push(no);
-				tdArr.push(userid);
-				tdArr.push(name);
-				tdArr.push(email);
-				
-				//console.log("no : " + no);
-				//console.log("userid : " + userid);
-				//console.log("name : " + name);
-				//console.log("email : " + email);
-			});
-			
-			$("#ex1").html(" * 체크된 Row의 모든 데이터 = "+rowData);	
-			$("#ex2").html(tdArr);	
-		});
-
-/*		 $(document).ready(function(){
-	            
-	            $("#save").click(function(e) {
-	            	e.preventDefault();
-	                //배열 선언
-	                var cartArray = [];
-
-	                $('input[name="chkbox"]:checked').each(function(i){//체크된 리스트 저장
-	                	cartArray.push($(this).val());
-	                	  console.log(cartArray)
-	                });
-	                var objParams = {
-	                        "cartList" : cartArray        //장바구니 배열 저장
-	                    };
-	                
-	                //ajax 호출
-	                $.ajax({
-	                    url         :   "${pageContext.request.contextPath}/purchase1",
-	                    dataType    :   "json",
-	                    contentType :   "application/x-www-form-urlencoded; charset=UTF-8",
-	                    type        :   "post",
-	                    data        :   objParams,
-	                    success     :   function(retVal){
-	 
-	                        if(retVal.code == "OK") {
-	                            alert(retVal.message);
-	                        } else {
-	                            alert(retVal.message);
-	                        }
-	                         
-	                    },
-	                    error       :   function(request, status, error){
-	                    	alert("code = "+ request.status +  " error = " + error);
-	                    	console.log("AJAX_ERROR");
-	                    }
-	                });
-	                
-	            })
-	            
-	        });*/
 		
 	</script>  
 </body>

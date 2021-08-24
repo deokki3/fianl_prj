@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -24,6 +25,20 @@
 	<link id="mainStyles" rel="stylesheet" media="screen" href="${pageContext.request.contextPath}/static/frontend/assets/css/styles.min.css">
 	<!-- Modernizr-->
 	<script src="${pageContext.request.contextPath}/static/frontend/assets/js/modernizr.min.js"></script>
+<style>
+a {
+	text-decoration: none;
+	color: black;
+} 
+.table {
+	margin-left: auto;
+	margin-right: auto;
+}
+.table tbody tr td{
+	height: 50px;
+	vertical-align: middle;
+}
+</style>
 </head>
 <body>
 
@@ -35,7 +50,7 @@
 <div class="page-title">
 	<div class="container">
 		<div class="column">
-			<h1>자유게시판</h1>
+			<h1>자유게시판 </h1>
 		</div>
 		<div class="column">
 			<ul class="breadcrumbs">

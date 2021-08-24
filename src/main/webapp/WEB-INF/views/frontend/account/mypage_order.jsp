@@ -65,7 +65,8 @@
 	<div class="col-lg-9 col-md-8 order-md-2">
 		<h6 class="text-muted text-lg text-uppercase">주문내역</h6>
 		<hr class="margin-bottom-1x">
-		<div class="table-responsive wishlist-table mb-0">
+		<!--  <div class="table-responsive wishlist-table mb-0">-->
+		<div class="table-responsive mb-0">
 			<table class="table">
 				<thead>
 					<tr>
@@ -78,17 +79,29 @@
 						<th class="text-center"></th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody id="myOrderList">
 						<c:forEach var="vo" items="${myOrderList }">
-				   	
+				   	<!--  
 						<tr>
-											<td class="text-center text-lg">${vo.order_no }</td>
+								<td class="text-center text-lg">${vo.order_no }</td>
 								<td class="text-center text-lg"><img width=100; height=100; src="<c:url value='/upload/product_img/${vo.img_name_save}' />" alt="<c:url value='/upload/product_img/${vo.img_name_save}' />" /></td>
 								<td class="text-center text-lg">${vo.product_name }</td>
 								<td class="text-center text-lg">${vo.order_date }</td>
 								<td class="text-center text-lg">${vo.tot_price }</td>
 								<td class="text-center text-lg">${vo.order_status }</td>
-								<c:if test="${vo.order_status !='배송 완료'}">
+								<c:if test="${vo.order_status =='결제 대기'}">
+									<td class="text-center text-lg"><a class="btn btn-sm btn-outline-warning" href="#" style=margin-bottom:5px;>결제하기</a>
+										<a class="btn btn-sm btn-outline-info" id="order_cc" onclick="delchk(${vo.order_no})" >주문취소</a></td>
+									<td class="text-center text-lg"></td>
+									
+								</c:if>
+								<c:if test="${vo.order_status =='배송 준비중'}">
+									<td class="text-center text-lg"><a class="btn btn-sm btn-outline-warning" href="#" style=margin-bottom:5px;>주문조회</a>
+										<a class="btn btn-sm btn-outline-info" id="order_cc2" href="#">주문취소</a></td>
+									<td class="text-center text-lg"></td>
+									
+								</c:if>
+								<c:if test="${vo.order_status =='배송중'}">
 									<td class="text-center text-lg"><a class="btn btn-sm btn-outline-warning" href="#" style=margin-bottom:5px;>배송조회</a>
 										<a class="btn btn-sm btn-outline-info" href="#">주문취소</a></td>
 									<td class="text-center text-lg"></td>
@@ -100,9 +113,15 @@
 										<a class="btn btn-sm btn-outline-success" href="#">후기 작성하기</a></td>
 									<td class="text-center text-lg"></td>
 								</c:if>
-
-						</tr>
-					
+								<c:if test="${vo.order_status =='주문 취소'}">
+									<td class="text-center text-lg">
+										<a class="btn btn-sm btn-outline-info" href="#" style=margin-bottom:5px;>취소 상세 보기</a>
+										
+									<td class="text-center text-lg"></td>
+								</c:if>
+								
+						</tr>-->
+						<input type="text" name="order_no" value="${vo.order_no }">
 					</c:forEach>
 					<tr>	
 						<td>
@@ -136,5 +155,188 @@
 	<!-- JavaScript (jQuery) libraries, plugins and custom scripts-->
 	<script src="${pageContext.request.contextPath}/static/frontend/assets/js/vendor.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/frontend/assets/js/scripts.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/frontend/assets/js/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+	<script type="text/javascript">
+	
+	function order_cc(order_no){
+		var result = confirm("주문을 취소하시겠습니까?");
+		if (result) {
+			$.ajax({
+				url:"${pageContext.request.contextPath}/OrderCC",
+				dataType:"json",
+				data:{"order_no" : order_no},
+				Type:'post',
+				success:function(data){
+				
+					alert("주문이 취소되었습니다.");
+					list();
+				},error:function(request, status, error){
+
+					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+
+				}
+			});
+		} else {
+			   event.preventDefault ();
+		}
+		
+	};
+	
+	function order_payment_cc(order_no){
+		var result = confirm("주문 취소 페이지로 이동하시겠습니까?");
+		if (result) {
+			$(".table-responsive").empty();
+			$.ajax({
+				url:"${pageContext.request.contextPath}/OrderPaymentCC",
+				dataType:"json",
+				data:{"order_no" : order_no},
+				Type:'post',
+				success:function(data){
+					alert("이동완료");
+				},error:function(request, status, error){
+
+					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+
+				}
+			});
+		} else {
+			   event.preventDefault ();
+		}
+		
+	};
+	
+	function purchase(order_no){
+		location.href="${pageContext.request.contextPath}/purchase2?order_no="+order_no;
+	}
+
+	
+	window.onload = function () { 
+		list();
+	}
+
+	
+	
+	function list(){
+		console.log("here");
+		$("#myOrderList").empty();
+		$.ajax({
+			url:"${pageContext.request.contextPath}/account/mypage_order2",
+			dataType:"json",
+			success:function(data){
+				console.log("success");
+				data.myOrderList[0].num
+				$(data.myOrderList).each(function(i,d){
+						let order_no=d.order_no;
+						let product_name=d.product_name;
+						let img_name_save=d.img_name_save;
+						let order_date=moment(d.order_date).format("YYYY-MM-DD");
+						let product_count=d.product_count;
+						let tot_price=d.tot_price;
+						let order_status=d.order_status;
+						if(order_status=="결제 대기"){
+							$("#myOrderList").append(
+								`
+								<tr>
+									<td class="text-center text-lg">\${order_no }</td>
+									<td class="text-center text-lg"><img width=100; height=100; src="<c:url value='/upload/product_img/\${img_name_save}' />" alt="<c:url value='/upload/product_img/\${img_name_save}' />" /></td>
+									<td class="text-center text-lg">\${product_name }</td>
+									<td class="text-center text-lg">\${order_date }</td>
+									<td class="text-center text-lg">\${tot_price }</td>
+									<td class="text-center text-lg">\${order_status }</td>
+									
+									<td class="text-center text-lg"><a class="btn btn-sm btn-outline-warning" onclick="purchase(\${order_no})" style=margin-bottom:5px;>결제하기</a>
+									<a class="btn btn-sm btn-outline-info" id="order_cc" onclick="order_cc(\${order_no})" >주문취소</a></td>
+									<td class="text-center text-lg"></td>
+								</tr>
+								`
+							);
+						}
+						if(order_status=="배송 완료"){
+							$("#myOrderList").append(
+								`
+								<tr>
+									<td class="text-center text-lg">\${order_no }</td>
+									<td class="text-center text-lg"><img width=100; height=100; src="<c:url value='/upload/product_img/\${img_name_save}' />" alt="<c:url value='/upload/product_img/\${img_name_save}' />" /></td>
+									<td class="text-center text-lg">\${product_name }</td>
+									<td class="text-center text-lg">\${order_date }</td>
+									<td class="text-center text-lg">\${tot_price }</td>
+									<td class="text-center text-lg">\${order_status }</td>
+	
+									<td class="text-center text-lg"><a class="btn btn-sm btn-outline-warning" href="#" style=margin-bottom:5px;>배송조회</a>
+										<a class="btn btn-sm btn-outline-info" href="#" style=margin-bottom:5px;>교환,반품 신청</a>
+										<a class="btn btn-sm btn-outline-success" href="#">후기 작성하기</a></td>
+									<td class="text-center text-lg"></td>
+								</tr>
+								`
+							);
+						}
+						if(order_status=="배송 준비중"){
+							$("#myOrderList").append(
+								`
+								<tr>
+									<td class="text-center text-lg">\${order_no }</td>
+									<td class="text-center text-lg"><img width=100; height=100; src="<c:url value='/upload/product_img/\${img_name_save}' />" alt="<c:url value='/upload/product_img/\${img_name_save}' />" /></td>
+									<td class="text-center text-lg">\${product_name }</td>
+									<td class="text-center text-lg">\${order_date }</td>
+									<td class="text-center text-lg">\${tot_price }</td>
+									<td class="text-center text-lg">\${order_status }</td>
+									
+									<td class="text-center text-lg"><a class="btn btn-sm btn-outline-warning" href="#" style=margin-bottom:5px;>주문조회</a>
+										<a class="btn btn-sm btn-outline-info" id="order_payment_cc" onclick="order_payment_cc(\${order_no})">주문취소</a></td>
+									<td class="text-center text-lg"></td>
+								</tr>
+								`
+							);
+						}
+						
+						if(order_status=="배송중"){
+							$("#myOrderList").append(
+								`
+								<tr>
+									<td class="text-center text-lg">\${order_no }</td>
+									<td class="text-center text-lg"><img width=100; height=100; src="<c:url value='/upload/product_img/\${img_name_save}' />" alt="<c:url value='/upload/product_img/\${img_name_save}' />" /></td>
+									<td class="text-center text-lg">\${product_name }</td>
+									<td class="text-center text-lg">\${order_date }</td>
+									<td class="text-center text-lg">\${tot_price }</td>
+									<td class="text-center text-lg">\${order_status }</td>
+										
+									<td class="text-center text-lg"><a class="btn btn-sm btn-outline-warning" href="#" style=margin-bottom:5px;>배송조회</a>
+										<a class="btn btn-sm btn-outline-info" href="#">주문취소</a></td>
+									<td class="text-center text-lg"></td>
+								</tr>
+								`
+							);
+						}
+
+						if(order_status=="취소 완료"){
+							$("#myOrderList").append(
+								`
+								<tr>
+									<td class="text-center text-lg">\${order_no }</td>
+									<td class="text-center text-lg"><img width=100; height=100; src="<c:url value='/upload/product_img/\${img_name_save}' />" alt="<c:url value='/upload/product_img/\${img_name_save}' />" /></td>
+									<td class="text-center text-lg">\${product_name }</td>
+									<td class="text-center text-lg">\${order_date }</td>
+									<td class="text-center text-lg">\${tot_price }</td>
+									<td class="text-center text-lg">\${order_status }</td>
+										
+									<td class="text-center text-lg">
+										<a class="btn btn-sm btn-outline-info" href="#" style=margin-bottom:5px;>취소 상세 보기</a>
+									<td class="text-center text-lg"></td>
+								</tr>
+								`
+							);
+						}
+				});
+			},error:function(request, status, error){
+
+				alert("code:"+request.status+"error:"+error);
+
+			}
+		});
+	}
+
+
+	</script>
 </body>
 </html>

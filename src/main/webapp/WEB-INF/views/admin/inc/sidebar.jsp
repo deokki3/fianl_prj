@@ -111,6 +111,11 @@
 											<a href="${pageContext.request.contextPath }/admin/order/orderlist" class="menu-link"><div class="menu-text">전체 주문 목록</div></a>
 										</a>
 									</div>
+									<div class="menu-item has-sub">
+										<a href="javascript:;" class="menu-link">
+											<a href="${pageContext.request.contextPath }/admin/order/paymentlist" class="menu-link"><div class="menu-text">전체 결제 목록</div></a>
+										</a>
+									</div>
 								</div>
 							</div>
 							<div class="menu-item has-sub">

@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jhta.neocom.mapper.MemberMapper">
+
 	<insert id="insert" parameterType="com.jhta.neocom.model.MemberVo">
-		insert into member_Info(id,password,nickname,name,phone,birth_date,reg_date,mem_no)
-		values (#{id},#{password},#{nickname},#{name},#{phone},#{birth_date},now(),#{mem_no})
+		<selectKey keyProperty="mem_no" order="BEFORE" resultType="int">
+			select get_seq('memberSeq') as mem_no from dual
+		</selectKey>
+		insert into member_Info(mem_no,id,password,nickname,name,phone,birth_date,reg_date)
+		values (#{mem_no},#{id},#{password},#{nickname},#{name},#{phone},#{birth_date},now())
+	</insert>
+
+	<insert id="insert_role" parameterType="int">
+		insert into member_Info_member_role values(#{mem_no},3);
 	</insert>
 
 	<select id="select" parameterType="String" resultType="com.jhta.neocom.model.MemberVo">
-		select * from member_Info where id = #{id}
+		select m.*, r.* from member_Info m join member_Info_member_role r where id = #{id}
 	</select>
 
 	<select id="isMember" parameterType="hashmap" resultType="com.jhta.neocom.model.MemberVo">

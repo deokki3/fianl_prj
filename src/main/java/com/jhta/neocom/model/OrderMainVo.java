@@ -26,7 +26,8 @@ public class OrderMainVo {
 	private String od_cc_status;
 	private String delivery_status;
 	private String request_item;
-
+	
+	private String order_detail_no;
 	private String img_name_save;
 	private String product_name;
 }

@@ -14,8 +14,12 @@ public interface OrderMainMapper {
 
 	OrderMainVo searchRndNo(HashMap<String, Object> map);
 
-	int updateno(HashMap<String, Object> map);
+	int update(HashMap<String, Object> map);
 
+	int updateno(HashMap<String, Object> map);
+	
+	int updateCC(HashMap<String, Object> map);
+	
 	List<OrderMainVo> list();
 
 	List<OrderMainVo> myOrderList(int mem_no);

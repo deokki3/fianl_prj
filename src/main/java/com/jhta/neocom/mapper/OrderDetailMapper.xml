@@ -6,12 +6,12 @@
   	
   	<insert id="insert" parameterType="com.jhta.neocom.model.OrderDetailVo">
   		insert into order_detail values(get_seq('order_detail_Seq'),#{mem_no},
-  		#{product_id},#{order_no},#{product_count})
+  		#{product_id},#{order_no},#{product_count},#{order_price})
   	</insert>
   	
  	<delete id="delete" parameterType="int">
  		delete from order_detail where order_detail_no=#{order_detail_no}
  	</delete> 
-
+	
  	
   </mapper>

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!-- header -->
 <header class="site-header navbar-sticky">
 <div class="topbar d-flex justify-content-between">
@@ -52,10 +53,7 @@
 	
 <!-- 툴바 -->
 	<div class="toolbar d-flex">
-
-		
-		<c:choose>
-			<c:when test="${id == null }">
+				<sec:authorize access="isAnonymous()">
 				<div class="toolbar-item">
 					<a href="${pageContext.request.contextPath }/account/join1">
 						<div><i class="icon-pocket"></i><span class="text-label">회원가입</span></div>
@@ -66,11 +64,14 @@
 						<div><i class="icon-user"></i><span class="text-label">로그인</span></div>
 					</a>
 				</div>
-			</c:when>
-			<c:otherwise>
+				</sec:authorize>
+
+				<sec:authorize access="isAuthenticated()">
+				<c:set var="permission" value="true" scope="session"/>
 				<div class="toolbar-item">
 					<a href="#">
-						<div><i class="icon-user"></i><span class="text-label">${id }님</span></div>
+						<div><i class="icon-user"></i><span class="text-label"><sec:authentication property="principal.memberVo.id"/>님
+						</span></div>
 					</a>
 				</div>
 				<div class="toolbar-item">
@@ -83,11 +84,10 @@
 						<div><i class="icon-box"></i><span class="text-label">마이페이지</span></div>
 					</a>
 				</div>
-			</c:otherwise>
-		</c:choose>
-		
+				</sec:authorize>
+
 		<div class="toolbar-item">
-			<a class="" href="${pageContext.request.contextPath }/cart?id=${sessionScope.id}">
+			<a class="" href="${pageContext.request.contextPath }/member/cart">
 				<div>
 					<span class="cart-icon">
 						<i class="icon-shopping-cart"></i>
@@ -215,9 +215,7 @@
 	<!-- navbar 툴바 -->
 	<div class="toolbar">
 		<div class="toolbar-inner">
-
-			<c:choose>
-				<c:when test="${id == null }">
+				<sec:authorize access="isAnonymous()">
 					<div class="toolbar-item">
 						<a href="${pageContext.request.contextPath }/account/join1">
 							<div><i class="icon-pocket"></i><span class="text-label">회원가입</span></div>
@@ -228,11 +226,12 @@
 							<div><i class="icon-user"></i><span class="text-label">로그인</span></div>
 						</a>
 					</div>
-				</c:when>
-				<c:otherwise>
+				</sec:authorize>
+
+				<sec:authorize access="isAuthenticated()">
 					<div class="toolbar-item">
 						<a href="#">
-							<div><i class="icon-user"></i><span class="text-label">${id }님</span></div>
+							<div><i class="icon-user"></i><span class="text-label"><sec:authentication property="principal.memberVo.id"/>님</span></div>
 						</a>
 					</div>
 					<div class="toolbar-item">
@@ -245,8 +244,8 @@
 							<div><i class="icon-box"></i><span class="text-label">마이페이지</span></div>
 						</a>
 					</div>
-				</c:otherwise>
-			</c:choose>
+				</sec:authorize>
+
 
 			<div class="toolbar-item">
 				<a class="" href="${pageContext.request.contextPath }/cart?id=${sessionScope.id}">
@@ -296,7 +295,6 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/static/frontend/assets/js/jquery-3.6.0.min.js"></script>
 <script>
 	let pageName = location.pathname.split("/");
-	console.log(pageName);
 	let pageIndex = pageName[2];
 	if(pageIndex == ''){
 		$("#home-li").addClass("active");

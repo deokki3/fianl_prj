@@ -78,7 +78,8 @@
                   on aa.product_id= bb.product_id, 
   				(SELECT @ROWNUM := 0) R
 		<include refid="cate" />
-    <![CDATA[	)a  where img_category='main' and rnum>=#{startRow} and rnum<=#{endRow} ]]>
+		)a 
+                 where img_category='main'
 	</select>
 
 	<update id="update" parameterType="ProductVo">
