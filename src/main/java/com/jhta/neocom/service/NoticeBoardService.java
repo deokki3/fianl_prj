@@ -48,4 +48,9 @@ public class NoticeBoardService {
 	public NoticeBoardVo next(int n_board_no) {
 		return mapper.next(n_board_no);
 	}
+	
+	
+	public List<HashMap<String,Object>> nn_list(HashMap<String,Object> nn_map) {
+		return mapper.nn_list(nn_map);
+	}
 }

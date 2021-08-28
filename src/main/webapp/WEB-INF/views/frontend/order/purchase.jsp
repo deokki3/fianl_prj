@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>product.jsp</title>
+<title>neocom</title>
 	<script type="text/javascript"
 		src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 	<script type="text/javascript"
@@ -88,29 +88,34 @@
 	       	    	<c:choose>
 	       	    
 		       	    	<c:when test="${!empty purchaseList }">
-		       	  
+		       	  			
+		       	  			
 		       	    		<c:forEach var="vo" items="${purchaseList }"  varStatus="i">
 			       	    		<tr>	
 			       	    			<td><img width=45; height=45; src="<c:url value='/upload/product_img/${vo.img_name_save}' />" alt="<c:url value='/upload/product_img/${vo.img_name_save}' />" /></td>
 				       	    		<td>${vo.product_name }</td>
-				       	    		<td>${vo.selling_price }</td>
+				       	    		<td>${vo.selling_price } 원</td>
 				       	    		<td>${cnt[i.index] }</td>
-				       	    		<td>${vo.selling_price * vo.product_count }</td>
+				       	    		<td>${vo.selling_price * cnt[i.index]} 원</td>
 				       	    		
 			       	    		</tr>
+			       	    		<c:set var= "total" value="${total + vo.selling_price * cnt[i.index] }"/>
 			       	    		<input type="hidden" name="product_id" value="${vo.product_id }">
 			       	    		<input type="hidden" name="product_count" value="${cnt[i.index] }">
+			       	    		<input type="hidden" name="order_price" value="${vo.selling_price*cnt[i.index] }">
 			       	    	</c:forEach>
+			       	    	
 			       	    		
 		       	    	</c:when>
 		       	        	<c:otherwise>
 			       	    	<tr>
-			       	    		<td><img width=45; height=45; src="<c:url value='/upload/product_img/${ img_name_save}' />" alt="<c:url value='/upload/product_img/${img_name_save}' />" /></td>
+			       	    		<td><img width=45; height=45; src="<c:url value='/upload/product_img/${img_name_save}' />" alt="<c:url value='/upload/product_img/${img_name_save}' />" /></td>
 			       	    		<td>${product_name }</td>
 			       	    		<td>${selling_price }</td>
 			       	    		<td>${product_count }</td>
 			       	    		<td>${selling_price * product_count }</td>
 			       	    	</tr>
+			       	    	<c:set var= "total" value="${total + selling_price * product_count }"/>
 		       	    	</c:otherwise>
 	       	    	</c:choose>
 	            </thead>
@@ -135,9 +140,12 @@
 				<h4>주문 정보</h4>
 
 					<input type="hidden" name="product_id" value="${product_id }">
-					<input type="hidden" name="tot_price" value="${selling_price*product_count }">
-					<!--  <input type="hidden" name="product_id" value="${product_id }">-->
+					<input type="hidden" name="order_price" value="${selling_price*product_count }">
+					<input type="hidden" name="payment_status" value="결제 전">
 					<input type="hidden" name="product_count" value="${product_count }">
+					<input type="hidden" name="order_status" value="결제 대기">
+					<input type="hidden" name="tot_price" value="${total}">
+
 					
 					
 					<hr class="padding-bottom-1x">
@@ -267,8 +275,8 @@
 						<table class="table">
 							<tr>
 								<td>총 결제금액 : </td>
-								<td class="text-gray-dark">${selling_price*product_count } 원</td>
-							</tr>
+								<td class="text-gray-dark">${total} 원</td>
+							</tr>		
 							<tr>
 								<td>배송비(Shipping):  </td>
 								<td class="text-gray-dark">0원</td>
@@ -417,6 +425,8 @@
 
 	});
 
+	
+	
 </script>
 
 </html>

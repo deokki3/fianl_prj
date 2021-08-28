@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -24,6 +25,20 @@
 	<link id="mainStyles" rel="stylesheet" media="screen" href="${pageContext.request.contextPath}/static/frontend/assets/css/styles.min.css">
 	<!-- Modernizr-->
 	<script src="${pageContext.request.contextPath}/static/frontend/assets/js/modernizr.min.js"></script>
+<style>
+a {
+	text-decoration: none;
+	color: black;
+} 
+.table {
+	margin-left: auto;
+	margin-right: auto;
+}
+.table tbody tr td{
+	height: 50px;
+	vertical-align: middle;
+}
+</style>
 </head>
 <body>
 
@@ -35,7 +50,7 @@
 <div class="page-title">
 	<div class="container">
 		<div class="column">
-			<h1>자유게시판</h1>
+			<h1>자유게시판 </h1>
 		</div>
 		<div class="column">
 			<ul class="breadcrumbs">
@@ -58,16 +73,16 @@
 	<div class="col-lg-12 col-md-10 order-md-2 text-center">
 		<!-- <hr class="margin-bottom-1x"> -->
 		<div>
-			<form action="" method="post">
+			<form action="${pageContext.request.contextPath}/community/freeboard_list" method="post">
 				<div class="row">
 					<div class="p-2"></div>
 						<select class="form-control col-sm-2 p-2" name="field" id="field">
-							<option value="" <c:if test="${field==''}">selected</c:if> >작성자</option>
-							<option value="" <c:if test="${field==''}">selected</c:if> >제목</option>
-							<option value="" <c:if test="${field==''}">selected</c:if> >내용</option>
-							<option value="" <c:if test="${field==''}">selected</c:if> >제목+내용</option>
+							<option value="nickname" <c:if test="${field=='nickname'}">selected</c:if> >작성자</option>
+							<option value="free_title" <c:if test="${field=='free_title'}">selected</c:if> >제목</option>
+							<option value="free_content" <c:if test="${field=='free_content'}">selected</c:if> >내용</option>
+							<option value="combined" <c:if test="${field=='combined'}">selected</c:if> >제목+내용</option>
 						</select>
-					<input type="text" class="form-control col-sm-3 p-1" value="" name="keyword" id="keyword">
+					<input type="text" class="form-control col-sm-3 p-1" value="${keyword }" name="keyword" id="keyword">
 					<button type="submit" class="form-control col-sm-1 w-1 p-2">검색</button>
 					<div class="ml-md-auto" style="margin-right:20px;">
 						<button type="button" id="insertBtn" class="form-control btn-sm btn-outline-info" onclick="clickInsert()">글쓰기 <i class="icon-arrow-right-circle"></i></button>
@@ -88,15 +103,56 @@
 					</tr>
 				</thead>
 				<tbody>
-				<!-- forEach -->
+				<c:forEach var="vo" items="${list }">
 					<tr>
-						<td>1</td>
-						<td class="text-left"><a href="${pageContext.request.contextPath}/community/freeboard_detail">제목</a></td>
-						<td>Nickname</td>
-						<td>2021-08-20 10:10:10</td>
-						<td>0</td>
+					<c:choose>
+						<c:when test="${vo.free_show == 1 && vo.free_group_depth == 0}">
+							<td>${vo.free_board_no }</td>
+							<td colspan="4" class="text-left">
+								<span style="color:gray;">
+								 작성자에 의해 삭제된 글 입니다. </span>
+							</td>
+						</c:when>
+						<c:when test="${vo.free_show == 1 }">
+							<td></td>
+							<td colspan="4" class="text-left">
+								<span style="color:gray;">
+									<c:forEach var="i" begin="2" end="${vo.free_group_depth }">
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									</c:forEach>
+								[Re] 작성자에 의해 삭제된 글 입니다. </span>
+							</td>
+						</c:when>
+						<c:when test="${vo.free_group_order >0 }">
+							<td></td>
+							<td class="text-left">
+								<a href="javascript:clickTitle('${vo.free_board_no }');">
+									<c:forEach var="i" begin="2" end="${vo.free_group_depth }">
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									</c:forEach>
+								[Re]&nbsp; ${vo.free_title }</a>
+							</td>
+							<td>${vo.Nickname }</td>
+							<td><fmt:parseDate value="${vo.free_regdate }" var="free_regdate" pattern="yyyy-MM-dd'T'HH:mm:ss" /><fmt:formatDate value="${free_regdate }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+							<td>${vo.free_hit }</td>
+						</c:when>
+						<c:otherwise>
+							<td>${vo.free_board_no }</td>
+							<td class="text-left">
+								<a href="javascript:clickTitle('${vo.free_board_no }');">${vo.free_title }</a>
+							</td>
+							<td>${vo.Nickname }</td>
+							<td><fmt:parseDate value="${vo.free_regdate }" var="free_regdate" pattern="yyyy-MM-dd'T'HH:mm:ss" /><fmt:formatDate value="${free_regdate }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+							<td>${vo.free_hit }</td>
+						</c:otherwise>
+					</c:choose>
+					<!--<td>${vo.free_board_no }</td>
+						<td class="text-left"><a href="${pageContext.request.contextPath}/community/freeboard_detail?free_board_no=${vo.free_board_no}">${vo.free_title }</a></td>
+						<td>${vo.Nickname }</td>
+						<td><fmt:parseDate value="${vo.free_regdate }" var="free_regdate" pattern="yyyy-MM-dd'T'HH:mm:ss" /><fmt:formatDate value="${free_regdate }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+						<td>${vo.free_hit }</td> -->
 					</tr>
-				<!-- /forEach -->
+				</c:forEach>
 				</tbody>
 			</table>
 		</div>
@@ -106,7 +162,7 @@
 			<div class="column">
 				<c:choose>
 					<c:when test="${pu.prevPage }">
-						<a class="btn btn-outline-secondary btn-sm" href="#"><i class="icon-chevron-left"></i> 이전</a>
+						<a class="btn btn-outline-secondary btn-sm" href="${pageContext.request.contextPath}/community/freeboard_list?pageNum=${pu.pageNum-1 }&field=${field}&keyword=${keyword}"><i class="icon-chevron-left"></i> 이전</a>
 					</c:when>
 					<c:otherwise>
 						<a class="btn btn-outline-secondary btn-sm disabled"><i class="icon-chevron-left"></i> 이전</a>
@@ -120,12 +176,12 @@
 				<c:choose>
 					<c:when test="${pu.pageNum==i }">
 						<li class="active">
-							<a href="#">1</a>
+							<a href="${pageContext.request.contextPath}/community/freeboard_list?pageNum=${i }&field=${field}&keyword=${keyword}">${i }</a>
 						</li>
 					</c:when>
 					<c:otherwise>
 						<li>
-							<a href="#">1</a>
+							<a href="${pageContext.request.contextPath}/community/freeboard_list?pageNum=${i }&field=${field}&keyword=${keyword}">${i }</a>
 						</li>
 					</c:otherwise>
 				</c:choose>
@@ -135,7 +191,7 @@
 			<div class="column">
 				<c:choose>
 					<c:when test="${pu.nextPage }">
-						<a class="btn btn-outline-secondary btn-sm" href="#">다음 <i class="icon-chevron-right"></i></a>
+						<a class="btn btn-outline-secondary btn-sm" href="${pageContext.request.contextPath}/community/freeboard_list?pageNum=${pu.pageNum+1 }&field=${field}&keyword=${keyword}">다음 <i class="icon-chevron-right"></i></a>
 					</c:when>
 					<c:otherwise>
 						<a class="btn btn-outline-secondary btn-sm disabled">다음 <i class="icon-chevron-right"></i></a>
@@ -151,7 +207,7 @@
 <!-- 페이지 컨텐트 끝 -->
 
 	<!-- modal -->
-	<div class="modal fade" id="insertModal">
+	<div class="modal fade" id="loginModal">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -181,14 +237,31 @@
 	<script src="${pageContext.request.contextPath}/static/frontend/assets/js/vendor.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/frontend/assets/js/scripts.min.js"></script>
 <script>
-/* 로그인 상태에서만 글쓰기 가능 */
+//로그인 상태에서만 글쓰기 가능 
 function clickInsert(){
-	var sessionId = "${id}";
-	console.log(sessionId);
-	if(sessionId!=null && sessionId!='') {
+	var id = null;
+		<sec:authorize access="isAuthenticated()">
+			id = '<sec:authentication property="principal.memberVo.id"/>';
+		</sec:authorize>
+	console.log("아이디:" + id);
+	if(id!=null && id!='') {
 		location.href='${pageContext.request.contextPath}/community/freeboard_insert';
 	}else{
-		$("#insertModal").modal();
+		$("#loginModal").modal();
+	}
+}
+
+function clickTitle(free_board_no){
+	var id = null;
+		<sec:authorize access="isAuthenticated()">
+			id = '<sec:authentication property="principal.memberVo.id"/>';
+		</sec:authorize>
+	console.log("아이디:" + id);
+	
+	if(id!=null && id!='') {
+		location.href="${pageContext.request.contextPath }/community/freeboard_detail?free_board_no="+free_board_no;
+	}else{
+		$("#loginModal").modal();
 	}
 }
 </script>

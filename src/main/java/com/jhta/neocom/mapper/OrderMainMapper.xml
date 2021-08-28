@@ -7,12 +7,13 @@
   		#{order_num},#{orderer_name},#{recipient_name},#{zip_code},#{order_address},
 
   		#{order_address_detail},#{tot_price},#{delivery_cost},now(),#{order_status},#{payment_status},
-  		#{od_cc_status},#{delivery_status},#{request_item})
+  		#{od_cc_status},#{delivery_status},#{request_item},#{mid_num})
   	</insert>
 
 	<delete id="delete" parameterType="int">
  		delete from order_main where order_no=#{order_no}
  	</delete>
+
 
 	<select id="searchno" resultType="int" parameterType="Hashmap">
  		select order_no from order_main where order_num=#{order_num} and mem_no=#{mem_no}
@@ -21,23 +22,43 @@
 	<select id="searchRndNo" resultType="com.jhta.neocom.model.OrderMainVo" parameterType="Hashmap">
  		select * from order_main where order_num=#{order_num} and mem_no=#{mem_no}
  	</select>
-
+	
+	<!-- 결제 성공 or 실패시  -->
+	<update id="update" parameterType="Hashmap">
+		update order_main set order_status=#{order_status}, payment_status=#{payment_status} where order_no=#{order_no}
+	</update>
+	
+	<update id="updateMidNum" parameterType="Hashmap">
+		update order_main set mid_num=#{mid_num} where order_no=#{order_no}
+	</update>
+	
 	<update id="updateno" parameterType="Hashmap">
- 		update order_main set order_no=#{order_no} where order_no=#{order_no2} 
+ 		update order_main set order_no=#{order_no} where order_no=#{order_no2}
  	</update> 	
+ 	
+ 	 <!-- 주문취소 -->
+ 	<update id="updateCC" parameterType="Hashmap">
+ 		update order_main set order_status=#{order_status} where order_no=#{order_no}
+ 	</update>
  	
  	<!--  나의 주문 내역-->
  	<select id="myOrderList" resultType="com.jhta.neocom.model.OrderMainVo" parameterType="int">
- 		select od.order_no,product_name,img_name_save,product_count,order_date,tot_price,
+ 		select order_detail_no,od.order_no,product_name,img_name_save,product_count,order_date,tot_price,
  		order_status from order_detail od left join order_main om on om.order_no=od.order_no 
 		join product p on od.product_id = p.product_id join product_img pi on p.product_id =pi.product_id 
-		where om.mem_no=#{mem_no} and img_category='main' order by od.order_no desc;
+		where om.mem_no=#{mem_no} and img_category='main' order by od.order_no desc
  	</select>
 
-
+	<!-- 주문내역 서치 -->
+	<select id="searchOrder" resultType="com.jhta.neocom.model.OrderMainVo" parameterType="int">
+		select om.order_no,img_name_save,p.product_name,order_date,tot_price,order_status 
+		from order_main om left join order_detail od on om.order_no=od.order_no 
+		join product_img pi on pi.product_id=od.product_id join product p on 
+		p.product_id=od.product_id  where om.order_no=#{order_no} and img_category='main';
+	</select>
 
 	<select id="list" resultType="com.jhta.neocom.model.OrderMainVo">
-		select * from order_main;
+		select * from order_main order by order_no desc;
 	</select>
 </mapper>
 

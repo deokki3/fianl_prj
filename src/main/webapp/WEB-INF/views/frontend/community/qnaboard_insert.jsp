@@ -100,19 +100,6 @@ border-radius:0;
 .form-text{
 padding-left:18px;
 }
-.btn-primary{
-background-color:#0da9ef;
-display: inline-block;
-position: relative;
-height: 44px;
-border: 1px solid transparent;
-border-radius: 22px;
-width:100px;
-}
-.btn{
-border-radius: 22px;
-width:100px;
-}
 input[type="radio"], input[type="checkbox"]{
 box-sizing: border-box;
 padding: 0;
@@ -162,10 +149,6 @@ opacity: 0;
 		<hr class="padding-bottom-1x">
 		
 		<form class="row" name="qnaForm" method="post" action="${pageContext.request.contextPath}/community/qnaboard_insert">
-			<input type="hidden" name="qna_board_no" value="${vo.qna_board_no }">
-			<input type="hidden" name="qna_group_no" value="${vo.qna_group_no }">
-			<input type="hidden" name="qna_group_order" value="${vo.qna_group_order }">
-			<input type="hidden" name="qna_group_depth" value="${vo.qna_group_depth }">
 			<div class="col-md-12">
 				<div class="form-group">
 					<label for="qna_title">제목</label>
@@ -188,8 +171,12 @@ opacity: 0;
 				<div class="padding-bottom-1x"></div>
 				<hr class="margin-top-1x margin-bottom-1x">
 				<div class="text-right">
-					<button class="btn btn-primary margin-bottom-none" data-toggle="modal" data-target="#add" type="button">등록</button>
-					<button class="btn btn-outline-secondary margin-bottom-none" data-toggle="modal" data-target="#cancel" type="button">취소</button>
+					<button class="btn btn-primary margin-bottom-none" data-toggle="modal" data-target="#add" type="button" 
+							style="background-color:#0da9ef; display: inline-block; position: relative; height: 44px; border: 1px solid transparent; border-radius: 22px;width:100px;">
+							등록</button>
+					<button class="btn btn-outline-secondary margin-bottom-none" data-toggle="modal" data-target="#cancel" type="button" 
+							style="border-radius: 22px; width:100px;">
+							취소</button>
 				</div>
 			</div>
 		</form>
@@ -254,16 +241,16 @@ opacity: 0;
 	}
 
 	$("#qna_password").attr("disabled",true);
-		$("#qna_secret_chk").on("click",function(){
-			var chk = $("input:checkbox[id='qna_secret_chk']").is(":checked");
-			if(chk==true){
-				$("#qna_password").prop("disabled",false);
-				$(this).val(1);
-			}else{
-				$("#qna_password").prop("disabled",true);
-				$(this).val(0);
-			}
-		});
+	$("#qna_secret_chk").on("click",function(){
+		var chk = $("input:checkbox[id='qna_secret_chk']").is(":checked");
+		if(chk==true){
+			$("#qna_password").prop("disabled",false);
+			$(this).val(1);
+		}else{
+			$("#qna_password").prop("disabled",true);
+			$(this).val(0);
+		}
+	});
 </script>
 </body>
 </html>

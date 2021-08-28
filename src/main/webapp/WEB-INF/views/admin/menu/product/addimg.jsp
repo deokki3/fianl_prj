@@ -1,46 +1,33 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta charset="utf-8" />
-	<title>Color Admin | HTML Startup</title>
+	<title>ADMIN</title>
 	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
 	<meta content="" name="description" />
 	<meta content="" name="author" />
 	
 	<!-- ================== BEGIN core-css ================== -->
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
-	<link href="${pageContext.request.contextPath }/static/admin/assets/css/vendor.min.css" rel="stylesheet" />
-	<link href="${pageContext.request.contextPath }/static/admin/assets/css/default/app.min.css" rel="stylesheet" />
-	<script  src="${pageContext.request.contextPath }/static/admin/assets/js/jquery-3.6.0.min.js" ></script> 
+	<link href="${pageContext.request.contextPath}/static/admin/assets/css/vendor.min.css" rel="stylesheet" />
+	<link href="${pageContext.request.contextPath}/static/admin/assets/css/default/app.min.css" rel="stylesheet" />
+	<link href="${pageContext.request.contextPath}/static/admin/assets/css/imgShow.css" rel="stylesheet" />
 	<!-- ================== END core-css ================== -->
-<style>
-section{
 	
-	width: 80%; height: 500px; 
-	margin-left: 20%;margin-right: 20%;
-	margin-bottom: 300px;
-}
-#box1{
-	width: 50%;
-	height: 60%;
-	float: left;
-}
-#box2{
-	width: 50%;
-	height: 60%;
-	float: left;
-
-}
-.select_img img{ margin:20px 0;}
- </style>
-
+	<!-- ================== BEGIN page-css ================== -->
+	<link href="${pageContext.request.contextPath}/static/admin/assets/plugins/jvectormap-next/jquery-jvectormap.css" rel="stylesheet" />
+	<link href="${pageContext.request.contextPath}/static/admin/assets/plugins/bootstrap-calendar/css/bootstrap_calendar.css" rel="stylesheet" />
+	<link href="${pageContext.request.contextPath}/static/admin/assets/plugins/nvd3/build/nv.d3.css" rel="stylesheet" />
+	<link href=" ${pageContext.request.contextPath}/static/admin/assets/plugins/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link href=" ${pageContext.request.contextPath}/static/admin/assets/plugins/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+	<!-- ================== END page-css ================== -->
+	
 </head>
 <body>
-
 	<!-- BEGIN #loader -->
 	<div id="loader" class="app-loader">
 		<span class="spinner"></span>
@@ -48,239 +35,320 @@ section{
 	<!-- END #loader -->
 	<!-- BEGIN #app -->
 	<div id="app" class="app app-header-fixed app-sidebar-fixed">
-		<!-- BEGIN #header -->
-		<div id="header" class="app-header">
-			<!-- BEGIN navbar-header -->
-			<div class="navbar-header">
-				<a href="index.html" class="navbar-brand"><span class="navbar-logo"></span> <b>Color</b> Admin</a>
-				<button type="button" class="navbar-mobile-toggler" data-toggle="app-sidebar-mobile">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-			</div>
-			<!-- END navbar-header -->
-			
-			<!-- BEGIN header-nav -->
-			<div class="navbar-nav">
-				<div class="navbar-item navbar-form">
-					<form action="" method="POST" name="search">
-						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Enter keyword" />
-							<button type="submit" class="btn btn-search"><i class="fa fa-search"></i></button>
-						</div>
-					</form>
-				</div>
-				<div class="navbar-item dropdown">
-					<a href="#" data-bs-toggle="dropdown" class="navbar-link dropdown-toggle fs-14px">
-						<i class="fa fa-bell"></i>
-						<span class="badge">0</span>
-					</a>
-					<div class="dropdown-menu media-list dropdown-menu-end">
-						<div class="dropdown-header">NOTIFICATIONS (0)</div>
-						<div class="text-center w-300px py-3">
-							No notification found
-						</div>
-					</div>
-				</div>
-				<div class="navbar-item navbar-user dropdown">
-					<a href="#" class="navbar-link dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown">
-						<div class="image image-icon bg-gray-800 text-gray-600">
-							<i class="fa fa-user"></i>
-						</div>
-						<span class="d-none d-md-inline">Adam Schwartz</span> <b class="caret ms-10px"></b>
-					</a>
-					<div class="dropdown-menu dropdown-menu-end me-1">
-						<a href="javascript:;" class="dropdown-item">Edit Profile</a>
-						<a href="javascript:;" class="dropdown-item"><span class="badge badge-danger float-end">2</span> Inbox</a>
-						<a href="javascript:;" class="dropdown-item">Calendar</a>
-						<a href="javascript:;" class="dropdown-item">Setting</a>
-						<a href="${pageContext.request.contextPath }/admin/cate/cateinsert" class="dropdown-item">카테고리추가</a>
-                   		<a href="${pageContext.request.contextPath }/admin/product/productInsert" class="dropdown-item">상품추가</a>
-						<div class="dropdown-divider"></div>
-						<a href="javascript:;" class="dropdown-item">Log Out</a>
-					</div>
-				</div>
-			</div>
-			<!-- END header-nav -->
-		</div>
-		<!-- END #header -->
-		<!-- BEGIN #sidebar -->
-		<div id="sidebar" class="app-sidebar">
-			<!-- BEGIN scrollbar -->
-			<div class="app-sidebar-content" data-scrollbar="true" data-height="100%">
-				<!-- BEGIN menu -->
-				<div class="menu">
-					<div class="menu-profile">
-						<a href="javascript:;" class="menu-profile-link" data-toggle="app-sidebar-profile" data-target="#appSidebarProfileMenu">
-							<div class="menu-profile-cover with-shadow"></div>
-							<div class="menu-profile-image menu-profile-image-icon bg-gray-900 text-gray-600">
-								<i class="fa fa-user"></i>
-							</div>
-							<div class="menu-profile-info">
-								<div class="d-flex align-items-center">
-									<div class="flex-grow-1">
-										Sean Ngu
-									</div>
-									<div class="menu-caret ms-auto"></div>
-								</div>
-								<small>Front end developer</small>
-							</div>
-						</a>
-					</div>
-					<div id="appSidebarProfileMenu" class="collapse">
-						<div class="menu-item pt-5px">
-							<a href="javascript:;" class="menu-link">
-								<div class="menu-icon"><i class="fa fa-cog"></i></div>
-								<div class="menu-text">Settings</div>
-							</a>
-						</div>
-						<div class="menu-item">
-							<a href="javascript:;" class="menu-link">
-								<div class="menu-icon"><i class="fa fa-pencil-alt"></i></div>
-								<div class="menu-text"> Send Feedback</div>
-							</a>
-						</div>
-						<div class="menu-item pb-5px">
-							<a href="javascript:;" class="menu-link">
-								<div class="menu-icon"><i class="fa fa-question-circle"></i></div>
-								<div class="menu-text"> Helps</div>
-							</a>
-						</div>
-						<div class="menu-divider m-0"></div>
-					</div>
-					<div class="menu-header">Navigation</div>
-					<div class="menu-item active">
-						<a href="index.html" class="menu-link">
-							<div class="menu-icon">
-								<i class="fa fa-th-large"></i>
-							</div>
-							<div class="menu-text">Home</div>
-						</a>
-					</div>
-					
-					<div class="menu-item has-sub">
-						<a href="javascript:;" class="menu-link">
-							<div class="menu-icon">
-								<i class="fa fa-align-left"></i>
-							</div>
-							<div class="menu-text">Menu Level</div>
-							<div class="menu-caret"></div>
-						</a>
-						<div class="menu-submenu">
-							<div class="menu-item has-sub">
-								<a href="javascript:;" class="menu-link">
-									<div class="menu-text">Menu 1.1</div>
-									<div class="menu-caret"></div>
-								</a>
-								<div class="menu-submenu">
-									<div class="menu-item has-sub">
-										<a href="javascript:;" class="menu-link">
-											<div class="menu-text">Menu 2.1</div>
-											<div class="menu-caret"></div>
-										</a>
-										<div class="menu-submenu">
-											<div class="menu-item"><a href="javascript:;" class="menu-link"><div class="menu-text">Menu 3.1</div></a></div>
-											<div class="menu-item"><a href="javascript:;" class="menu-link"><div class="menu-text">Menu 3.2</div></a></div>
-										</div>
-									</div>
-									<div class="menu-item"><a href="javascript:;" class="menu-link"><div class="menu-text">Menu 2.2</div></a></div>
-									<div class="menu-item"><a href="javascript:;" class="menu-link"><div class="menu-text">Menu 2.3</div></a></div>
-								</div>
-							</div>
-							<div class="menu-item"><a href="javascript:;" class="menu-link"><div class="menu-text">Menu 1.2</div></a></div>
-							<div class="menu-item"><a href="javascript:;" class="menu-link"><div class="menu-text">Menu 1.3</div></a></div>
-						</div>
-					</div>
-					
-					<!-- BEGIN minify-button -->
-					<div class="menu-item d-flex">
-						<a href="javascript:;" class="app-sidebar-minify-btn ms-auto" data-toggle="app-sidebar-minify"><i class="fa fa-angle-double-left"></i></a>
-					</div>
-					<!-- END minify-button -->
-					
-				</div>
-				<!-- END menu -->
-			</div>
-			<!-- END scrollbar -->
-		</div>
-		<div class="app-sidebar-bg"></div>
-		<div class="app-sidebar-mobile-backdrop"><a href="#" data-dismiss="app-sidebar-mobile" class="stretched-link"></a></div>
-		<!-- END #sidebar -->
+	<jsp:include page="../../inc/header.jsp" />
+
+		<jsp:include page="../../inc/sidebar.jsp" />
 		
 		<!-- BEGIN #content -->
 		<div id="content" class="app-content">
-			<!-- BEGIN breadcrumb -->
-			<ol class="breadcrumb float-xl-end">
-				<li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
-				<li class="breadcrumb-item"><a href="javascript:;">Library</a></li>
-				<li class="breadcrumb-item active">Data</li>
-			</ol>
-			<!-- END breadcrumb -->
-			<!-- BEGIN page-header -->
-			<h1 class="page-header">Page Header <small>header small text goes here...</small></h1>
-			<!-- END page-header -->
-			
-			<!-- BEGIN panel -->
-			<div class="panel panel-inverse">
-				<div class="panel-heading">
-					<h4 class="panel-title">Panel Title here</h4>
-					<div class="panel-heading-btn">
-						<a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i class="fa fa-expand"></i></a>
-						<a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i class="fa fa-redo"></i></a>
-						<a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse"><i class="fa fa-minus"></i></a>
-						<a href="javascript:;" class="btn btn-xs btn-icon btn-danger" data-toggle="panel-remove"><i class="fa fa-times"></i></a>
+
+			<!-- BEGIN row -->
+			<div class="row">
+				<!-- BEGIN col-12 -->
+				<div class="col-xl-12">
+					<!-- BEGIN panel -->
+					<div class="panel panel-inverse">
+						<!-- BEGIN panel-heading -->
+						<div class="panel-heading">
+							<h4 class="panel-title">이미지 추가/수정/삭제</h4>
+							<div class="panel-heading-btn">
+								<a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i class="fa fa-expand"></i></a>
+								<a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i class="fa fa-redo"></i></a>
+								<a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse"><i class="fa fa-minus"></i></a>
+								<a href="javascript:;" class="btn btn-xs btn-icon btn-danger" data-toggle="panel-remove"><i class="fa fa-times"></i></a>
+							</div>
+						</div>
+						<!-- END panel-heading -->
+						<!-- BEGIN panel-body -->
+						<div class="panel-body">
+							<table id="data-table-responsive" class="table table-striped table-bordered align-middle">
+								<thead>
+									<tr>
+										<th width="10%">고유번호</th>
+										<th width="8%" data-orderable="true">이미지</th>
+										<th class="text-nowrap">상품명</th>
+										<th width="15%"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="product_vo" items="${product_list }" varStatus="status">
+										<tr>
+											<td>${product_vo.product_id }</td>
+											<c:forEach var="img_vo" items="${img_list}">
+												<c:choose>
+												   <c:when test="${product_vo.product_id == img_vo.product_id and img_vo.img_category == 'main'}">
+														<td><img class="rounded h-30px" src="<c:url value='/upload/product_img/${img_vo.img_name_save}' />" alt="<c:url value='/upload/product_img/${img_vo.img_name_save}'/>" /></td>
+												   </c:when>
+												   <c:otherwise>
+												   </c:otherwise>
+												</c:choose>
+											</c:forEach>
+											<td>${product_vo.product_name }</td>
+											<td class="text-center"><a href="#modal-dialog" class="open_modal btn btn-sm btn-white w-60px" data-bs-toggle="modal" 
+											data-id="${product_vo.product_id}" data-name="${product_vo.product_name}">수정</a></td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
+						<!-- END panel-body -->
 					</div>
+					<!-- END panel -->
 				</div>
-				<div class="panel-body">
-					<h1>전체 카테고리</h1>
-
-
-<h1>상품 등록하기</h1>
-
-<form method="post" action="${pageContext.request.contextPath }/admin/product/addimg" enctype="multipart/form-data">
-		
-		<input type="hidden" name="product_id" value="${vo1.product_id }"><br>
-	 		이미지 카테고리<br>
-			<input type="text" name="img_category"><br>
-			첨부파일<br>
-			<input type="file" id="selectImg" name="img"><br>
-			<div class="select_img"><img src=""/></div>
-			
-			<script>
-				$("#selectImg").change(function(){
-					if(this.files && this.files[0]) {
-						var reader =new FileReader;
-						reader.onload =function(data){
-							$(".select_img img").attr("src",data.target.result).width(300);
-						}
-						reader.readAsDataURL(this.files[0]);
-					}
-				});
-			</script>
-	 	
- 
-	<input type="submit" value="추가등록">
-</form>
-
-
-				</div>
+				<!-- END col-12 -->
 			</div>
-			<!-- END panel -->
+			<!-- END row -->
 		</div>
 		<!-- END #content -->
 		
 		<!-- BEGIN scroll to top btn -->
 		<a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top" data-toggle="scroll-to-top"><i class="fa fa-angle-up"></i></a>
 		<!-- END scroll to top btn -->
+
+		<!-- #modal-dialog -->
+		<div class="modal fade" id="modal-dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">이미지 수정</h4>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+			</div>
+			<div class="modal-body">
+				<form action="#" id="fileUploadForm" enctype="multipart/form-data">
+					<div class="row mb-15px">
+						<label class="form-label col-form-label col-md-3">상품 고유번호</label>
+							<div class="col-md-9">
+								<input type="text" id="product_id" name="product_id" class="form-control mb-5px" readonly/>
+							</div>
+					</div>
+					<div class="row mb-15px">
+						<label class="form-label col-form-label col-md-3">상품명</label>
+							<div class="col-md-9">
+								<input type="text" id="product_name" name="product_name" class="form-control mb-5px" readonly/>
+							</div>
+					</div>
+					<div class ="uploadDiv row mb-15px">
+						<label for="main_img" class="form-label">메인이미지선택</label>
+  						<input class="prd_imgs form-control" type="file" name="main_img" id="main_img">
+						<label for="description_img" class="form-label">설명이미지선택</label>
+  						<input class="prd_imgs form-control" type="file" name="description_img" id="description_img">
+					</div>
+					<div class="row">
+        				<div class="col-lg-12">
+            				<div class="card shadow mb-4">
+                				<div class="card-header py-3">
+                    				<h4 class="m-0 font-weight-bold text-primary">이미지</h4>
+                				</div>
+                				<div class="card-body">
+                    				<div class="uploadResult">
+                        				<ul></ul>
+                   					 </div>
+									<div class='bigPictureWrapper'>
+										<div class='bigPicture'></div>
+									</div>
+                				</div>
+            				</div>
+        				</div>
+    				</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<a href="javascript:;" class="btn btn-white" data-bs-dismiss="modal">닫기</a>
+				<a href="javascript:;" id="submitBtn" class="btn btn-success">수정</a>
+			</div>
+			</div>
+		</div>
+		</div>
 	</div>
 	<!-- END #app -->
 	
 	<!-- ================== BEGIN core-js ================== -->
-	<script src="${pageContext.request.contextPath }/static/admin/assets/js/vendor.min.js"></script>
-	<script src="${pageContext.request.contextPath }/static/admin/assets/js/app.min.js"></script>
-	<script src="${pageContext.request.contextPath }/static/admin/assets/js/theme/default.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/admin/assets/js/jquery-3.6.0.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/admin/assets/js/vendor.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/admin/assets/js/app.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/admin/assets/js/theme/default.min.js"></script>
 	<!-- ================== END core-js ================== -->
 	
+	<!-- ================== BEGIN page-js ================== -->
+	<script src="${pageContext.request.contextPath}/static/admin/assets/plugins/d3/d3.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/admin/assets/plugins/nvd3/build/nv.d3.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/admin/assets/plugins/jvectormap-next/jquery-jvectormap.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/admin/assets/plugins/jvectormap-next/jquery-jvectormap-world-mill.js"></script>
+	<script src=" ${pageContext.request.contextPath}/static/admin/assets/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src=" ${pageContext.request.contextPath}/static/admin/assets/plugins/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src=" ${pageContext.request.contextPath}/static/admin/assets/plugins/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src=" ${pageContext.request.contextPath}/static/admin/assets/plugins/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+	<!-- ================== END page-js ================== -->
+    <!-- script -->
+    <script>
+
+		function showImage(fileCallPath) {
+        		// alert(fileCallPath);
+				$(".bigPictureWrapper").css("display","flex").show();  //화면 가운데 배치
+        		$(".bigPicture")
+        		.html("<img src='${pageContext.request.contextPath}/admin/product/imgdisplay?fileName="+encodeURI(fileCallPath)+"'>")  //<img>추가
+        		.show({width:'100%', height:'100%'}, 1000);
+
+    	}
+
+		$(document).ready(function(e){
+
+			$(document).on("click", ".open_modal", function () {
+				$('#preview_img').empty();
+				var id = $(this).data('id');
+				var name = $(this).data('name');
+				$("#product_id").val(id);
+				$("#product_name").val(name);
+			});
+
+			$(".bigPictureWrapper").on("click", function(e){
+      			$(".bigPictureWrapper").hide();
+			});
+
+
+			// 업로드 파일 확장자 필터링
+			var regex = new RegExp("\\.(bmp|gif|jpg|jpeg|png)$");  //정규식
+			var maxSize = 5242880;  //5MB
+			
+			function checkExtension(fileName, fileSize) {
+				if (fileSize >= maxSize) {
+					alert("파일 사이즈 초과");
+					return false;
+				}
+				
+				if (!regex.test(fileName)) {
+					alert("해당 종류의 파일은 업로드할 수 없습니다.");
+					return false;
+				}
+				return true;
+			}
+			
+			
+			var uploadResult = $(".uploadResult ul");
+
+			function showUploadedFile(uploadResultArr) {
+
+				if (!uploadResultArr || uploadResultArr.length == 0) {return;}
+
+   				var str = "";
+   
+   				$(uploadResultArr).each(function(i, obj) {
+					var fileCallPath = encodeURIComponent();
+					// var originPath = obj.uploadPath + "\\" + obj.img_name_save;
+					// originPath = originPath.replace(new RegExp(/\\/g),"/");
+
+					var fileCallPath = encodeURIComponent(obj.uploadPath+"/s_"+obj.img_name_save);
+					str += "<li><div>";
+					str += "<span> " + obj.img_category + ", " + obj.img_name_origin + "</span>";
+					str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='image' class='btn btn-warning btn-sm'><i class='fa fa-times'></i></button><br>";
+					str += "<img src='${pageContext.request.contextPath}/admin/product/imgdisplay?fileName="+fileCallPath+"'>";
+					str += "</div>";
+					str += "</li>";
+
+   				});
+   
+   				uploadResult.append(str);
+			}
+
+			$(".uploadResult").on("click","button",function(e){
+    			var targetFile = $(this).data("file");
+    			var type = $(this).data("type");
+
+				var targetLi = $(this).closest("li");
+
+    			$.ajax({
+        			url: '${pageContext.request.contextPath}/admin/product/deleteFile',
+        			data: {fileName: targetFile, type: type},
+        			dataType: 'text',
+        			type: 'POST',
+        			success: function(result) {
+            			alert(result);
+						targetLi.remove();
+        			}
+    			});
+			});
+
+			var cloneObj = $(".uploadDiv").clone(); 
+
+			$(document).on("change", $("input[type='file']") , function(e){
+				var inputFile = $("input[type='file']");
+				var files = inputFile[0].files;
+
+				for (var i = 0; i < files.length; i++) {
+				if (!checkExtension(files[i].name, files[i].size)) {
+						return false;
+					}
+				}
+
+				// Get form         
+				var form = $('#fileUploadForm')[0];
+				// Create an FormData object          
+				var formData = new FormData(form);  	 
+				
+				// FormData의 값 확인
+				for (var pair of formData.entries()) { 
+					var filechk=pair[1];
+					if(filechk.size==0){
+						formData.delete(pair[0]);
+					}
+				}
+				for (var pair of formData.entries()) { 
+					console.log(pair[0] + "," + pair[1]);
+				}
+
+			
+			$.ajax({             
+				type: "POST",          
+				enctype: 'multipart/form-data',  
+				url: "${pageContext.request.contextPath}/admin/product/addimg",        
+				data: formData,
+				enctype: "multipart/form-data",
+				processData: false,    
+				contentType: false,      
+				cache: false,           
+				timeout: 600000,       
+				success: function (result) {        
+							
+					showUploadedFile(result);
+
+					$(".uploadDiv").html(cloneObj.html());
+
+				},          
+				error: function (e) {  
+					console.log("ERROR : ", e);       
+					alert("fail");      
+				}     
+			});
+		});
+
+			
+		$("#submitBtn").click(function () {                 
+  
+		});
+
+		$('#data-table-responsive').DataTable({
+			responsive: true,
+			lengthMenu: [10,20,30,50],
+			language: {
+				emptyTable: "데이터가 없습니다.",
+				lengthMenu: "페이지당 _MENU_ 개씩 보기",
+				info: "현재 _START_ - _END_ / _TOTAL_건",
+				infoEmpty: "데이터 없음",
+				infoFiltered: "( _MAX_건의 데이터에서 필터링됨 )",
+				search: "",
+				zeroRecords: "일치하는 데이터가 없습니다.",
+				loadingRecords: "로딩중...",
+				processing: "잠시만 기다려 주세요.",
+				paginate: {
+					next: "다음",
+					previous: "이전",
+				},
+			},
+		});
+	});
+
+
+
+    </script>
 </body>
 </html>

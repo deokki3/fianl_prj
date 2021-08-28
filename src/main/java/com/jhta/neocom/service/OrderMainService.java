@@ -30,12 +30,28 @@ public class OrderMainService {
 		return mapper.searchRndNo(map);
 	}
 
+	public int update(HashMap<String, Object> map) {
+		return mapper.update(map);
+	}
+	
+	public int updateMidNum(HashMap<String, Object> map) {
+		return mapper.updateMidNum(map);
+	}
+	
 	public int updateno(HashMap<String, Object> map) {
 		return mapper.updateno(map);
+	}
+	
+	public int updateCC(HashMap<String, Object> map) {
+		return mapper.updateCC(map);
 	}
 
 	public List<OrderMainVo> myOrderList(int mem_no) {
 		return mapper.myOrderList(mem_no);
+	}
+	
+	public List<OrderMainVo> searchOrder(int order_no) {
+		return mapper.searchOrder(order_no);
 	}
 
 	public List<OrderMainVo> list() {

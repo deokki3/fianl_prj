@@ -6,20 +6,17 @@
 	
 	<insert id="insert" parameterType="noticeboard">
 		insert into notice_board 
-		values(get_seq('noticeboardSeq'),#{mem_no},#{n_password},#{n_secret_chk},#{n_title},#{n_content},#{n_regdate},#{n_hit},#{n_group_no},#{n_group_order},#{n_group_depth})
+		values(get_seq('noticeboardSeq'),#{mem_no},null,0,#{n_title},#{n_content},sysdate(),0,n_board_no,0,0)
 	</insert>
 	
 	<delete id="delete" parameterType="int">
-		delete from notice_Baord where n_board_no=#{n_board_no}
+		delete from notice_board where n_board_no=#{n_board_no}
 	</delete>
 	
 	<update id="update" parameterType="noticeboard">
 		update notice_board set 
-		n_password=#{n_password},
-		n_secret_chk=#{n_secret_chk},
 		n_title=#{n_title},
-		n_content=#{n_content},
-		n_regdate=#{n_regdate} 
+		n_content=#{n_content}
 		where n_board_no=#{n_board_no}
 	</update>
 	
@@ -80,6 +77,16 @@
 		select * from notice_board where n_board_no =
 		(select n_board_no from notice_board where n_board_no > #{n_board_no} order by n_board_no limit 1)
 	]]>
+	</select>
+	
+	
+	<!-- 어드민용 -->
+	<select id="nn_list" resultType="hashmap" parameterType="hashmap">
+		select nn.*,mm.mem_no,mm.Nickname 
+		from notice_board nn inner join member_Info mm on nn.mem_no=mm.mem_no 
+		<include refid="search" />
+		order by nn.n_board_no desc
+		limit #{nn_startRow},10
 	</select>
 	
 </mapper>

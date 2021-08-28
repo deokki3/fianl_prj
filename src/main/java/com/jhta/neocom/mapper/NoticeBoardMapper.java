@@ -15,4 +15,6 @@ public interface NoticeBoardMapper {
 	int cntHit(int n_board_no);
 	NoticeBoardVo prev(int n_board_no);
 	NoticeBoardVo next(int n_board_no);
+	
+	List<HashMap<String,Object>> nn_list(HashMap<String,Object> nn_map);
 }

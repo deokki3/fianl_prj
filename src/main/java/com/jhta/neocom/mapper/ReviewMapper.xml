@@ -23,21 +23,22 @@
 	<sql id="search">
 		<choose>
 			<when test="field=='combined'">
-				where review_title like CONCAT('%',#{keyword},'%') 
+				and review_title like CONCAT('%',#{keyword},'%') 
 				or review_content like CONCAT('%',#{keyword},'%')
 			</when>
-			<when test="field==null and field==''">
-				where product_id=#{product_id}
-			</when>
+			
 			
 		
 			<otherwise>
 				<if test="field!=null and field!=''">
-					where ${field} like CONCAT('%',#{keyword},'%')
+					and ${field} like CONCAT('%',#{keyword},'%')
 				</if>
 			</otherwise>
 		</choose>
 	</sql>
+		
+	
+	
 	
 	<delete id="delete" parameterType="int">
 		delete from review where board_num=#{board_num}
@@ -45,27 +46,36 @@
 	
 	<update id="update" parameterType="com.jhta.neocom.model.ReviewVo">
 		update review set 
-		mem_no=#{mem_no},
-		Nickname=#{Nickname},
-		product_id=#{product_id},
+		
 		review_title=#{review_title},
 		review_content=#{review_content},
 		star=#{star},
-		review_img=#{review_img},
-		review_img_origin=#{review_img_origin},
 		regdate=sysdate()
 		where board_num=#{board_num}
 	</update>
 	
-	
+	<!-- 리뷰 별점 평균  -->
+	<select id="getAvgStar" resultType="double"  parameterType="int">
+	  select IFnull(avg(star),0) from review where product_id=#{product_id}
+	</select>
+	<!-- 별 개수 가져오기 -->
+	<select id="getCountStar" resultType="int" parameterType="hashmap">
+		select IFnull(count(*),0) from review
+		where product_id=#{product_id} and star=#{star}
+	</select>
+	<select id="getStar" resultType="hashmap" parameterType="int">
+		select star from review where product_id=#{product_id}
+	</select>
 	<!-- 전체 게시글 수 -->
 	<select id="getCount" resultType="int" parameterType="int">
 		select IFnull(count(*),0) from review
+		where product_id=#{product_id}
 			<include refid="search" />
 	</select>
 
 	<select id="list" resultType="hashmap" parameterType="hashmap">
 		select * from review 
+		where product_id=#{product_id}
 		<include refid="search" />
 		order by board_num desc
 		limit #{startRow},10

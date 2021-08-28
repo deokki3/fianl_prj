@@ -6,9 +6,14 @@
   insert into adv_board(adv_board_no, mem_no, adv_password, adv_secret_chk, adv_title, adv_content, adv_regdate,adv_hit,adv_group_no,adv_group_order,adv_group_depth)
       values (get_seq('advboardSeq'),#{mem_no}, #{adv_password}, #{adv_secret_chk}, #{adv_title},#{adv_content},now(),0,(select max(adv_board_no)+1 from adv_board tmp),1,1)
  </insert>
- <select id="list" resultType="com.jhta.neocom.model.AdvBoardVo">
-  select * from adv_board
- </select>
+<select id="list" resultType="hashmap" parameterType="hashmap">
+		select qq.*,mm.mem_no,mm.Nickname 
+		from adv_board qq inner join member_Info mm on qq.mem_no=mm.mem_no 
+		<include refid="search" />
+		order by qq.adv_group_no desc, qq.adv_group_order asc
+		limit #{startRow},10 <!-- 이거 나중에 여쭤 보기 -->
+</select>
+ 
  <select id="find" parameterType="int" resultType="com.jhta.neocom.model.AdvBoardVo">
  select * from adv_board where adv_board_no=#{adv_board_no}
  </select>
@@ -38,6 +43,76 @@
 <!-- 전체 글의 갯수 -->
 	<select id="count" resultType="int" parameterType="hashmap">
 	select ifnull(count(*),0) cnt from adv_board <!-- 나오는값이 NULL일때 특정값초기화 -->
-	
 	</select> 
+	
+<!-- 글 상세 목록 -->
+<select id="detail" resultType="hashmap" parameterType="int">
+		select qq.*,mm.mem_no,mm.Nickname 
+		from adv_board qq inner join member_Info mm on qq.mem_no=mm.mem_no 
+		where adv_board_no=#{adv_board_no}
+	</select>
+	
+	<!-- 답글 -->
+	<insert id="insertReply" parameterType="com.jhta.neocom.model.AdvBoardVo">
+		insert into adv_board values
+		(get_seq('advboardSeq'),
+		#{mem_no},
+		#{adv_password},
+		#{adv_secret_chk},
+		#{adv_title},
+		#{adv_content},
+		sysdate(),
+		0,
+		#{adv_group_no},
+		#{adv_group_order}+1,
+		#{adv_group_depth}+1,
+		0,
+		0
+		)
+	</insert>
+	<!-- 답글에 답글 -->
+	<update id="ReRe" parameterType="com.jhta.neocom.model.AdvBoardVo">
+		update adv_board set adv_group_order=adv_group_order+1 where adv_group_no=#{adv_group_no} and adv_group_order>#{adv_group_order}
+	</update>
+	
+	<!-- 답변상태 -->
+	<update id="status" parameterType="com.jhta.neocom.model.AdvBoardVo">
+		update adv_board set adv_status=#{adv_status} where adv_group_no=#{adv_group_no} and adv_group_depth=#{adv_group_depth}
+	</update>
+	
+	<!-- 원글 삭제 시 답글 있는 경우 -->
+	<select id="countReply" resultType="int" parameterType="int">
+		select count(*) from adv_board where adv_group_no=#{adv_board_no}
+	</select>
+	<update id="showDeletePost" parameterType="int">
+		update adv_board set adv_show=1, adv_title='작성자에 의해 삭제된 글 입니다.', adv_content='' where adv_board_no=#{adv_board_no}
+	</update>
+	
+<!--<select id="deletePost" statementType="CALLABLE">
+		call deletePost(#{qna_board_no})
+	</select> -->
+	
+	
+	<!-- 게시글 검색 -->
+	<sql id="search">
+		<choose>
+			<when test="field=='combined'">
+				where adv_title like CONCAT('%',#{keyword},'%') 
+				or adv_content like CONCAT('%',#{keyword},'%')
+			</when>
+			<otherwise>
+				<if test="field!=null and field!=''">
+					where ${field} like CONCAT('%',#{keyword},'%')
+				</if>
+			</otherwise>
+		</choose>
+	</sql>
+	
+	<!-- 조회수 -->
+	<update id="cntHit">
+		update adv_board set adv_hit=adv_hit+1 where adv_board_no=#{adv_board_no}
+	</update>
+	
  </mapper>
+
+

@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -60,7 +61,59 @@
 	<jsp:include page="/WEB-INF/views/frontend/account/inc/mypage_sidebar.jsp"/>
 	
 	<!-- 나의정보수정 여기서부터 -->
-	
+	<div class="col-lg-9 col-md-8 order-md-2">
+		<h6 class="text-muted text-lg text-uppercase">개인 정보 관리</h6>
+		<hr class="margin-bottom-1x">
+		
+		<div class="card-body">
+		<form action="${pageContext.request.contextPath }/account/update" method="post">
+		<div class="form-group input-group">
+			아이디
+			<input class="form-control" type="text" name="id" readonly="readonly" value="${vo.id }">
+		</div>
+		<div class="form-group input-group">
+			닉네임
+			<input class="form-control" type="text" name="nickname" value="${vo.nickname }">
+		</div>
+		<div class="form-group input-group">
+			이름
+			<input class="form-control" type="text" name="name" value="${vo.name }">
+		</div>
+		<div class="form-group input-group">
+			휴대폰번호
+			<input class="form-control" type="text" name="phone" value="${vo.phone }">
+		</div>
+		<div class="form-group input-group">
+			생년월일
+			<input class="form-control" type="text" name="birthday" readonly="readonly" value="${vo.birth_date }">
+		</div>
+		<div class="form-group input-group">
+			가입일
+			<input class="form-control" type="text" name="regdate" readonly="readonly" value="${vo.reg_date }">
+		</div>
+		
+		
+		<div class="text-center text-sm-right">
+			<button class="btn btn-primary margin-bottom-none" type="submit">회원정보 저장</button>
+		</div>
+		</form>	
+		<form action="${pageContext.request.contextPath }/account/pwdmodify">
+		<div class="form-group input-group">
+			비밀번호						
+			<input class="form-control" type="password" name="password" readonly="readonly" value="${vo.password }">		
+			<button class="btn btn-primary btn-sm" type="submit">비밀번호변경</button>
+		</div>	
+		</form>	
+		<form action="${pageContext.request.contextPath }/account/memberDel">
+		<div class="text-center text-sm-right">
+			<input class="form-control" type="hidden" name="id" readonly="readonly" value="${vo.id }">
+			<input class="form-control" type="hidden" name="password">
+			<button class="btn btn-primary margin-bottom-none" type="submit">회원 탈퇴</button>
+		</div>
+		</form>		
+	</div>	
+	<hr class="mt-2 mb-3">
+	</div>
 	
 </div>
 </div>
@@ -76,5 +129,6 @@
 	<!-- JavaScript (jQuery) libraries, plugins and custom scripts-->
 	<script src="${pageContext.request.contextPath}/static/frontend/assets/js/vendor.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/frontend/assets/js/scripts.min.js"></script>
+	
 </body>
 </html>

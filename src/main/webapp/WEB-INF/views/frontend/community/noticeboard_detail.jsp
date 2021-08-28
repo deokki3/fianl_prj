@@ -27,8 +27,8 @@
 .table tbody tr td p {
 	margin-top: 50px;
 	margin-bottom: 50px;
-	margin-left: 100px;
-	margin-right: 100px;
+	margin-left: 150px;
+	margin-right: 150px;
 	vertical-align: middle;
 }
 </style>
@@ -53,7 +53,7 @@
 				<li class="separator">&nbsp;</li>
 				<li><a href="#">Notice Board</a></li>
 				<li class="separator">&nbsp;</li>
-				<li>No.${vo.n_board_no }</li>
+				<li>No.${map.n_board_no }</li>
 			</ul>
 		</div>
 	</div>
@@ -135,15 +135,14 @@
 	<script src="${pageContext.request.contextPath}/static/frontend/assets/js/vendor.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/frontend/assets/js/scripts.min.js"></script>
 <script>
-	window.onload=function(){
 		var prev = "${prev.n_board_no}";
 		var next = "${next.n_board_no}";
-		if(prev == 0 || prev == null){
+		if(prev.trim() == '' || prev == 0){
 			$("#prevAtag").addClass("disabled");
-		}else if(next == 0 || next == null){
+		}
+		if(next.trim() == '' || next == 0){
 			$("#nextAtag").addClass("disabled");
 		}
-	}
 </script>
 </body>
 </html>

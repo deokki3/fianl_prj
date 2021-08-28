@@ -15,6 +15,7 @@ public class OrderDetailVo {
 	private int product_id;
 	private int order_no;
 	private int product_count;
+	private int order_price;
 
 	private List<OrderDetailVo> orderDetailVoList;
 	

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -53,7 +54,7 @@
 				<li class="separator">&nbsp;</li>
 				<li><a href="#">Community Board</a></li>
 				<li class="separator">&nbsp;</li>
-				<li>No.글번호</li>
+				<li>No.${map.free_board_no }</li>
 			</ul>
 		</div>
 	</div>
@@ -77,32 +78,32 @@
 				<thead class="thead-default">
 					<tr>
 						<th scope="row">글번호</th>
-						<td>free_board_no</td>
+						<td>${map.free_board_no }</td>
 						<th scope="row">작성자</th>
-						<td>Nickname</td>
+						<td>${map.Nickname }</td>
 						<th scope="row">작성일</th>
-						<td>free_regdate</td>
+						<td><fmt:parseDate value="${map.free_regdate }" var="free_regdate" pattern="yyyy-MM-dd'T'HH:mm:ss" /><fmt:formatDate value="${free_regdate }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 					</tr>
 					<tr>
 						<th scope="row">제목</th>
-						<td colspan="3">free_title</td>
+						<td colspan="3">${map.free_title }</td>
 						<th scope="row">조회수</th>
-						<td>free_hit</td>
+						<td>${map.free_hit }</td>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
 						<td colspan="10">
-							<p>free_content</p>
+							<p>${map.free_content }</p>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 			
-			<div class="single-post-footer" style="margin-bottom:50px;">
+			<div class="single-post-footer" style="margin-bottom:20px;">
 				<div class="entry-navigation">
 					<div class="column text-left">
-						<a class="btn btn-outline-secondary btn-sm" id="prevAtag" href="#">
+						<a class="btn btn-outline-secondary btn-sm" id="prevAtag" href="${pageContext.request.contextPath}/community/freeboard_detail?free_board_no=${prev.free_board_no}">
 							<i class="icon-arrow-left"></i>이전글
 						</a>
 					</div>
@@ -112,16 +113,59 @@
 						</a>
 					</div>
 					<div class="column text-right">
-						<a class="btn btn-outline-secondary btn-sm" id="nextAtag" href="#">
+					<c:if test="${next.free_board_no!=0 }">
+						<a class="btn btn-outline-secondary btn-sm" id="nextAtag" href="${pageContext.request.contextPath}/community/freeboard_detail?free_board_no=${next.free_board_no}">
 							다음글<i class="icon-arrow-right"></i>
 						</a>
+					</c:if>
 					</div>
 				</div>
 			</div>
+			
+			<div class="row" style="margin-bottom:40px;">
+				<div style="margin-left:30px;">
+					<a class="btn btn-outline-info btn-sm" id="prevAtag" href="${pageContext.request.contextPath }/community/freeboard_reply?free_board_no=${map.free_board_no}">
+						답글달기
+					</a>
+				</div>
+				<c:if test="${map.mem_no == mvo.mem_no }">
+				<div class="ml-md-auto" style="margin-right:30px;">
+					<a class="btn btn-outline-secondary btn-sm" id="nextAtag" href="${pageContext.request.contextPath }/community/freeboard_update?free_board_no=${map.free_board_no}">
+						수정
+					</a>
+					<button class="btn btn-outline-secondary btn-sm" id="nextAtag"
+					   data-toggle="modal" data-target="#deleteModal" 
+					   type="button">
+						삭제
+					</button>
+				</div>
+				</c:if>
+			</div>
+			
 		</div>
 	</div>
 </div>
 <!-- 페이지 컨텐트 끝 -->
+
+
+	<!-- modal -->
+	<div class="modal fade" id="deleteModal">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">confirm</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
+				</div>
+				<div class="modal-body">
+					<p>게시글을 정말로 삭제 하시겠습니까?</p>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-info btn-sm" onclick="location.href='${pageContext.request.contextPath }/community/freeboard_delete?free_board_no=${map.free_board_no}'">Yes</button>
+					<button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal" onclick="return false;">No</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 
 <!-- footer -->
@@ -134,16 +178,16 @@
 	<script src="${pageContext.request.contextPath}/static/frontend/assets/js/vendor.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/frontend/assets/js/scripts.min.js"></script>
 <script>
-/*	window.onload=function(){
+	window.onload=function(){
 		var prev = "${prev.free_board_no}";
 		var next = "${next.free_board_no}";
-		if(prev == 0 || prev == null){
+		if(prev.trim() == '' || prev == 0 ){
 			$("#prevAtag").addClass("disabled");
-		}else if(next == 0 || next == null){
+		}
+		if(next.trim() == '' || next == 0){
 			$("#nextAtag").addClass("disabled");
 		}
 	}
-*/
 </script>
 </body>
 </html>

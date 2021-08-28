@@ -3,6 +3,7 @@ package com.jhta.neocom.service;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,5 +42,14 @@ public class ReviewService {
 		return mapper.detail(board_num);
 	}
 	
-
+	public double getAvgStar(int product_id) {
+		return mapper.getAvgStar(product_id);
+	}
+	public int getCountStar(HashMap<String,Integer> map) {
+		return mapper.getCountStar(map);
+	}
+	public List<HashMap<String,Integer>> getStar(int product_id)
+	{
+		return mapper.getStar(product_id);
+	}
 }

@@ -21,5 +21,6 @@ public class QnABoardVo {
 	private int qna_group_no;
 	private int qna_group_order;
 	private int qna_group_depth;
+	private int qna_status;
 	private String Nickname;
 }

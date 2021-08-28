@@ -93,9 +93,9 @@
 					</div>
 					<!-- regdate잇던자리 -->
 					<div class="form-group input-group">
-						회원번호
-						<form:input class="form-control" type="text" path="mem_no"/>
-						<form:errors path="mem_no"/>
+						
+						<form:input class="form-control" type="hidden" path="mem_no"/>
+					
 					</div>
 					<div class="text-center text-sm-right">
 						<button class="btn btn-primary margin-bottom-none" type="submit">가입</button>

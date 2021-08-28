@@ -50,6 +50,7 @@ public class NoticeBoardController {
 		model.addAttribute("map",map);
 		model.addAttribute("prev",prev);
 		model.addAttribute("next",next);
+		System.out.println(prev + ", " + next);
 		return "frontend/community/noticeboard_detail";
 	}
 	

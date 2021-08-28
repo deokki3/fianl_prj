@@ -406,6 +406,8 @@ section {
 	<script
 		src="${pageContext.request.contextPath }/static/admin/assets/js/theme/default.min.js"></script>
 	<!-- ================== END core-js ================== -->
-
+	<script>
+		
+	</script>
 </body>
 </html>

@@ -3,14 +3,15 @@ package com.jhta.neocom.controller;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -24,7 +25,7 @@ public class CartController {
 	@Autowired
 	private CartService service;
 
-	@RequestMapping(value = "/cart", produces = { MediaType.APPLICATION_JSON_VALUE })
+	@RequestMapping(value = "/member/cart", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ModelAndView list(Authentication authentication, Model model) {
 		CustomUserDetails cud = (CustomUserDetails) authentication.getPrincipal();
 		MemberVo vo = cud.getMemberVo();
@@ -36,7 +37,7 @@ public class CartController {
 		return mv;
 	}
 
-	@RequestMapping(value = "/cart2", produces = { MediaType.APPLICATION_JSON_VALUE })
+	@RequestMapping(value = "/member/cart2", produces = { MediaType.APPLICATION_JSON_VALUE })
 	public HashMap<String, Object> list2(Authentication authentication, Model model) {
 		CustomUserDetails cud = (CustomUserDetails) authentication.getPrincipal();
 		MemberVo vo = cud.getMemberVo();
@@ -48,8 +49,9 @@ public class CartController {
 		return map;
 	}
 
-	@GetMapping("/insertCart")
-	public String insertCart(Authentication authentication, String product_id) {
+	//@GetMapping("/insertCart")
+	@RequestMapping(value = "/member/insertCart", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public HashMap<String, Object> insertCart(Authentication authentication, String product_id) {
 		CustomUserDetails cud = (CustomUserDetails) authentication.getPrincipal();
 		MemberVo vo = cud.getMemberVo();
 		int mem_no = vo.getMem_no();
@@ -60,7 +62,7 @@ public class CartController {
 		map.put("product_id", product_id);
 		service.insert(map);
 
-		return "redirect:/";
+		return map;
 	}
 
 	@GetMapping("/deleteCart")
@@ -99,6 +101,17 @@ public class CartController {
 			map2.put("code", "fail");
 		}
 		return map;
+	}
+
+	@RequestMapping(value = "/cart/purchaseList", method = RequestMethod.POST)
+	public ModelAndView purchaseList(@RequestParam(value = "cart_nos") List<String> cart_nos) {
+
+		System.out.println("cart_nos:" + cart_nos);
+		for (String cart_no : cart_nos) {
+			System.out.println("cart_no:" + cart_no);
+		}
+
+		return null;
 	}
 
 }

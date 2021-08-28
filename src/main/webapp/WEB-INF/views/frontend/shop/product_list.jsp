@@ -74,22 +74,21 @@
 				</div>
 			</div>
 			<div class="column">
-				<!-- grid / list 두가지 버전 구현 가능할 때 쓰기 
+				
 				<div class="shop-view">
-					<a class="grid-view active" href="#"><span></span><span></span><span></span></a>
-					<a class="list-view" href="#"><span></span><span></span><span></span></a>
+				
+					<a class="grid-view " href="${pageContext.request.contextPath}/shop/product_grid?category_id=${category_id}&keyword=${keyword}"><span></span><span></span><span></span></a>
+					<a class="list-view active" href="${pageContext.request.contextPath}/shop/product_list?category_id=${category_id}&keyword=${keyword}"><span></span><span></span><span></span></a>
 				</div>
-				-->
+				
 			</div>
 		</div>
 		<!-- 상품리스트 -->
 		<input type="hidden" id="category_id" value="${category_id}" >
-		<div class="row" id="commList">
-		
-		 	
-			
-			<!-- forEach 끝 부분 -->
-		</div>
+		<div id="commList">
+	        
+          </div>
+
 		<div id="page"></div>
 		
 	</div>
@@ -108,13 +107,13 @@
 			<ul>
 				<li class="has-children expanded"><a href="#">종류1</a><span>(100)</span>
 					<ul>
-						<li><a href="#">상품분류1</a><span>(수량)</span>
+						<li><a href="#">테스트</a><span>(수량)</span>
 							<ul>
 								<li><a href="#">상품1</a></li>
 								<li><a href="#">상품2</a></li>
 								<li><a href="#">상품3</a></li>
-							</ul>
-						</li>
+							</ul> 
+						</li> 
 						<li><a href="#">상품분류2</a><span>(수량)</span>
 							<ul>
 								<li><a href="#">상품1</a></li>
@@ -153,9 +152,9 @@
 						</li>
 					</ul>
 				</li>
-			</ul>
+			</ul> 
 			</section>
-			<!-- 가격 범위 -->
+			<!-- 가격 범위 --> 
 			<section class="widget widget-categories">
 			<h3 class="widget-title">가격</h3>
 				<form 
@@ -219,6 +218,10 @@
 </div>
 <!-- 페이지 컨텐트 끝 -->
 
+        
+             
+           
+          
 
 <!-- footer -->
 <jsp:include page="/WEB-INF/views/frontend/inc/footer.jsp"/>
@@ -280,7 +283,8 @@ $(function(){
 		};
 		 
 		currentPage=pageNum;
-		
+		console.log(order);
+		console.log(pageNum);
 		$("#commList").empty();
 		$.ajax({
 			url:"${pageContext.request.contextPath}/shop/ajaxlist",
@@ -303,12 +307,13 @@ $(function(){
 				else{
 				$(data.list).each(function(i,d){
 					
+					
 						<!-- forEach 시작 부분 -->
-						let	html=	"<div class='col-md-3 col-sm-6'>";			
-						html+=	"<div class='product-card mb-30'>";
+						let html= " <div class='product-card product-list mb-30'>";
 						html+=		"<a class='product-thumb' href='${pageContext.request.contextPath}/shop/product_detail"+"?n="+d.product_id+"&"+"m="+d.category_id+"'>";
 						html+=		"	<img src='<c:url value='/upload/product_img/"+d.img_name_save+"' />' alt='<c:url value='/upload/product_img/"+d.img_name_save+"' />' />";
 										html+=	"	</a> ";
+										html+= "<div class='product-card-inner'>";
 										html+=	"	<div class='product-card-body'>";
 										html+=		"	<div class='product-category'><a href='#'>"+d.brand+"</a></div>";
 										html+=			"<h3 class='product-title'><a href='#'>"+d.product_name +"</a></h3>"; 
@@ -326,14 +331,12 @@ $(function(){
 														html+=		"	data-toast-message='장바구니에 상품을 담았습니다!'> ";
 									html+=	"	<i class='icon-shopping-cart'></i><span>장바구니</span> ";
 									html+=	"	</a>";
-									html+=	"</div>";
+									
 									html+=	"</div>";
 									html+=	"</div>";
 									
 						<!-- forEach 끝 부분 -->
-						html+=	"</div>";
-					
-						html+=	"</div>	";	
+						
 					$("#commList").append(html);					
 				});
 				}

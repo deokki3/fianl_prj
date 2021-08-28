@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.jhta.neocom.mapper.OrderCancelMapper">
+  	
+  	<insert id="insert" parameterType="com.jhta.neocom.model.OrderCancelVo">
+  		insert into order_cancel values(get_seq('od_cc_Seq'),#{order_no},
+  		#{payment_num},#{od_cc_reason},#{od_cc_application_date},#{od_cc_complete_date},#{od_cc_status})
+  	</insert>
+  	
+ 	<delete id="delete" parameterType="int">
+ 		delete from order_cancel 
+ 	</delete> 
+	
+ 	
+  </mapper>
