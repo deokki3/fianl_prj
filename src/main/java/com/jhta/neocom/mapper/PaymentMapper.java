@@ -12,5 +12,7 @@ public interface PaymentMapper {
 	
 	int update(HashMap<String, Object> map);
 	
+	int searchnum(int order_no);
+	
 	List<PaymentVo> list();
 }

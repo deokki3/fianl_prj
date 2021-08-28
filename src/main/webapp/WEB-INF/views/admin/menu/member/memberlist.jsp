@@ -84,8 +84,8 @@
 											<td>${vo.birth_date }</td>
 											<td>${vo.phone }</td>
 											<td>${vo.reg_date }</td>
-											<td><a href="${pageContext.request.contextPath }/admin/cate/delete?mem_no=${vo.mem_no }" class="btn btn-sm btn-primary w-60px me-1">삭제</a></td>
-											<td><a href="#modal-dialog" class="open_modal btn btn-sm btn-white w-60px" data-bs-toggle="modal" 
+											<td class="text-center"><a href="${pageContext.request.contextPath }/admin/member/delete?mem_no=${vo.mem_no }" class="btn btn-sm btn-primary w-60px me-1">삭제</a></td>
+											<td class="text-center"><a href="#modal-dialog" class="open_modal btn btn-sm btn-white w-60px" data-bs-toggle="modal" 
 											data-mem_no="${vo.mem_no}" data-id="${vo.id}" data-nickname="${vo.nickname}" data-name="${vo.name}" 
 											data-birth_date="${vo.birth_date}" data-phone="${vo.phone}" data-reg_date="${vo.reg_date}">수정</a></td>
 										</tr>
@@ -116,54 +116,54 @@
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
 			</div>
 			<div class="modal-body">
-				<form method="post" id="member" action="${pageContext.request.contextPath}/admin/cate/update">
+				<form method="post" id="member_form" action="${pageContext.request.contextPath}/admin/member/update">
 					<div class="row mb-15px">
 						<label class="form-label col-form-label col-md-3">회원 번호</label>
 							<div class="col-md-9">
-								<input type="text" id="mem_no" class="form-control mb-5px" readonly/>
+								<input type="text" id="mem_no" name="mem_no" class="form-control mb-5px" readonly/>
 							</div>
 					</div>
 					<div class="row mb-15px">
 						<label class="form-label col-form-label col-md-3">회원 아이디</label>
 							<div class="col-md-9">
-								<input type="text" id="id" class="form-control mb-5px" readonly/>
+								<input type="text" id="id" name="id" class="form-control mb-5px" readonly/>
 							</div>
 					</div>
 					<div class="row mb-15px">
 						<label class="form-label col-form-label col-md-3">닉네임</label>
 							<div class="col-md-9">
-								<input type="text" id="nickname" class="form-control mb-5px"/>
+								<input type="text" id="nickname" name="nickname" class="form-control mb-5px"/>
 							</div>
 					</div>
 					<div class="row mb-15px">
 						<label class="form-label col-form-label col-md-3">이름</label>
 							<div class="col-md-9">
-								<input type="text" id="name" class="form-control mb-5px"/>
+								<input type="text" id="name" name="name" class="form-control mb-5px"/>
 							</div>
 					</div>
 					<div class="row mb-15px">
 						<label class="form-label col-form-label col-md-3">생년월일</label>
 							<div class="col-md-9">
-								<input type="text" id="birth_date" class="form-control mb-5px"/>
+								<input type="text" id="birth_date" name="birth_date" class="form-control mb-5px"/>
 							</div>
 					</div>
 					<div class="row mb-15px">
 						<label class="form-label col-form-label col-md-3">전화번호</label>
 							<div class="col-md-9">
-								<input type="text" id="phone" class="form-control mb-5px"/>
+								<input type="text" id="phone" name="phone" class="form-control mb-5px"/>
 							</div>
 					</div>
 					<div class="row mb-15px">
 						<label class="form-label col-form-label col-md-3">가입일</label>
 							<div class="col-md-9">
-								<input type="text" id="reg_date" class="form-control mb-5px" readonly/>
+								<input type="text" id="reg_date" name="reg_date" class="form-control mb-5px" readonly/>
 							</div>
 					</div>
 				</form>
 			</div>
 			<div class="modal-footer">
 				<a href="javascript:;" class="btn btn-white" data-bs-dismiss="modal">닫기</a>
-				<a href="javascript:;" class="btn btn-success">수정</a>
+				<a href="#" id="submitBtn" class="btn btn-success">수정</a>
 			</div>
 			</div>
 		</div>
@@ -207,8 +207,8 @@
 			$("#reg_date").val(reg_date);
 		});
 
-		$(document).on("click", "" , function (){
-
+		$(document).on("click", "#submitBtn" , function (){
+			$("#member_form").submit();
 		});
 		
     	$('#data-table-responsive').DataTable({

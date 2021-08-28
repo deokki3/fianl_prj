@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jhta.neocom.mapper.FileMapper">
+
+	<insert id="fileInsert" parameterType="file">
+		insert into file values
+		(get_seq('fileSeq'),
+		#{free_board_no},
+		#{file_name_org},
+		#{file_name_save},
+		#{file_cnt},
+		#{file_size}		
+		)
+	</insert>
+
+</mapper>

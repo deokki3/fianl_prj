@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -36,6 +37,9 @@ a {
 .table tbody tr td{
 	height: 50px;
 	vertical-align: middle;
+}
+.table tbody tr td img{
+	width: 20px;
 }
 </style>
 </head>
@@ -105,16 +109,47 @@ a {
 				<c:forEach var="vo" items="${list }">
 					<tr>
 					<c:choose>
-						<c:when test="${vo.qna_group_order !=0 }">
+						<c:when test="${vo.qna_show == 1 && vo.qna_group_depth == 0}">
+							<td>${vo.qna_board_no }</td>
+							<td colspan="4" class="text-left">
+								<span style="color:gray;">
+								 작성자에 의해 삭제된 글 입니다. </span>
+							</td>
+						</c:when>
+						<c:when test="${vo.qna_show == 1 }">
 							<td></td>
-							<td class="text-left"><a href="${pageContext.request.contextPath}/community/qnaboard_detail?qna_board_no=${vo.qna_board_no}&qna_secret_chk=${vo.qna_secret_chk}">[Re]&nbsp;&nbsp; ${vo.qna_title }</a></td>
+							<td colspan="4" class="text-left">
+								<span style="color:gray;">
+									<c:forEach var="i" begin="2" end="${vo.qna_group_depth }">
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									</c:forEach>
+								[Re] 작성자에 의해 삭제된 글 입니다. </span>
+							</td>
+						</c:when>
+						<c:when test="${vo.qna_group_order >0 }">
+							<td></td>
+							<td class="text-left">
+								<a href="javascript:clickTitle('${vo.qna_board_no }','${vo.qna_secret_chk }');">
+									<c:forEach var="i" begin="2" end="${vo.qna_group_depth }">
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									</c:forEach>
+								[Re]&nbsp; ${vo.qna_title }</a>
+								<c:if test="${vo.qna_secret_chk==true }">
+									<img src="${pageContext.request.contextPath}/static/frontend/assets/favicon&icon/lockicon.png" class="lock_img">
+								</c:if>
+							</td>
 							<td>${vo.Nickname }</td>
 							<td><fmt:parseDate value="${vo.qna_regdate }" var="qna_regdate" pattern="yyyy-MM-dd'T'HH:mm:ss" /><fmt:formatDate value="${qna_regdate }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 							<td>${vo.qna_hit }</td>
 						</c:when>
 						<c:otherwise>
 							<td>${vo.qna_board_no }</td>
-							<td class="text-left"><a href="${pageContext.request.contextPath}/community/qnaboard_detail?qna_board_no=${vo.qna_board_no}&qna_secret_chk=${vo.qna_secret_chk}">${vo.qna_title }</a></td>
+							<td class="text-left">
+								<a href="javascript:clickTitle('${vo.qna_board_no }','${vo.qna_secret_chk }');">${vo.qna_title }</a>
+								<c:if test="${vo.qna_secret_chk==true }">
+									<img src="${pageContext.request.contextPath}/static/frontend/assets/favicon&icon/lockicon.png" class="lock_img">
+								</c:if>
+							</td>
 							<td>${vo.Nickname }</td>
 							<td><fmt:parseDate value="${vo.qna_regdate }" var="qna_regdate" pattern="yyyy-MM-dd'T'HH:mm:ss" /><fmt:formatDate value="${qna_regdate }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 							<td>${vo.qna_hit }</td>
@@ -176,7 +211,7 @@ a {
 <!-- 페이지 컨텐트 끝 -->
 
 	<!-- modal -->
-	<div class="modal fade" id="insertModal">
+	<div class="modal fade" id="loginModal">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -205,14 +240,32 @@ a {
 	<script src="${pageContext.request.contextPath}/static/frontend/assets/js/vendor.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/frontend/assets/js/scripts.min.js"></script>
 <script>
-/* 로그인 상태에서만 문의하기 가능 */
+
+//로그인 상태에서만 문의하기 가능 
 function clickInsert(){
-	var sessionId = "${id}";
-	console.log(sessionId);
-	if(sessionId!=null && sessionId!='') {
+	var id = null;
+		<sec:authorize access="isAuthenticated()">
+			id = '<sec:authentication property="principal.memberVo.id"/>';
+		</sec:authorize>
+	console.log("아이디:" + id);
+	if(id!=null && id!='') {
 		location.href='${pageContext.request.contextPath}/community/qnaboard_insert';
 	}else{
-		$("#insertModal").modal();
+		$("#loginModal").modal();
+	}
+}
+
+function clickTitle(qna_board_no,qna_secret_chk){
+	var id = null;
+		<sec:authorize access="isAuthenticated()">
+			id = '<sec:authentication property="principal.memberVo.id"/>';
+		</sec:authorize>
+	console.log("아이디:" + id);
+	
+	if(id!=null && id!='') {
+		location.href="${pageContext.request.contextPath }/community/qnaboard_detail?qna_board_no="+qna_board_no+"&qna_secret_chk="+qna_secret_chk;
+	}else{
+		$("#loginModal").modal();
 	}
 }
 </script>

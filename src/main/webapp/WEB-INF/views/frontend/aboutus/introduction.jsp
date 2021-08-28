@@ -53,12 +53,16 @@
 <div class="container padding-bottom-2x mb-2">
 	<div class="row align-items-center padding-bottom-2x">
 		<div class="col-md-5">
-			<img class="d-block m-auto img-thumbnail" src="${pageContext.request.contextPath}/static/frontend/assets/img/banners/about-01.jpg" alt="">
+			<img class="d-block m-auto img-thumbnail" src="${pageContext.request.contextPath}/static/frontend/assets/img/banners/introduction1.png" alt="e-commerce">
 		</div>
 		<div class="col-md-7 text-md-left text-center">
 			<div class="mt-30 hidden-md-up"></div>
-			<h2>사세요 많이 사세요</h2>
-			<p class="text-muted">사이트 소개</p>
+			<h2>다양한 컴퓨터 용품을 한 곳에 모아</h2>
+			<p class="text-muted">
+				양질의 쇼핑정보를 제공하여 소비자의 구매결정을 돕고, 다양한 커뮤니티를 통해 <br> 
+				소비자로 하여금 자발적으로 정보와 토론의 장을 형성하게 하며 <br>
+				알찬 쇼핑 콘텐츠와 서비스 제공을 통한 고객 만족을 가장 큰 목표로 하고있습니다.
+			</p>
 			<a class="text-decoration-none" href="#">상품 보러가기 &nbsp;
 				<i class="icon-arrow-right d-inline-block align-middle"></i>
 			</a>
@@ -67,12 +71,12 @@
 	<hr>
 	<div class="row align-items-center padding-top-2x padding-bottom-2x">
 		<div class="col-md-5 order-md-2">
-			<img class="d-block m-auto img-thumbnail" src="${pageContext.request.contextPath}/static/frontend/assets/img/banners/about-02.jpg" alt="">
+			<img class="d-block m-auto img-thumbnail" src="${pageContext.request.contextPath}/static/frontend/assets/img/banners/introduction2.png" alt="advice">
 		</div>
 		<div class="col-md-7 order-md-1 text-md-left text-center">
 			<div class="mt-30 hidden-md-up"></div>
-			<h2>견적 받으세요</h2>
-			<p class="text-muted">견적서비스 소개</p>
+			<h2>나만의 PC를 구성하는 가장 쉬운 방법! <br> PC 견적에서 결제까지 간편하게!</h2>
+			<p class="text-muted"></p>
 			<a class="text-decoration-none" href="#">견적 문의하기 &nbsp;
 				<i class="icon-arrow-right d-inline-block align-middle"></i>
 			</a>
@@ -81,12 +85,12 @@
 	<hr>
 	<div class="row align-items-center padding-top-2x padding-bottom-2x">
 		<div class="col-md-5">
-			<img class="d-block m-auto img-thumbnail" src="${pageContext.request.contextPath}/static/frontend/assets/img/banners/about-03.jpg" alt="">
+			<img class="d-block m-auto img-thumbnail" src="${pageContext.request.contextPath}/static/frontend/assets/img/banners/introduction3.png" alt="community">
 		</div>
 		<div class="col-md-7 text-md-left text-center">
 			<div class="mt-30 hidden-md-up"></div>
-			<h2>커뮤니티 소개</h2>
-			<p class="text-muted">커뮤니티</p>
+			<h2>컴퓨터에 관심이 많은 수많은 회원들이 모여 <br> 양질의 PC 구매정보를 공유하는 커뮤니티</h2>
+			<p class="text-muted"></p>
 			<a class="text-decoration-none" href="#">커뮤니티 가기 &nbsp;
 				<i class="icon-arrow-right d-inline-block align-middle"></i>
 			</a>

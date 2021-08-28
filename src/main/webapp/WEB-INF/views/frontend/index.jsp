@@ -58,21 +58,21 @@
 							<!-- 제품 브랜드 로고 이미지 여기 -->
 							<div class="from-bottom">
 								<img class="d-inline-block w-150 mb-4"
-									src="${pageContext.request.contextPath}/static/frontend/assets/img/hero-slider/sony-logo.png"
+									src="${pageContext.request.contextPath}/static/frontend/assets/img/brands/brand2.png"
 									alt="">
-								<div class="h2 text-body mb-2 pt-1">제품명 여기</div>
+								<div class="h2 text-body mb-2 pt-1">AMD 라이젠7-4세대 5800X<br> (버미어) (멀티팩)</div>
 								<div class="h2 text-body mb-4 pb-1">
-									최저가 <span class="text-medium">100,000 원</span>
+									판매가 &nbsp;<span class="text-medium">481,000 원</span>
 								</div>
 							</div>
-							<a class="btn btn-primary scale-up delay-1" href="#">제품
-								보러가기&nbsp;<i class="icon-arrow-right"></i>
+							<a class="btn btn-primary scale-up delay-1" href="#">
+								제품 보러가기&nbsp;<i class="icon-arrow-right"></i>
 							</a>
 						</div>
 						<!-- 슬라이더 전체이미지 여기 -->
 						<div class="col-md-6 padding-bottom-2x mb-3">
 							<img class="d-block mx-auto"
-								src="${pageContext.request.contextPath}/static/frontend/assets/img/hero-slider/sony-headphone-iu4.jpg"
+								src="${pageContext.request.contextPath}/static/frontend/assets/img/hero-slider/slideimage1.png"
 								alt="">
 						</div>
 					</div>
@@ -86,21 +86,21 @@
 							<!-- 제품 브랜드 로고 이미지 여기 -->
 							<div class="from-bottom">
 								<img class="d-inline-block w-150 mb-4"
-									src="${pageContext.request.contextPath}/static/frontend/assets/img/hero-slider/sony-logo.png"
+									src="${pageContext.request.contextPath}/static/frontend/assets/img/brands/brand7.png"
 									alt="">
-								<div class="h2 text-body mb-2 pt-1">제품명 여기</div>
+								<div class="h2 text-body mb-2 pt-1">JONSBO CR-1000 AUTO RGB <br> (WHITE)</div>
 								<div class="h2 text-body mb-4 pb-1">
-									최저가 <span class="text-medium">100,000 원</span>
+									판매가 &nbsp;<span class="text-medium">26,000 원</span>
 								</div>
 							</div>
-							<a class="btn btn-primary scale-up delay-1" href="#">제품
-								보러가기&nbsp;<i class="icon-arrow-right"></i>
+							<a class="btn btn-primary scale-up delay-1" href="#">
+								제품 보러가기&nbsp;<i class="icon-arrow-right"></i>
 							</a>
 						</div>
 						<!-- 슬라이더 전체이미지 여기 -->
 						<div class="col-md-6 padding-bottom-2x mb-3">
 							<img class="d-block mx-auto"
-								src="${pageContext.request.contextPath}/static/frontend/assets/img/hero-slider/sony-headphone-iu1.jpg"
+								src="${pageContext.request.contextPath}/static/frontend/assets/img/hero-slider/slideimage2.png"
 								alt="">
 						</div>
 					</div>
@@ -114,21 +114,21 @@
 							<!-- 제품 브랜드 로고 이미지 여기 -->
 							<div class="from-bottom">
 								<img class="d-inline-block w-150 mb-4"
-									src="${pageContext.request.contextPath}/static/frontend/assets/img/hero-slider/sony-logo.png"
+									src="${pageContext.request.contextPath}/static/frontend/assets/img/brands/brand8.png"
 									alt="">
-								<div class="h2 text-body mb-2 pt-1">제품명 여기</div>
+								<div class="h2 text-body mb-2 pt-1">G.SKILL DDR4 32G <br> PC4-25600 CL16 TRIDENT Z RGB</div>
 								<div class="h2 text-body mb-4 pb-1">
-									최저가 <span class="text-medium">100,000 원</span>
+									판매가 &nbsp;<span class="text-medium">250,500 원</span>
 								</div>
 							</div>
-							<a class="btn btn-primary scale-up delay-1" href="#">제품
-								보러가기&nbsp;<i class="icon-arrow-right"></i>
+							<a class="btn btn-primary scale-up delay-1" href="#">
+								제품 보러가기&nbsp;<i class="icon-arrow-right"></i>
 							</a>
 						</div>
 						<!-- 슬라이더 전체이미지 여기 -->
 						<div class="col-md-6 padding-bottom-2x mb-3">
 							<img class="d-block mx-auto"
-								src="${pageContext.request.contextPath}/static/frontend/assets/img/hero-slider/sony-headphone-iu2.jpg"
+								src="${pageContext.request.contextPath}/static/frontend/assets/img/hero-slider/slideimage3.png"
 								alt="">
 						</div>
 					</div>
@@ -148,10 +148,10 @@
 
 	<!-- New Arrivals -->
 
-	<section class="container padding-top-3x padding-bottom-2x mb-2">
-		<h2 class="h3 pb-3 text-center">New Arrivals</h2>
+	<section class="container padding-top-4x padding-bottom-3x mb-2">
+		<h2 class="h3 pb-3 text-center">《《 &nbsp;&nbsp; 신상품 &nbsp;&nbsp; 》》</h2>
 		<div class="row">
-			<c:forEach var="vo" items="${list }">
+			<c:forEach var="vo" items="${list }" end="7">
 
 				<div class="col-lg-3 col-md-4 col-sm-6">
 					<div class="product-card mb-30">
@@ -192,15 +192,54 @@
 			</c:forEach>
 		</div>
 		<div class="text-center">
-			<a class="btn btn-outline-secondary" href="#">신상품 보러가기</a>
+			<a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/shop/product_list?category_id=20000">신상품 보러가기</a>
 		</div>
 	</section>
-
+	
+	
+	<!-- 배너 -->
+	<section class="container-fluid padding-top-2x padding-bottom-4x">
+		<div class="row justify-content-center">
+			<div class="col-xl-10 col-lg-12">
+				<div class="fw-section rounded padding-top-4x padding-bottom-4x"
+					 style="background-image: url(${pageContext.request.contextPath}/static/frontend/assets/img/banners/bannerimage.png);">
+					<span class="overlay rounded" style="opacity:.35;"></span>
+					<div class="text-center padding-bottom-8x">
+						<h3 class="display-4 text-nomal text-white text-shadow py-2 px-3 mb-1">컴알못인 당신을 위해 준비되어 있는 네오컴의 특별한</h3>
+						<h2 class="display-1 text-bold text-white text-shadow py-4">맞춤 상담 서비스</h2>
+						<h4 class="d-inline-block h2 text-normal text-white text-shadow border-default border-left-0 border-right-0 mb-4"> &nbsp; 지금 바로 만나보세요! &nbsp; </h4>
+						<br>
+						<a class="btn btn-primary margin-bottom-none" href="${pageContext.request.contextPath }/service/advboard_list">
+							견적문의하기
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- 배너 끝 -->
+	
+	
+	<!-- 브랜드 리스트 -->
+	<section class="bg-secondary padding-top-2x padding-bottom-2x">
+		<div class="container">
+		<h2 class="h3 text-center mb-30 pb-3">《《 &nbsp;&nbsp; 인기 브랜드 &nbsp;&nbsp; 》》</h2>
+			<div class="owl-carousel" data-owl-carousel="{ &quot;nav&quot;: false, &quot;dots&quot;: false, &quot;loop&quot;: true, &quot;autoplay&quot;: true, &quot;autoplayTimeout&quot;: 3000, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:2}, &quot;470&quot;:{&quot;items&quot;:3},&quot;630&quot;:{&quot;items&quot;:4},&quot;991&quot;:{&quot;items&quot;:5},&quot;1200&quot;:{&quot;items&quot;:6}} }">
+				<img class="d-block w-110 opacity-75 m-auto" src="${pageContext.request.contextPath}/static/frontend/assets/img/brands/brand1.png" alt="ASUS">
+				<img class="d-block w-110 opacity-75 m-auto" src="${pageContext.request.contextPath}/static/frontend/assets/img/brands/brand2.png" alt="AMD">
+				<img class="d-block w-110 opacity-75 m-auto" src="${pageContext.request.contextPath}/static/frontend/assets/img/brands/brand3.png" alt="intel">
+				<img class="d-block w-110 opacity-75 m-auto" src="${pageContext.request.contextPath}/static/frontend/assets/img/brands/brand4.png" alt="SAMSUNG">
+				<img class="d-block w-110 opacity-75 m-auto" src="${pageContext.request.contextPath}/static/frontend/assets/img/brands/brand5.png" alt="NVIDIA">
+				<img class="d-block w-110 opacity-75 m-auto" src="${pageContext.request.contextPath}/static/frontend/assets/img/brands/brand6.png" alt="SanDisk">
+			</div>
+		</div>
+	</section>
+	<!-- 브랜드 리스트 끝 -->
 
 
 	<!-- 쇼핑몰 서비스 -->
-	<section class="container padding-top-3x padding-bottom-2x">
-		<div class="row">
+	<section class="container padding-top-2x padding-bottom-2x">
+	<!--<div class="row">
 			<div class="col-md-4 col-sm-6 text-center mb-30">
 				<a href="#"><img
 					class="d-block w-90 img-thumbnail rounded mx-auto mb-4"
@@ -222,7 +261,7 @@
 					alt=""></a>
 				<h6 class="mb-2">결제</h6>
 			</div>
-		</div>
+		</div> -->
 	</section>
 	<!-- 쇼핑몰 서비스 끝 -->
 

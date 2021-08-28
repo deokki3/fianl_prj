@@ -24,12 +24,14 @@ public class ReviewController {
 
 	
 	// 리뷰게시판 삭제
-	@RequestMapping(value = "community/review_delete", method = RequestMethod.GET)
-	public String review_delete(Model model, int board_num) {
-		
+	
+	@RequestMapping(value="community/review_delete")
+	public String review_delete(int board_num,int product_id) {
 		r_service.delete(board_num);
-		return "frontend/community/review_list";
+		return "redirect:/community/review_list?product_id="+product_id;
 	}
+	
+	
 
 	// 리뷰게시판 수정 페이지 이동
 	@GetMapping(value = "community/review_update")
@@ -37,17 +39,19 @@ public class ReviewController {
 	
 		ReviewVo vo = r_service.detail(board_num);
 		System.out.println(board_num);
+	
 		model.addAttribute("vo", vo);
 		return "frontend/community/review_update";
-		
+		 
 	}
 
 	// 리뷰게시판 수정 등록
 	@PostMapping(value = "community/review_update")
 	public String review_updateOk(ReviewVo vo) {
 		
+		
 		r_service.update(vo);
-		return "redirect:/community/review_update";
+		return "redirect:/community/review_list?product_id="+vo.getProduct_id();
 	}
 
 	// 리뷰게시판 리스트 페이지 이동
@@ -72,6 +76,7 @@ public class ReviewController {
 		model.addAttribute("pu", pu);
 		model.addAttribute("field", field);
 		model.addAttribute("keyword", keyword);
+		model.addAttribute("product_id", product_id);
 		if(authentication!=null) {
 		CustomUserDetails cud = (CustomUserDetails) authentication.getPrincipal();
 		MemberVo mvo = cud.getMemberVo();

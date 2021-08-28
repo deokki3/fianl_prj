@@ -13,15 +13,15 @@
 	
 	<!-- ================== BEGIN core-css ================== -->
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
-	<link href="${pageContext.request.contextPath}/static/admin/assets/css/vendor.min.css" rel="stylesheet" />
-	<link href="${pageContext.request.contextPath}/static/admin/assets/css/default/app.min.css" rel="stylesheet" />
+	<link href=" ${pageContext.request.contextPath}/static/admin/assets/css/vendor.min.css" rel="stylesheet" />
+	<link href=" ${pageContext.request.contextPath}/static/admin/assets/css/default/app.min.css" rel="stylesheet" />
 	<!-- ================== END core-css ================== -->
 	
 	<!-- ================== BEGIN page-css ================== -->
-	<link href="${pageContext.request.contextPath}/static/admin/assets/plugins/jvectormap-next/jquery-jvectormap.css" rel="stylesheet" />
-	<link href="${pageContext.request.contextPath}/static/admin/assets/plugins/bootstrap-calendar/css/bootstrap_calendar.css" rel="stylesheet" />
-	<link href="${pageContext.request.contextPath}/static/admin/assets/plugins/nvd3/build/nv.d3.css" rel="stylesheet" />
-	<link href=" ${pageContext.request.contextPath}/static/admin/assets/plugins/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+	<link href=" ${pageContext.request.contextPath}/static/admin/assets/plugins/jvectormap-next/jquery-jvectormap.css" rel="stylesheet" />
+	<link href=" ${pageContext.request.contextPath}/static/admin/assets/plugins/bootstrap-calendar/css/bootstrap_calendar.css" rel="stylesheet" />
+	<link href=" ${pageContext.request.contextPath}/static/admin/assets/plugins/nvd3/build/nv.d3.css" rel="stylesheet" />
+    <link href=" ${pageContext.request.contextPath}/static/admin/assets/plugins/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
     <link href=" ${pageContext.request.contextPath}/static/admin/assets/plugins/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" />
 	<!-- ================== END page-css ================== -->
 	
@@ -49,7 +49,7 @@
 					<div class="panel panel-inverse">
 						<!-- BEGIN panel-heading -->
 						<div class="panel-heading">
-							<h4 class="panel-title">이미지 추가/수정/삭제</h4>
+							<h4 class="panel-title">상품 목록</h4>
 							<div class="panel-heading-btn">
 								<a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i class="fa fa-expand"></i></a>
 								<a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i class="fa fa-redo"></i></a>
@@ -63,9 +63,17 @@
 							<table id="data-table-responsive" class="table table-striped table-bordered align-middle">
 								<thead>
 									<tr>
-										<th width="10%">상품번호</th>
+										<th width="10%">고유번호</th>
 										<th width="8%" data-orderable="true">이미지</th>
+										<th width="15%" data-orderable="true">상품코드</th>
+										<th class="text-nowrap">분류</th>
 										<th class="text-nowrap">상품명</th>
+										<th class="text-nowrap">브랜드</th>
+										<th class="text-nowrap">제조사</th>
+										<th class="text-nowrap">판매가</th>
+										<th class="text-nowrap">재고</th>
+										<th class="text-nowrap">등록일</th>
+										<th class="text-nowrap">판매여부</th>
 										<th width="5%"></th>
 										<th width="5%"></th>
 									</tr>
@@ -83,10 +91,22 @@
 												   </c:otherwise>
 												</c:choose>
 											</c:forEach>
+											<td>${product_vo.product_code }</td>
+											<td>${product_vo.category_id }</td>
 											<td>${product_vo.product_name }</td>
-											<td><a href="${pageContext.request.contextPath }/admin/cate/delete?category_id=${vo.category_id }" class="btn btn-sm btn-primary w-60px me-1">삭제</a></td>
-											<td><a href="#modal-dialog" class="open_modal btn btn-sm btn-white w-60px" data-bs-toggle="modal" 
-											data-id="${product_vo.product_id}" data-name="${product_vo.product_name}">수정</a></td>
+											<td>${product_vo.brand }</td>
+											<td>${product_vo.manufacturer }</td>
+											<td>${product_vo.selling_price }</td>
+											<td>${product_vo.stock }</td>
+											<td>${product_vo.regdate }</td>
+											<td>${product_vo.availability }</td>
+											<td class="text-center"><a href="${pageContext.request.contextPath }/admin/product/delete?product_id=${product_vo.product_id }" class="btn btn-sm btn-primary w-60px me-1">삭제</a></td>
+											<td class="text-center"><a href="#modal-dialog" class="open_modal btn btn-sm btn-white w-60px" data-bs-toggle="modal" 
+											data-id="${product_vo.product_id}" data-category="${product_vo.category_id}" data-code="${product_vo.product_code}}" 
+											data-name="${product_vo.product_name}" data-brand="${product_vo.brand}" data-manufacturer="${product_vo.manufacturer}"
+											data-supply_price="${product_vo.supply_price}" data-consumer_price="${product_vo.consumer_price}" data-tax="${product_vo.tax}"
+											data-selling_price="${product_vo.selling_price}" data-stock="${product_vo.stock}" data-regdate="${product_vo.regdate}"
+											data-availability="${product_vo.availability}" >수정</a></td>
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -111,59 +131,60 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title">이미지 수정</h4>
+				<h4 class="modal-title">카테고리 수정</h4>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
 			</div>
 			<div class="modal-body">
-				<form action="${pageContext.request.contextPath}/admin/product/addimg" enctype="multipart/form-data" action="${pageContext.request.contextPath}/admin/product/addimg">
+				<form method="post" id="category_form" action="${pageContext.request.contextPath}/admin/cate/update">
 					<div class="row mb-15px">
-						<label class="form-label col-form-label col-md-3">상품 고유번호</label>
+						<label class="form-label col-form-label col-md-3">카테고리 코드</label>
 							<div class="col-md-9">
-								<input type="text" id="product_id" class="form-control mb-5px" readonly/>
+								<input type="text" id="category_id" name="category_id" class="form-control mb-5px" readonly/>
 							</div>
 					</div>
 					<div class="row mb-15px">
-						<label class="form-label col-form-label col-md-3">상품명</label>
+						<label class="form-label col-form-label col-md-3">카테고리명</label>
 							<div class="col-md-9">
-								<input type="text" id="product_name" class="form-control mb-5px" readonly/>
+								<input type="text" id="category_name" name="category_name" class="form-control mb-5px"/>
 							</div>
 					</div>
-					<div class ="row mb-15px">
-						<label for="main_img" class="form-label">메인이미지선택</label>
-  						<input class="prd_imgs form-control" type="file" id="main_img">
-						<label for="description_img" class="form-label">설명이미지선택</label>
-  						<input class="prd_imgs form-control" type="file" id="description_img">
+					<div class="row mb-15px">
+						<label class="form-label col-form-label col-md-3">카테고리 상위코드</label>
+							<div class="col-md-9">
+								<input type="text" id="category_parent" name="category_parent" class="form-control mb-5px"/>
+							</div>
 					</div>
-					<div id="preview_img" class="row mb-15px"></div>
-					<div class ="row mb-15px">
-						<input type="submit" id="sbmtbtn" class="btn btn-lg btn-primary" value="업로드" />
+					<div class="row mb-15px">
+						<label class="form-label col-form-label col-md-3">카테고리 순서</label>
+							<div class="col-md-9">
+								<input type="text" id="category_order" name="category_order" class="form-control mb-5px"/>
+							</div>
 					</div>
-					
 				</form>
 			</div>
 			<div class="modal-footer">
 				<a href="javascript:;" class="btn btn-white" data-bs-dismiss="modal">닫기</a>
-				<a href="javascript:;" class="btn btn-success">수정</a>
+				<a href="#" id="submitBtn" class="btn btn-success">수정</a>
 			</div>
 			</div>
 		</div>
 		</div>
+		
 	</div>
 	<!-- END #app -->
 	
 	<!-- ================== BEGIN core-js ================== -->
-	<script src="${pageContext.request.contextPath}/static/admin/assets/js/jquery-3.6.0.min.js"></script>
-	<script src="${pageContext.request.contextPath}/static/admin/assets/js/vendor.min.js"></script>
-	<script src="${pageContext.request.contextPath}/static/admin/assets/js/app.min.js"></script>
-	<script src="${pageContext.request.contextPath}/static/admin/assets/js/theme/default.min.js"></script>
+	<script src=" ${pageContext.request.contextPath}/static/admin/assets/js/vendor.min.js"></script>
+	<script src=" ${pageContext.request.contextPath}/static/admin/assets/js/app.min.js"></script>
+	<script src=" ${pageContext.request.contextPath}/static/admin/assets/js/theme/default.min.js"></script>
 	<!-- ================== END core-js ================== -->
 	
 	<!-- ================== BEGIN page-js ================== -->
-	<script src="${pageContext.request.contextPath}/static/admin/assets/plugins/d3/d3.min.js"></script>
-	<script src="${pageContext.request.contextPath}/static/admin/assets/plugins/nvd3/build/nv.d3.min.js"></script>
-	<script src="${pageContext.request.contextPath}/static/admin/assets/plugins/jvectormap-next/jquery-jvectormap.min.js"></script>
-	<script src="${pageContext.request.contextPath}/static/admin/assets/plugins/jvectormap-next/jquery-jvectormap-world-mill.js"></script>
-	<script src=" ${pageContext.request.contextPath}/static/admin/assets/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
+	<script src=" ${pageContext.request.contextPath}/static/admin/assets/plugins/d3/d3.min.js"></script>
+	<script src=" ${pageContext.request.contextPath}/static/admin/assets/plugins/nvd3/build/nv.d3.min.js"></script>
+	<script src=" ${pageContext.request.contextPath}/static/admin/assets/plugins/jvectormap-next/jquery-jvectormap.min.js"></script>
+	<script src=" ${pageContext.request.contextPath}/static/admin/assets/plugins/jvectormap-next/jquery-jvectormap-world-mill.js"></script>
+    <script src=" ${pageContext.request.contextPath}/static/admin/assets/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src=" ${pageContext.request.contextPath}/static/admin/assets/plugins/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
     <script src=" ${pageContext.request.contextPath}/static/admin/assets/plugins/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
     <script src=" ${pageContext.request.contextPath}/static/admin/assets/plugins/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
@@ -171,18 +192,21 @@
     <!-- script -->
     <script>
 		$(document).on("click", ".open_modal", function () {
-			$('#preview_img').empty();
 			var id = $(this).data('id');
 			var name = $(this).data('name');
-			console.log(id, name);
-			$("#product_id").val(id);
-			$("#product_name").val(name);
+			var parent = $(this).data('parent');
+			var order = $(this).data('order');
+			console.log(id, name, parent, order);
+			$("#category_id").val(id);
+			$("#category_name").val(name);
+			$("#category_parent").val(parent);
+			$("#category_order").val(order);
 		});
 
-		$(".prd_imgs").on('change', function(){
-    		readInputFile(this);
+		$(document).on("click", "#submitBtn" , function (){
+			$("#category_form").submit();
 		});
-
+		
     	$('#data-table-responsive').DataTable({
         	responsive: true,
 			lengthMenu: [10,20,30,50],
@@ -202,19 +226,6 @@
             },
           	},
     	});
-
-		function readInputFile(input) {
-			$('#preview_img').empty();
-			if(input.files && input.files[0]) {
-				var reader = new FileReader();
-				reader.onload = function (e) {
-					$('#preview_img').append(`
-					<img src="\${e.target.result}">
-					`);
-				}
-				reader.readAsDataURL(input.files[0]);
-			}
-		}
 
     </script>
 </body>

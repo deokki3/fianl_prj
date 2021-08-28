@@ -37,4 +37,40 @@ public class MemberService {
 	public List<MemberVo> list() {
 		return mapper.list();
 	}
+
+	public int updateNickname(MemberVo vo) {
+		return mapper.updateNickname(vo);
+	}
+
+	public int updateName(MemberVo vo) {
+		return mapper.updateName(vo);
+	}
+
+	public int updatePhone(MemberVo vo) {
+		return mapper.updatePhone(vo);
+	}
+
+	public MemberVo selectid(String id) {
+		return mapper.selectid(id);
+	}
+
+	public int memberDel(MemberVo vo) {
+		return mapper.memberDel(vo);
+	}
+
+	public int delete_role(int mem_no) {
+		return mapper.delete_role(mem_no);
+	}
+
+	public MemberVo login(MemberVo vo) {
+		return mapper.login(vo);
+	}
+
+	public int update(MemberVo vo) {
+		return mapper.update(vo);
+	}
+
+	public int delete(int mem_no) {
+		return mapper.delete(mem_no);
+	}
 }

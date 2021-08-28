@@ -24,7 +24,10 @@
     <link href=" ${pageContext.request.contextPath}/static/admin/assets/plugins/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
     <link href=" ${pageContext.request.contextPath}/static/admin/assets/plugins/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" />
 	<!-- ================== END page-css ================== -->
-	
+	<script type="text/javascript"
+		src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script type="text/javascript"
+		src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 </head>
 <body>
 	<!-- BEGIN #loader -->
@@ -74,15 +77,23 @@
 										<th width="5%"></th>
 									</tr>
 								</thead>
-								<tbody>
+								<tbody id="tbody">
 									<c:forEach var="vo" items="${list }" varStatus="status">
 										<tr>
-											<td>${vo.order_no }</td>
+											<td class="od_no">${vo.order_no }</td>
 											<td>${vo.mem_no }</td>
-											<td>${vo.tot_price } 원</td>
+											<td class="td">${vo.tot_price } 원</td>
 											<td>${vo.order_date }</td>
 											<td>${vo.order_status }</td>
-											<td>${vo.od_cc_status }</td>
+											<td style="display:none;">${vo.mid_num }</td>
+											<c:choose>
+												<c:when test="${vo.order_status=='취소 접수' }">
+													<td><button onclick="payback(${vo.order_no})">환불 요청</button></td>
+												</c:when>
+												<c:otherwise>
+													<td>${vo.od_cc_status }</td>
+												</c:otherwise>
+											</c:choose>
 											<td>상세보기</td>
 											<td><a href="${pageContext.request.contextPath }/admin/cate/delete?order_no=${vo.order_no }" class="btn btn-sm btn-primary w-60px me-1">삭제</a></td>
 											<td><a href="#modal-dialog" class="open_modal btn btn-sm btn-white w-60px" data-bs-toggle="modal" 
@@ -171,8 +182,11 @@
     <script src=" ${pageContext.request.contextPath}/static/admin/assets/plugins/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
 	<!-- ================== END page-js ================== -->
     <!-- script -->
+    
+    
     <script>
-		$(document).on("click", ".open_modal", function () {
+	/*	
+    $(document).on("click", ".open_modal", function () {
 			data-order_no="${vo.order_no}" data-mem_no="${vo.mem_no}" data-order_num="${vo.order_num}" data-tot_price="${vo.tot_price}"
 											data-order_date="${vo.order_date}" data-order_status="${vo.order_status}
 			var order_no = $(this).data('order_no');
@@ -211,6 +225,50 @@
             },
           	},
     	});
+    	*/
+
+
+    	//$('.payback').click(function (order_no) {
+    	function payback(order_no){	
+    		var a = $(".od_no");
+    		a.each(function(i) {
+    			if(a.eq(i).text()==order_no){
+    				console.log(a.eq(i).parent().children().eq(5).text());
+    			}
+    		});
+    		alert("aa");
+			console.log(order_no);
+			var param = {
+			        "mid" : "merchant_1629707704738", 
+			        // 예: ORD20180131-0000011
+			        "cancel_request_amount": 100, // 환불금액
+			        "reason": "테스트 결제 환불", 
+			        // 환불사유
+			        "refund_holder": "홍길동", 
+			        // [가상계좌 환불시 필수입력] 환불 수령계좌 예금주
+			        "refund_bank": "88", 
+			        // [가상계좌 환불시 필수입력] 환불 수령계좌 은행코드(예: KG이니시스의 경우 신한은행은 88번)
+			        "refund_account": "56211105948400" // [가상계좌 환불시 필수입력] 환불 수령계좌 번호
+		      }
+			$.ajax({
+			    	// 예: http://www.myservice.com/payments/cancel
+			      "url": "${pageContext.request.contextPath}/order/payback1",
+			      "type": "POST",
+			      "data": {"mid":"middd"},
+			      "dataType": "json",
+			      success:function(data){
+						 alert("bb");
+						 
+					 },error:function(request, status, error){
+
+							alert("code:"+request.status+"error:"+error);
+
+						}
+					 
+			    });
+			
+		  };
+
 
     </script>
 </body>

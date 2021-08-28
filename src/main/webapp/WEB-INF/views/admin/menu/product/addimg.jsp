@@ -15,6 +15,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
 	<link href="${pageContext.request.contextPath}/static/admin/assets/css/vendor.min.css" rel="stylesheet" />
 	<link href="${pageContext.request.contextPath}/static/admin/assets/css/default/app.min.css" rel="stylesheet" />
+	<link href="${pageContext.request.contextPath}/static/admin/assets/css/imgShow.css" rel="stylesheet" />
 	<!-- ================== END core-css ================== -->
 	
 	<!-- ================== BEGIN page-css ================== -->
@@ -66,8 +67,7 @@
 										<th width="10%">고유번호</th>
 										<th width="8%" data-orderable="true">이미지</th>
 										<th class="text-nowrap">상품명</th>
-										<th width="5%"></th>
-										<th width="5%"></th>
+										<th width="15%"></th>
 									</tr>
 								</thead>
 								<tbody>
@@ -84,8 +84,7 @@
 												</c:choose>
 											</c:forEach>
 											<td>${product_vo.product_name }</td>
-											<td><a href="${pageContext.request.contextPath }/admin/cate/delete?category_id=${vo.category_id }" class="btn btn-sm btn-primary w-60px me-1">삭제</a></td>
-											<td><a href="#modal-dialog" class="open_modal btn btn-sm btn-white w-60px" data-bs-toggle="modal" 
+											<td class="text-center"><a href="#modal-dialog" class="open_modal btn btn-sm btn-white w-60px" data-bs-toggle="modal" 
 											data-id="${product_vo.product_id}" data-name="${product_vo.product_name}">수정</a></td>
 										</tr>
 									</c:forEach>
@@ -115,35 +114,47 @@
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
 			</div>
 			<div class="modal-body">
-				<form action="${pageContext.request.contextPath}/admin/product/addimg" enctype="multipart/form-data" action="${pageContext.request.contextPath}/admin/product/addimg">
+				<form action="#" id="fileUploadForm" enctype="multipart/form-data">
 					<div class="row mb-15px">
 						<label class="form-label col-form-label col-md-3">상품 고유번호</label>
 							<div class="col-md-9">
-								<input type="text" id="product_id" class="form-control mb-5px" readonly/>
+								<input type="text" id="product_id" name="product_id" class="form-control mb-5px" readonly/>
 							</div>
 					</div>
 					<div class="row mb-15px">
 						<label class="form-label col-form-label col-md-3">상품명</label>
 							<div class="col-md-9">
-								<input type="text" id="product_name" class="form-control mb-5px" readonly/>
+								<input type="text" id="product_name" name="product_name" class="form-control mb-5px" readonly/>
 							</div>
 					</div>
-					<div class ="row mb-15px">
+					<div class ="uploadDiv row mb-15px">
 						<label for="main_img" class="form-label">메인이미지선택</label>
-  						<input class="prd_imgs form-control" type="file" id="main_img">
+  						<input class="prd_imgs form-control" type="file" name="main_img" id="main_img">
 						<label for="description_img" class="form-label">설명이미지선택</label>
-  						<input class="prd_imgs form-control" type="file" id="description_img">
+  						<input class="prd_imgs form-control" type="file" name="description_img" id="description_img">
 					</div>
-					<div id="preview_img" class="row mb-15px"></div>
-					<div class ="row mb-15px">
-						<input type="submit" id="sbmtbtn" class="btn btn-lg btn-primary" value="업로드" />
-					</div>
-					
+					<div class="row">
+        				<div class="col-lg-12">
+            				<div class="card shadow mb-4">
+                				<div class="card-header py-3">
+                    				<h4 class="m-0 font-weight-bold text-primary">이미지</h4>
+                				</div>
+                				<div class="card-body">
+                    				<div class="uploadResult">
+                        				<ul></ul>
+                   					 </div>
+									<div class='bigPictureWrapper'>
+										<div class='bigPicture'></div>
+									</div>
+                				</div>
+            				</div>
+        				</div>
+    				</div>
 				</form>
 			</div>
 			<div class="modal-footer">
 				<a href="javascript:;" class="btn btn-white" data-bs-dismiss="modal">닫기</a>
-				<a href="javascript:;" class="btn btn-success">수정</a>
+				<a href="javascript:;" id="submitBtn" class="btn btn-success">수정</a>
 			</div>
 			</div>
 		</div>
@@ -170,51 +181,173 @@
 	<!-- ================== END page-js ================== -->
     <!-- script -->
     <script>
-		$(document).on("click", ".open_modal", function () {
-			$('#preview_img').empty();
-			var id = $(this).data('id');
-			var name = $(this).data('name');
-			console.log(id, name);
-			$("#product_id").val(id);
-			$("#product_name").val(name);
+
+		function showImage(fileCallPath) {
+        		// alert(fileCallPath);
+				$(".bigPictureWrapper").css("display","flex").show();  //화면 가운데 배치
+        		$(".bigPicture")
+        		.html("<img src='${pageContext.request.contextPath}/admin/product/imgdisplay?fileName="+encodeURI(fileCallPath)+"'>")  //<img>추가
+        		.show({width:'100%', height:'100%'}, 1000);
+
+    	}
+
+		$(document).ready(function(e){
+
+			$(document).on("click", ".open_modal", function () {
+				$('#preview_img').empty();
+				var id = $(this).data('id');
+				var name = $(this).data('name');
+				$("#product_id").val(id);
+				$("#product_name").val(name);
+			});
+
+			$(".bigPictureWrapper").on("click", function(e){
+      			$(".bigPictureWrapper").hide();
+			});
+
+
+			// 업로드 파일 확장자 필터링
+			var regex = new RegExp("\\.(bmp|gif|jpg|jpeg|png)$");  //정규식
+			var maxSize = 5242880;  //5MB
+			
+			function checkExtension(fileName, fileSize) {
+				if (fileSize >= maxSize) {
+					alert("파일 사이즈 초과");
+					return false;
+				}
+				
+				if (!regex.test(fileName)) {
+					alert("해당 종류의 파일은 업로드할 수 없습니다.");
+					return false;
+				}
+				return true;
+			}
+			
+			
+			var uploadResult = $(".uploadResult ul");
+
+			function showUploadedFile(uploadResultArr) {
+
+				if (!uploadResultArr || uploadResultArr.length == 0) {return;}
+
+   				var str = "";
+   
+   				$(uploadResultArr).each(function(i, obj) {
+					var fileCallPath = encodeURIComponent();
+					// var originPath = obj.uploadPath + "\\" + obj.img_name_save;
+					// originPath = originPath.replace(new RegExp(/\\/g),"/");
+
+					var fileCallPath = encodeURIComponent(obj.uploadPath+"/s_"+obj.img_name_save);
+					str += "<li><div>";
+					str += "<span> " + obj.img_category + ", " + obj.img_name_origin + "</span>";
+					str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='image' class='btn btn-warning btn-sm'><i class='fa fa-times'></i></button><br>";
+					str += "<img src='${pageContext.request.contextPath}/admin/product/imgdisplay?fileName="+fileCallPath+"'>";
+					str += "</div>";
+					str += "</li>";
+
+   				});
+   
+   				uploadResult.append(str);
+			}
+
+			$(".uploadResult").on("click","button",function(e){
+    			var targetFile = $(this).data("file");
+    			var type = $(this).data("type");
+
+				var targetLi = $(this).closest("li");
+
+    			$.ajax({
+        			url: '${pageContext.request.contextPath}/admin/product/deleteFile',
+        			data: {fileName: targetFile, type: type},
+        			dataType: 'text',
+        			type: 'POST',
+        			success: function(result) {
+            			alert(result);
+						targetLi.remove();
+        			}
+    			});
+			});
+
+			var cloneObj = $(".uploadDiv").clone(); 
+
+			$(document).on("change", $("input[type='file']") , function(e){
+				var inputFile = $("input[type='file']");
+				var files = inputFile[0].files;
+
+				for (var i = 0; i < files.length; i++) {
+				if (!checkExtension(files[i].name, files[i].size)) {
+						return false;
+					}
+				}
+
+				// Get form         
+				var form = $('#fileUploadForm')[0];
+				// Create an FormData object          
+				var formData = new FormData(form);  	 
+				
+				// FormData의 값 확인
+				for (var pair of formData.entries()) { 
+					var filechk=pair[1];
+					if(filechk.size==0){
+						formData.delete(pair[0]);
+					}
+				}
+				for (var pair of formData.entries()) { 
+					console.log(pair[0] + "," + pair[1]);
+				}
+
+			
+			$.ajax({             
+				type: "POST",          
+				enctype: 'multipart/form-data',  
+				url: "${pageContext.request.contextPath}/admin/product/addimg",        
+				data: formData,
+				enctype: "multipart/form-data",
+				processData: false,    
+				contentType: false,      
+				cache: false,           
+				timeout: 600000,       
+				success: function (result) {        
+							
+					showUploadedFile(result);
+
+					$(".uploadDiv").html(cloneObj.html());
+
+				},          
+				error: function (e) {  
+					console.log("ERROR : ", e);       
+					alert("fail");      
+				}     
+			});
 		});
 
-		$(".prd_imgs").on('change', function(){
-    		readInputFile(this);
+			
+		$("#submitBtn").click(function () {                 
+  
 		});
 
-    	$('#data-table-responsive').DataTable({
-        	responsive: true,
+		$('#data-table-responsive').DataTable({
+			responsive: true,
 			lengthMenu: [10,20,30,50],
 			language: {
-            emptyTable: "데이터가 없습니다.",
-            lengthMenu: "페이지당 _MENU_ 개씩 보기",
-            info: "현재 _START_ - _END_ / _TOTAL_건",
-            infoEmpty: "데이터 없음",
-            infoFiltered: "( _MAX_건의 데이터에서 필터링됨 )",
-            search: "",
-            zeroRecords: "일치하는 데이터가 없습니다.",
-            loadingRecords: "로딩중...",
-            processing: "잠시만 기다려 주세요.",
-            paginate: {
-              next: "다음",
-              previous: "이전",
-            },
-          	},
-    	});
+				emptyTable: "데이터가 없습니다.",
+				lengthMenu: "페이지당 _MENU_ 개씩 보기",
+				info: "현재 _START_ - _END_ / _TOTAL_건",
+				infoEmpty: "데이터 없음",
+				infoFiltered: "( _MAX_건의 데이터에서 필터링됨 )",
+				search: "",
+				zeroRecords: "일치하는 데이터가 없습니다.",
+				loadingRecords: "로딩중...",
+				processing: "잠시만 기다려 주세요.",
+				paginate: {
+					next: "다음",
+					previous: "이전",
+				},
+			},
+		});
+	});
 
-		function readInputFile(input) {
-			$('#preview_img').empty();
-			if(input.files && input.files[0]) {
-				var reader = new FileReader();
-				reader.onload = function (e) {
-					$('#preview_img').append(`
-					<img src="\${e.target.result}">
-					`);
-				}
-				reader.readAsDataURL(input.files[0]);
-			}
-		}
+
 
     </script>
 </body>

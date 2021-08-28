@@ -63,15 +63,15 @@
 	<div class="col-xl-10 offset-xl-1">
 		<blockquote class="margin-top-1x margin-bottom-1x">
 			<div style="margin-bottom:20px;"></div>
-			<form>
+			<form id="pwdForm">
 				<span>
 				비밀글은 작성자와 관리자만 열람이 가능합니다.<br>
 				비밀번호를 입력해주세요.
 				</span>
 				<div class="p-2"></div>
-					<input type="password" class="form-control col-sm-2 p-1" value="" name="" id="" style="text-align:center;">
+					<input type="password" class="form-control col-sm-2 p-1" name="qna_password" id="qna_password" style="text-align:center;">
 					<div class="p-1"></div>
-					<button type="button" class="form-control col-sm-1 p-1" onclick="clickBtn">확인</button>
+					<button type="button" class="form-control col-sm-1 p-1" onclick="clickBtn(pwdForm)">확인</button>
 				
 				<div style="margin-bottom:20px;"></div>
 			</form>
@@ -106,9 +106,15 @@
 	<script src="${pageContext.request.contextPath}/static/frontend/assets/js/scripts.min.js"></script>
 <script>
 	function clickBtn(formName){
-		formName.action = "${pageContext.request.contextPath}/community/qnaboard_detailLock";
-		formName.method = "post";
-		formName.submit();
+		var password = "${map.qna_password}";
+		if($("#qna_password").val() != password) {
+			alert("비밀번호가 일치하지 않습니다.");
+			$(this).focus();
+		}else {
+			formName.action = "${pageContext.request.contextPath}/community/qnaboard_detailLock?qna_board_no=${map.qna_board_no}";
+			formName.method = "post";
+			formName.submit();
+		}
 	}
 	
 </script>

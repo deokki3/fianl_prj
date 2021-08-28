@@ -62,21 +62,23 @@
 	<jsp:include page="/WEB-INF/views/frontend/account/inc/mypage_sidebar.jsp"/>
 	
 	<!-- 주문내역 -->
-	<div class="col-lg-9 col-md-8 order-md-2">
+	
+	<div class="col-lg-9 col-md-8 order-md-2" id="parent">
+		<div id="order_cc">
 		<h6 class="text-muted text-lg text-uppercase">주문내역</h6>
 		<hr class="margin-bottom-1x">
 		<!--  <div class="table-responsive wishlist-table mb-0">-->
 		<div class="table-responsive mb-0">
-			<table class="table">
+			<table class="table" >
 				<thead>
 					<tr>
-						<th class="text-center">주문번호</th>
-						<th class="text-center">이미지</th>
-						<th class="text-center">주문상품</th>
-						<th class="text-center">주문일시</th>
-						<th class="text-center">주문금액</th>
-						<th class="text-center">상태</th>
-						<th class="text-center"></th>
+						<th class="text-center col-md-1">주문번호</th>
+						<th class="text-center col-md-2">이미지</th>
+						<th class="text-center col-md-2">주문상품</th>
+						<th class="text-center col-md-2">주문일시</th>
+						<th class="text-center col-md-1">주문금액</th>
+						<th class="text-center col-md-2">상태</th>
+						<th class="text-center col-md-2"></th>
 					</tr>
 				</thead>
 				<tbody id="myOrderList">
@@ -121,7 +123,7 @@
 								</c:if>
 								
 						</tr>-->
-						<input type="text" name="order_no" value="${vo.order_no }">
+						
 					</c:forEach>
 					<tr>	
 						<td>
@@ -139,9 +141,16 @@
 					</tr>
 				</tbody>
 			</table>
+			</div>
+			
 		</div>
 	</div>
+	
 </div>
+	<div>
+				<iframe title="하단광고" scrolling="no" frameborder="0" marginheight="0" parginwidth="0"
+				width="100%" src="http://ad.danawa.com/RealMedia/ads/adstream_sx.ads/www.danawa.com/blog_BABY@Middle1"></iframe>
+			</div>
 </div>
 <!-- 페이지 컨텐트 끝 -->
 
@@ -183,23 +192,142 @@
 		
 	};
 	
+	//주문 취소 페이지
 	function order_payment_cc(order_no){
 		var result = confirm("주문 취소 페이지로 이동하시겠습니까?");
+		var order_cc_schedule_date="";
+		var today=moment().format("YYYY-MM-DD");
 		if (result) {
-			$(".table-responsive").empty();
+			$(".col-lg-9").empty();
+			$(".table").empty(); 
+			$("#myOrderList").empty();
+			$(".text-muted").empty(); 
 			$.ajax({
 				url:"${pageContext.request.contextPath}/OrderPaymentCC",
 				dataType:"json",
 				data:{"order_no" : order_no},
 				Type:'post',
 				success:function(data){
-					alert("이동완료");
+					
+					$(".col-lg-9").append(
+						`
+						<h6 class="text-muted text-lg text-uppercase">주문취소</h6>
+								<hr class="margin-bottom-1x">
+						<form style="margin-bottom:80px;" id="order_cc_sub" name="order_cc_sub" class="card" method="post" action="${pageContext.request.contextPath }/abcd">
+							<h4 class="margin-bottom-3x text-center" style="margin-top:50px;">주문취소 test</h4>
+							<div class="table-responsive mb-0">
+								<h5 class="text-muted text-lg text-uppercase" style="margin-left:20px;">주문상세 정보</h5>
+								<table class="table" >
+								</table>
+								<div id="order_cc">
+								</div>
+							</div>
+							<input type="hidden" name="order_no" value="\${order_no}">
+							<input type="hidden" name="od_cc_application_date" value="\${today}">
+						</form>
+						`
+					);
+					
+					
+					$(".table").append(
+							`
+							<thead>
+								<tr>
+									<th class="text-center col-md-1">주문번호</th>
+									<th class="text-center col-md-2">이미지</th>
+									<th class="text-center col-md-2">주문상품</th>
+									<th class="text-center col-md-2">주문일시</th>
+									<th class="text-center col-md-1">주문금액</th>
+									<th class="text-center col-md-2">상태</th>
+								</tr>
+							</thead>
+							<tbody id="myOrderList">
+							</tbody>
+							`
+					);
+					
+						$(data.searchOrder).each(function(i,d){
+							
+							let product_name=d.product_name;
+							let img_name_save=d.img_name_save;
+							let order_date=moment(d.order_date).format("YYYY-MM-DD");
+							let order_cc_date=moment(moment(), "HHmmss").add(3, 'days').toDate();
+							order_cc_schedule_date=moment(order_cc_date).format("YYYY-MM-DD");
+							console.log(order_cc_schedule_date);
+							let product_count=d.product_count;
+							let tot_price=d.tot_price;
+							let order_status=d.order_status;
+							
+								
+							
+							$("#myOrderList").append(
+									`
+									<tr>
+										<td class="text-center text-lg">\${order_no}</td>
+										<td class="text-center text-lg"><img width=100; height=100; src="<c:url value='/upload/product_img/\${img_name_save}' />" alt="<c:url value='/upload/product_img/\${img_name_save}' />" /></td>
+										<td class="text-center text-lg">\${product_name}</td>
+										<td class="text-center text-lg">\${order_date}</td>
+										<td class="text-center text-lg">\${tot_price}</td>
+										<td class="text-center text-lg">\${order_status}</td>
+									</tr>	
+									`
+							);
+							
+							
+						
+						
+						});
+						
+						
+						
+						$("#order_cc").append(
+							`
+							<div class="col-lg">
+								<div class="row">
+									<div class="col-md">
+									
+											<div class="card-body" style="margin-top:10px;">
+												
+												<div class="form-group input-group">
+												<h5 class="margin-bottom-2x text-center">주문취소 사유 선택</h5>	
+													<select class="form-control" id="select" onchange="changeSelect();" style="margin-bottom:50px;">
+														<option value='noselect' selected>-- 취소사유 선택 --</option>
+														<option value='단순 변심'>단순 변심</option>
+														<option value='상품 품절'>상품 품절</option>
+														<option value='다른 상품 재주문'>다른 상품 재주문</option>
+														<option value='직접 입력'>직접 입력</option>
+													</select>
+													<h5 class="margin-bottom-2x text-center">주문취소 사유</h5>
+													<textarea name="od_cc_reason" style="margin-bottom:50px;" class="form-control" cols="500" rows="10" 
+													 id="cancelReason" style="margin-top:10px;" readonly="readonly" placeholder=""/></textarea>
+													<form:errors path="id" cssClass="errormsg" />
+												</div>
+												<div class="form-group input-group" style="margin-bottom:50px;">
+													<h5 class="margin-bottom-2x text-center" style="margin-top:50px;">주문취소 처리 예정일</h5>
+													<input class="form-control" type="text" readonly="readonly" path="test" value="\${order_cc_schedule_date}" placeholder=""/>
+													<errors path="password" cssClass="errormsg" />
+												</div>
+												<div class="form-group input-group">
+													
+													<input class="form-control" type="hidden" path="mem_no"/>
+													
+												</div>
+												<div class="text-center text-sm-right">
+													<button class="btn btn-primary margin-bottom-none" id="order_cc_btn">주문 취소</button>
+												</div>
+											</div>
+									
+									</div>
+								</div>
+							</div>
+							`
+						);
 				},error:function(request, status, error){
-
-					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-
-				}
-			});
+	
+						alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+	
+					}
+				});
 		} else {
 			   event.preventDefault ();
 		}
@@ -225,7 +353,7 @@
 			dataType:"json",
 			success:function(data){
 				console.log("success");
-				data.myOrderList[0].num
+				//data.myOrderList[0].num
 				$(data.myOrderList).each(function(i,d){
 						let order_no=d.order_no;
 						let product_name=d.product_name;
@@ -321,7 +449,26 @@
 									<td class="text-center text-lg">\${order_status }</td>
 										
 									<td class="text-center text-lg">
-										<a class="btn btn-sm btn-outline-info" href="#" style=margin-bottom:5px;>취소 상세 보기</a>
+										<a class="btn btn-sm btn-outline-info" href="#" style=margin-bottom:5px;>상세 보기</a>
+									<td class="text-center text-lg"></td>
+								</tr>
+								`
+							);
+						}
+						
+						if(order_status=="취소 접수"){
+							$("#myOrderList").append(
+								`
+								<tr>
+									<td class="text-center text-lg">\${order_no }</td>
+									<td class="text-center text-lg"><img width=100; height=100; src="<c:url value='/upload/product_img/\${img_name_save}' />" alt="<c:url value='/upload/product_img/\${img_name_save}' />" /></td>
+									<td class="text-center text-lg">\${product_name }</td>
+									<td class="text-center text-lg">\${order_date }</td>
+									<td class="text-center text-lg">\${tot_price }</td>
+									<td class="text-center text-lg">\${order_status }</td>
+										
+									<td class="text-center text-lg">
+										<a class="btn btn-sm btn-outline-info" href="#" style=margin-bottom:5px;>상세 보기</a>
 									<td class="text-center text-lg"></td>
 								</tr>
 								`
@@ -335,8 +482,48 @@
 			}
 		});
 	}
+	
+	function changeSelect(){
+		var select=$("#select option:selected").text();
+		if(select=="-- 취소사유 선택 --"){
+			$("#cancelReason").val("").prop("selected", true);
+			document.getElementById("cancelReason").readOnly= true;
+		}
+		if(select=="단순 변심"){
+			$("#cancelReason").val("단순 변심").prop("selected", true);
+			document.getElementById("cancelReason").readOnly= true;
+		}
+		if(select=="상품 품절"){
+			$("#cancelReason").val("상품 품절").prop("selected", true);
+			document.getElementById("cancelReason").readOnly= true;
+		}
+		if(select=="다른 상품 재주문"){
+			$("#cancelReason").val("다른 상품 재주문").prop("selected", true);
+			document.getElementById("cancelReason").readOnly= true;
+		}
+		if(select=="직접 입력"){
+			document.getElementById("cancelReason").readOnly= false;
+			$("#cancelReason").val("");
+			document.getElementById("cancelReason").focus();
+		}
+		
+	}
+	$("#parent").on('click',"#order_cc_btn",function(){
+		if($("#cancelReason").val()==""){
+			alert("주문 취소 사유를 입력하세요.");
+			return false;
+		}else{
+			alert($("#cancelReason").val());
+			console.log($("#order_cc_sub"));
+			$("#order_cc_sub").submit();
+		}
+	});
 
-
+	
+	/*function cancelSubmit(){
+		alert(document.getElementById("order_cc_sub"));
+		document.order_cc_sub.submit();
+	}*/
 	</script>
 </body>
 </html>

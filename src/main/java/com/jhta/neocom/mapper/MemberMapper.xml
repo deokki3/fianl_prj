@@ -14,6 +14,10 @@
 		insert into member_Info_member_role values(#{mem_no},3);
 	</insert>
 
+	<select id="login" resultType="com.jhta.neocom.model.MemberVo">
+		select id,nickname from member_Info where id=#{id} and password=#{password}
+	</select>
+
 	<select id="select" parameterType="String" resultType="com.jhta.neocom.model.MemberVo">
 		select m.*, r.* from member_Info m join member_Info_member_role r where id = #{id}
 	</select>
@@ -27,6 +31,29 @@
   	</select>
 
 	<select id="list" resultType="com.jhta.neocom.model.MemberVo">
-  		select mem_no from member_Info
+  		select * from member_Info
   	</select>
+
+	<update id="updateNickname" parameterType="com.jhta.neocom.model.MemberVo">
+  		update member_Info set nickname = #{nickname} where id=#{id}
+  	</update>
+
+	<update id="updateName" parameterType="com.jhta.neocom.model.MemberVo">
+  		update member_Info set name = #{name} where id=#{id}
+  	</update>
+	<update id="updatePhone" parameterType="com.jhta.neocom.model.MemberVo">
+  		update member_Info set phone = #{phone} where id=#{id}
+  	</update>
+	<select id="selectid" parameterType="String" resultType="com.jhta.neocom.model.MemberVo">
+  		select m.* from member_Info m where m.id = #{id}
+  	</select>
+	<delete id="memberDel" parameterType="com.jhta.neocom.model.MemberVo">
+  		delete from member_Info where id=#{id}
+  	</delete>
+	<insert id="delete_role" parameterType="int">
+		update member_Info_member_role set fno=(4) where mem_no=#{mem_no}
+	</insert>
+	<update id="update" parameterType="com.jhta.neocom.model.MemberVo">
+		update member_Info set nickname=#{nickname}, name = #{name}, birth_date = #{birth_date}, phone = #{phone} where mem_no=#{mem_no}
+	</update>
 </mapper>

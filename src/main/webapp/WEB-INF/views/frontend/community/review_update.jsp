@@ -134,7 +134,7 @@ opacity: 0;
 <div class="page-title">
 	<div class="container">
 		<div class="column">
-			<h1>문의게시판</h1>
+			<h1>리뷰</h1>
 		</div>
 		<div class="column">
 			<ul class="breadcrumbs">
@@ -161,11 +161,15 @@ opacity: 0;
 		<h4>작성글 수정</h4>
 		<hr class="padding-bottom-1x">
 		
-		<form class="row" name="reviewForm" method="post" action="${pageContext.request.contextPath}/community/review_update">
+		<form class="row" name="reviewForm">
+			<fieldset>
+			<input type="hidden" name="board_num" value=${vo.board_num }>
+			<input type="hidden" name="product_id" value=${vo.product_id }>
 			<div class="col-md-12">
 				<div class="form-group">
 					<label for="review_title">제목</label>
 					<input type="text" class="form-control" name="review_title" id="review_title" value="${vo.review_title }">
+					
 				</div>
 			</div>
 			<div class="col-md-12">
@@ -184,6 +188,7 @@ opacity: 0;
 					<button class="btn btn-outline-secondary margin-bottom-none" data-toggle="modal" data-target="#cancel" type="button">취소</button>
 				</div>
 			</div>
+			</fieldset>
 		</form>
 		
 	</div>

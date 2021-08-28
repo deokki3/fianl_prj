@@ -95,9 +95,9 @@ a {
 					<input type="text" class="form-control col-sm-3 p-1" value="${keyword }" name="keyword" id="keyword">
 					<button type="submit" class="form-control col-sm-1 w-1 p-2">검색</button>
 					<sec:authorize access="hasAnyRole('ADMIN', 'MANAGER')">
-					<div class="ml-md-auto" style="margin-right:20px;">
-						<button type="button" id="insertBtn" class="form-control btn-sm btn-outline-info" onclick="clickInsert()">글쓰기 <i class="icon-arrow-right-circle"></i></button>
-					</div>
+						<div class="ml-md-auto" style="margin-right:20px;">
+							<button type="button" id="insertBtn" class="form-control btn-sm btn-outline-info" onclick="location.href='${pageContext.request.contextPath}/admin/community/board_list'">공지사항 관리 <i class="icon-arrow-right-circle"></i></button>
+						</div>
 					</sec:authorize>
 				</div>
 			</form>

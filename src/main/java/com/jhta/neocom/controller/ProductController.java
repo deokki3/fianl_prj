@@ -66,11 +66,25 @@ public class ProductController {
 		return map;
 	} 
 	
-	//상품 리스트(product_list) 페이지 
+	//상품 리스트(product_list) 페이지 list
 	@GetMapping(value = "/shop/product_list") 
     public ModelAndView frontendProductList(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum, String field,
 			String keyword,String order,int category_id) { 
   		ModelAndView mv = new ModelAndView("frontend/shop/product_list");
+  			mv.addObject("category_id", category_id);
+  			mv.addObject("keyword",keyword);
+
+  	
+
+
+  		return mv; 
+       
+    }
+	//상품 리스트(product_list) 페이지 grid
+	@GetMapping(value = "/shop/product_grid") 
+    public ModelAndView frontendProductGrid(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum, String field,
+			String keyword,String order,int category_id) { 
+  		ModelAndView mv = new ModelAndView("frontend/shop/product_grid");
   			mv.addObject("category_id", category_id);
   			mv.addObject("keyword",keyword);
 
@@ -85,7 +99,9 @@ public class ProductController {
 
     public ModelAndView frontendProductDetail(@RequestParam("n") int product_id,@RequestParam("m") int category_id, Authentication authentication) {
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
-	
+	    
+		double avgStar=0;
+		int stars[]=new int[5];
 		
 		map.put("product_id", product_id);
 		map.put("category_id", category_id);
@@ -94,17 +110,23 @@ public class ProductController {
 		List<Product_ImgVo> list=service1.find(product_id);  //imgVo의 리스트 where product_id
 		String cvo=service2.selectone(map); //카테고리명을 가져오기위함
 		
-
 		List<HashMap<String, Integer>> clist=service2.selectjoin(product_id); // 카테고리 오더순서및 네임을 가져오기 위함 얘는 못받아옴
-
+		List<HashMap<String, Integer>> starlist=r_service.getStar(product_id);
+		avgStar=r_service.getAvgStar(product_id);
 		ModelAndView mv = new ModelAndView("/frontend/shop/product_detail");
-		
+	
+		for(int i=0;i<=4;i++) {
+			map.put("star", i+1);
+			stars[i]=r_service.getCountStar(map);
+			mv.addObject("star"+(i+1), stars[i]);
+		} //별점
+		mv.addObject("avg", avgStar);
 		mv.addObject("goods", vo); //ProductVo의 vo
 		mv.addObject("cvo", cvo);//cvo ==> name쓰기용
-
-
+		
+		
 		mv.addObject("clist", clist); //category 리스트
-	
+		mv.addObject("starlist", starlist);
 		mv.addObject("list", list);  //상품 한개당 이미지가 2개이상일 경우 list
 		if(authentication!=null) {
 			CustomUserDetails cud = (CustomUserDetails) authentication.getPrincipal();
@@ -118,7 +140,7 @@ public class ProductController {
 	
 	
 
-	
+	//리뷰 AJAX 등록
 		@RequestMapping(value="/review/insert",produces= {MediaType.APPLICATION_JSON_VALUE})
 
 		public @ResponseBody HashMap<String,Object> insert(String review_title,String review_content, Authentication authentication,int star,int product_id,MultipartFile file1){
@@ -160,7 +182,7 @@ public class ProductController {
 	
 
 	
-	//상품 리스트ajax
+	//리뷰 리스트 ajax
 		@RequestMapping(value = "/review/ajaxlist",produces= {MediaType.APPLICATION_JSON_VALUE})
 		public @ResponseBody HashMap<String,Object> reviewlist(@RequestParam(value="pageNum",defaultValue = "1") int pageNum,int product_id){
 			HashMap<String,Object> map=new HashMap<String, Object>();
@@ -180,6 +202,7 @@ public class ProductController {
 			map.put("startPageNum", pu.getStartPageNum());
 			map.put("endPageNum", pu.getEndPageNum());
 			map.put("pageCount", pu.getTotalPageCount());
+			map.put("pu", pu);
 		
 			map.put("pageNum", pageNum);
 			return map;

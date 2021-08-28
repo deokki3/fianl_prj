@@ -10,6 +10,8 @@
         <typeAlias type="com.jhta.neocom.model.CartVo" alias="CartVo" />
         <typeAlias type="com.jhta.neocom.model.NoticeBoardVo" alias="noticeboard" />
         <typeAlias type="com.jhta.neocom.model.QnABoardVo" alias="qnaboard" />
+        <typeAlias type="com.jhta.neocom.model.FreeBoardVo" alias="freeboard" />
+        <typeAlias type="com.jhta.neocom.model.FileVo" alias="file" />
     </typeAliases>
 
 </configuration>

@@ -6,7 +6,7 @@
   	
   	<insert id="insert" parameterType="com.jhta.neocom.model.PaymentVo">
   		insert into payment values(get_seq('payment_Seq'),#{order_no},#{payment_amount},now(),
-  		#{payer_name},#{payment_bank},#{payment_means},#{payment_status})
+  		#{payer_name},#{payment_bank},#{payment_means},#{payment_status},#{mid_num})
   	</insert>
   	
  	<delete id="delete" parameterType="int">
@@ -17,6 +17,10 @@
  	<update id="update" parameterType="hashmap">
 		update payment set payment_status=#{payment_status} where order_no=#{order_no}
 	</update> 
+	
+	<select id="searchnum" parameterType="int" resultType="int">
+		select payment_num from payment where order_no=#{order_no}
+	</select>
 	
 	<select id="list" resultType="com.jhta.neocom.model.PaymentVo">
 		select * from payment;

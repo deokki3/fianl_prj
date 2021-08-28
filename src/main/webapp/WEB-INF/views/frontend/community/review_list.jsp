@@ -72,8 +72,9 @@ a {
 	<div class="col-lg-12 col-md-10 order-md-2 text-center">
 		<!-- <hr class="margin-bottom-1x"> -->
 		<div>
-			<form action="${pageContext.request.contextPath}/community/review_list" method="post">
+			<form action="${pageContext.request.contextPath}/community/review_list?product_id=${product_id}" method="post">
 				<div class="row">
+				<input type="hidden" name="product_id" value="${product_id}">
 					<div class="p-2"></div>
 						<select class="form-control col-sm-2 p-2" name="field" >
 							<option value="nickname" <c:if test="${field=='nickname'}">selected</c:if> >작성자</option>
@@ -120,7 +121,7 @@ a {
 			<div class="column">
 				<c:choose>
 					<c:when test="${pu.prevPage }">
-						<a class="btn btn-outline-secondary btn-sm" href="${pageContext.request.contextPath}/community/review_list?pageNum=${pu.pageNum-1 }&field=${field}&keyword=${keyword}"><i class="icon-chevron-left"></i> 이전</a>
+						<a class="btn btn-outline-secondary btn-sm" href="${pageContext.request.contextPath}/community/review_list?product_id=${product_id }&pageNum=${pu.pageNum-1 }&field=${field}&keyword=${keyword}"><i class="icon-chevron-left"></i> 이전</a>
 					</c:when>
 					<c:otherwise>
 						<a class="btn btn-outline-secondary btn-sm disabled"><i class="icon-chevron-left"></i> 이전</a>
@@ -134,12 +135,12 @@ a {
 				<c:choose>
 					<c:when test="${pu.pageNum==i }">
 						<li class="active">
-							<a href="${pageContext.request.contextPath}/community/review_list?pageNum=${i }&field=${field}&keyword=${keyword}">${i }</a>
+							<a href="${pageContext.request.contextPath}/community/review_list?product_id=${product_id }&pageNum=${i }&field=${field}&keyword=${keyword}">${i }</a>
 						</li>
 					</c:when>
 					<c:otherwise>
 						<li>
-							<a href="${pageContext.request.contextPath}/community/review_list?pageNum=${i }&field=${field}&keyword=${keyword}">${i }</a>
+							<a href="${pageContext.request.contextPath}/community/review_list?product_id=${product_id }&pageNum=${i }&field=${field}&keyword=${keyword}">${i }</a>
 						</li>
 					</c:otherwise>
 				</c:choose>
@@ -149,7 +150,7 @@ a {
 			<div class="column">
 				<c:choose>
 					<c:when test="${pu.nextPage }">
-						<a class="btn btn-outline-secondary btn-sm" href="${pageContext.request.contextPath}/community/review_list?pageNum=${pu.pageNum+1 }&field=${field}&keyword=${keyword}">다음 <i class="icon-chevron-right"></i></a>
+						<a class="btn btn-outline-secondary btn-sm" href="${pageContext.request.contextPath}/community/review_list?product_id=${product_id }&pageNum=${pu.pageNum+1 }&field=${field}&keyword=${keyword}">다음 <i class="icon-chevron-right"></i></a>
 					</c:when>
 					<c:otherwise>
 						<a class="btn btn-outline-secondary btn-sm disabled">다음 <i class="icon-chevron-right"></i></a>

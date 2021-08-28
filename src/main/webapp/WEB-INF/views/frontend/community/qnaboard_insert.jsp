@@ -100,19 +100,6 @@ border-radius:0;
 .form-text{
 padding-left:18px;
 }
-.btn-primary{
-background-color:#0da9ef;
-display: inline-block;
-position: relative;
-height: 44px;
-border: 1px solid transparent;
-border-radius: 22px;
-width:100px;
-}
-.btn{
-border-radius: 22px;
-width:100px;
-}
 input[type="radio"], input[type="checkbox"]{
 box-sizing: border-box;
 padding: 0;
@@ -184,8 +171,12 @@ opacity: 0;
 				<div class="padding-bottom-1x"></div>
 				<hr class="margin-top-1x margin-bottom-1x">
 				<div class="text-right">
-					<button class="btn btn-primary margin-bottom-none" data-toggle="modal" data-target="#add" type="button">등록</button>
-					<button class="btn btn-outline-secondary margin-bottom-none" data-toggle="modal" data-target="#cancel" type="button">취소</button>
+					<button class="btn btn-primary margin-bottom-none" data-toggle="modal" data-target="#add" type="button" 
+							style="background-color:#0da9ef; display: inline-block; position: relative; height: 44px; border: 1px solid transparent; border-radius: 22px;width:100px;">
+							등록</button>
+					<button class="btn btn-outline-secondary margin-bottom-none" data-toggle="modal" data-target="#cancel" type="button" 
+							style="border-radius: 22px; width:100px;">
+							취소</button>
 				</div>
 			</div>
 		</form>

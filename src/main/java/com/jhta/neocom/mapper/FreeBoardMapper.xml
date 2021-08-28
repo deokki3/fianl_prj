@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jhta.neocom.mapper.FreeBoardMapper">
+
+	<insert id="insert" parameterType="freeboard">
+		insert into free_board values
+		(get_seq('freeboardSeq'),
+		#{mem_no},
+		null,
+		0,
+		#{free_title},
+		#{free_content},
+		sysdate(),
+		0,
+		free_board_no,
+		0,
+		0,
+		0
+		)
+	</insert>
+	
+	<!-- 답글 -->
+	<insert id="insertReply" parameterType="freeboard">
+		insert into free_board values
+		(get_seq('freeboardSeq'),
+		#{mem_no},
+		null,
+		0,
+		#{free_title},
+		#{free_content},
+		sysdate(),
+		0,
+		#{free_group_no},
+		#{free_group_order}+1,
+		#{free_group_depth}+1,
+		0
+		)
+	</insert>
+	
+	<!-- 답글에 답글 -->
+	<insert id="ReRe" parameterType="freeboard">
+		update free_board set free_group_order=free_group_order+1 where free_group_no=#{free_group_no} and free_group_order>#{free_group_order}
+	</insert>
+	
+	<delete id="delete" parameterType="int">
+		delete from free_board where free_board_no=#{free_board_no}
+	</delete>
+	
+	<!-- 원글 삭제 시 답글 있는 경우 -->
+	<select id="countReply" resultType="int" parameterType="int">
+		select count(*) from free_board where free_group_no=#{free_board_no}
+	</select>
+	<update id="showDeletePost" parameterType="int">
+		update free_board set free_show=1, free_title='', free_content='' where free_board_no=#{free_board_no}
+	</update>
+	
+	<update id="update" parameterType="freeboard">
+		update free_board set 
+		free_title=#{free_title},
+		free_content=#{free_content} 
+		where free_board_no=#{free_board_no}
+	</update>
+	
+	<!-- 게시글 검색 -->
+	<sql id="search">
+		<choose>
+			<when test="field=='combined'">
+				where free_title like CONCAT('%',#{keyword},'%') 
+				or free_content like CONCAT('%',#{keyword},'%')
+			</when>
+			<otherwise>
+				<if test="field!=null and field!=''">
+					where ${field} like CONCAT('%',#{keyword},'%')
+				</if>
+			</otherwise>
+		</choose>
+	</sql>
+	
+	<!-- 전체 게시글 수 -->
+	<select id="getCount" resultType="int" parameterType="int">
+		select IFnull(count(*),0) from free_board ff inner join member_Info mm on ff.mem_no=mm.mem_no
+		<include refid="search" />
+	</select>
+	
+	<select id="list" resultType="hashmap" parameterType="hashmap">
+		select ff.*,mm.mem_no,mm.Nickname 
+		from free_board ff inner join member_Info mm on ff.mem_no=mm.mem_no 
+		<include refid="search" />
+		order by ff.free_group_no desc, ff.free_group_order asc
+		limit #{startRow},10
+	</select>
+	
+	<select id="detail" resultType="hashmap" parameterType="int">
+		select ff.*,mm.mem_no,mm.Nickname 
+		from free_board ff inner join member_Info mm on ff.mem_no=mm.mem_no 
+		where free_board_no=#{free_board_no}
+	</select>
+	
+	<!-- 조회수 -->
+	<update id="cntHit">
+		update free_board set free_hit=free_hit+1 where free_board_no=#{free_board_no}
+	</update>
+	
+	<!-- 이전글 -->
+	<select id="prev" resultType="freeboard" parameterType="int">
+	<![CDATA[
+		select * from free_board where free_board_no =
+		(select free_board_no from free_board where free_board_no < #{free_board_no} order by free_board_no desc limit 1)
+	]]>
+	</select>
+	
+	<!-- 다음글 -->
+	<select id="next" resultType="freeboard" parameterType="int">
+	<![CDATA[
+		select * from free_board where free_board_no =
+		(select free_board_no from free_board where free_board_no > #{free_board_no} order by free_board_no limit 1)
+	]]>
+	</select>
+
+</mapper>

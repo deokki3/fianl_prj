@@ -191,8 +191,10 @@
 				</form>
 		</div>
 	</div>
-
+	<button type="button" onclick="cancelPay()">aaaa</button>
 </body>
+
+
 <script>
 	$("#check_module").click(function() {
 		var IMP = window.IMP; // 생략가능
@@ -261,7 +263,8 @@
 			            "order_no":order_no,
 			            "payment_amount":rsp.paid_amount,
 			            "payer_name":orderer_name,
-			            "payment_status":rsp.status
+			            "payment_status":rsp.status,
+			            "mid_num":rsp.merchant_uid
 			        },
 					type:"post",
 					dataType:"json",
@@ -291,5 +294,7 @@
 		});
 	});
 	
+	
+		
 </script>
 </html>

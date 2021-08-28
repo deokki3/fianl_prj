@@ -64,8 +64,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // http.cors().and();
         http.csrf().disable();
         http.authorizeRequests() // 해당 메소드 아래는 각 경로에 따른 권한을 지정할 수 있다.
-                .antMatchers("/admin/**").hasRole("ADMIN").antMatchers("/member/**")
-                .hasAnyRole("ADMIN", "MANAGER", "USER").antMatchers("/**").permitAll().and().formLogin()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/member/**").hasAnyRole("ADMIN", "MANAGER", "USER")
+                .antMatchers("/**").permitAll()//.and().formLogin()
+                .antMatchers("/account/**").hasAnyRole("NOTUSER").and().formLogin()
                 .loginPage("/account/login") // 로그인이 수행 될 경로
                 .loginProcessingUrl("/account/login")// 로그인form의 action과 일치시켜주어야 함.
                 .defaultSuccessUrl("/") // 로그인 성공 시 이동할 경로.

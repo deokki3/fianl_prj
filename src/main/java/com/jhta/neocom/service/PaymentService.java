@@ -26,6 +26,10 @@ public class PaymentService {
 		return mapper.update(map);
 	}
 	
+	public int searchnum(int order_no) {
+		return mapper.searchnum(order_no);
+	}
+	
 	public List<PaymentVo> list() {
 		return mapper.list();
 	}

@@ -100,19 +100,6 @@ border-radius:0;
 .form-text{
 padding-left:18px;
 }
-.btn-primary{
-background-color:#0da9ef;
-display: inline-block;
-position: relative;
-height: 44px;
-border: 1px solid transparent;
-border-radius: 22px;
-width:100px;
-}
-.btn{
-border-radius: 22px;
-width:100px;
-}
 input[type="radio"], input[type="checkbox"]{
 box-sizing: border-box;
 padding: 0;
@@ -161,7 +148,7 @@ opacity: 0;
 		<h4>글쓰기</h4>
 		<hr class="padding-bottom-1x">
 		
-		<form class="row" name="freeForm" method="post" action="">
+		<form class="row" name="freeForm" method="post" action="${pageContext.request.contextPath}/community/freeboard_insert">
 			<div class="col-md-12">
 				<div class="form-group">
 					<label for="free_title">제목</label>
@@ -175,17 +162,20 @@ opacity: 0;
 				</div>
 			</div>
 			<div class="col-12 padding-top-1x">
-				
-				<div class="custom-control custom-checkbox d-block">
+			<!--<div class="custom-control custom-checkbox d-block">
 					<input class="custom-control-input" type="checkbox" name="free_secret_chk" id="free_secret_chk">
 					<label class="custom-control-label" for="free_secret_chk">비밀글 &nbsp;</label>
 					<input type="password" name="free_password" id="free_password">
-				</div>
-				<div class="padding-bottom-1x"></div>
+				</div> 
+				<div class="padding-bottom-1x"></div> -->
 				<hr class="margin-top-1x margin-bottom-1x">
 				<div class="text-right">
-					<button class="btn btn-primary margin-bottom-none" data-toggle="modal" data-target="#add" type="button">등록</button>
-					<button class="btn btn-outline-secondary margin-bottom-none" data-toggle="modal" data-target="#cancel" type="button">취소</button>
+					<button class="btn btn-primary margin-bottom-none" data-toggle="modal" data-target="#add" type="button" 
+							style="background-color:#0da9ef; display: inline-block; position: relative; height: 44px; border: 1px solid transparent; border-radius: 22px;width:100px;">
+							등록</button>
+					<button class="btn btn-outline-secondary margin-bottom-none" data-toggle="modal" data-target="#cancel" type="button" 
+							style="border-radius: 22px; width:100px;">
+							취소</button>
 				</div>
 			</div>
 		</form>
@@ -249,7 +239,7 @@ opacity: 0;
 		formName.submit();
 	}
 
-	$("#free_password").attr("disabled",true);
+/*	$("#free_password").attr("disabled",true);
 		$("#free_secret_chk").on("click",function(){
 			var chk = $("input:checkbox[id='free_secret_chk']").is(":checked");
 			if(chk==true){
@@ -259,7 +249,7 @@ opacity: 0;
 				$("#free_password").prop("disabled",true);
 				$(this).val(0);
 			}
-		});
+		}); */
 </script>
 </body>
 </html>

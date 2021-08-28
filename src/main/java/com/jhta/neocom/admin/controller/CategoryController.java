@@ -28,43 +28,28 @@ public class CategoryController {
     @GetMapping("/admin/cate/cateinsert")
     public String insertForm() {
         return "admin/menu/cate/cateinsert";
-
     }
 
     @PostMapping("/admin/cate/cateinsert")
     public String insert(CategoryVo vo, Model model) {
-        try {
-            service.insert(vo);
-            model.addAttribute("code", "successs");
-        } catch (Exception e) {
-            e.printStackTrace();
-            model.addAttribute("code", "fail");
-        }
-        return "/admin/menu/cate/result";
+        service.insert(vo);
+
+        return "redirect:/admin/cate/catelist";
     }
 
     // DELETE
     @RequestMapping("/admin/cate/delete")
     public String delete(int category_id) {
         service.delete(category_id);
-        return "redirect:/admin/menu/cate/catelist";
+        return "redirect:/admin/cate/catelist";
     }
 
-    // UPDATE
-    @GetMapping("/admin/cate/update")
-    public ModelAndView updateFrom(int category_id) {
-        CategoryVo vo = service.find(category_id);
-        ModelAndView mv = new ModelAndView("/admin/menu/cate/cateupdate");
-        mv.addObject("vo", vo);
-        // mv.setViewName("/admin/menu/cate/cateupdate");
-        return mv;
-    }
-
-    @PostMapping("/admin/cate/cateupdate")
+    // Update
+    @PostMapping("/admin/cate/update")
     public String update(CategoryVo vo, Model model) {
+        System.out.println(vo);
         service.update(vo);
-        return "redirect:/admin/menu/cate/catelist";
-
+        return "redirect:/admin/cate/catelist";
     }
 
     // LIST

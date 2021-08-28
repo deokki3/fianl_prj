@@ -1,10 +1,9 @@
 package com.jhta.neocom.controller;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
+
 
 import javax.servlet.http.HttpSession;
 
@@ -19,18 +18,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.jhta.neocom.model.CartVo;
 import com.jhta.neocom.model.CustomUserDetails;
 import com.jhta.neocom.model.MemberVo;
 import com.jhta.neocom.model.OrderDetailVo;
 import com.jhta.neocom.model.OrderMainVo;
 import com.jhta.neocom.model.PaymentVo;
-import com.jhta.neocom.model.ProductVo;
 import com.jhta.neocom.service.OrderDetailService;
 import com.jhta.neocom.service.OrderMainService;
 import com.jhta.neocom.service.PaymentService;
-import com.jhta.neocom.service.ProductService;
 
 @Controller
 public class PurchaseController {
@@ -39,29 +34,27 @@ public class PurchaseController {
 	@Autowired
 	private PaymentService pservice;
 	@Autowired
-	private ProductService productservice;
-	@Autowired
 	private OrderDetailService odservice;
 
 	
 	// 직접 상품페이지에서 주문
-	   @PostMapping("/member/purchase0")
-	   public ModelAndView purchase0(int product_count, int product_id, String product_name, int selling_price,
-	         String img_name_save, Model model) {
-	      /*
-	       * if(session!=null) { //회원인 경우 세션에 아이디 담기 session.setAttribute("id", id);
-	       * return "order_dc/purchase"; }else {
-	       */
-	      System.out.println(product_count);
-	      ModelAndView mv = new ModelAndView("frontend/order/purchase");
-	      mv.addObject("product_count", product_count);
-	      mv.addObject("product_id", product_id);
-	      mv.addObject("product_name", product_name);
-	      mv.addObject("selling_price", selling_price);
-	      mv.addObject("img_name_save", img_name_save);
-	      System.out.println(product_id+"aa"+img_name_save);
-	      return mv;
-	      /* } */
+	@PostMapping("/member/purchase0")
+	public ModelAndView purchase0(int product_count, int product_id, String product_name, int selling_price,
+			String img_name_save, Model model) {
+		/*
+		 * if(session!=null) { //회원인 경우 세션에 아이디 담기 session.setAttribute("id", id);
+		 * return "order_dc/purchase"; }else {
+		 */
+		System.out.println(product_count);
+		ModelAndView mv = new ModelAndView("frontend/order/purchase");
+		mv.addObject("product_count", product_count);
+		mv.addObject("product_id", product_id);
+		mv.addObject("product_name", product_name);
+		mv.addObject("selling_price", selling_price);
+		mv.addObject("img_name_save", img_name_save);
+		System.out.println(product_id+"aa"+img_name_save);
+		return mv;
+		/* } */
 
 	   }
 
@@ -227,7 +220,6 @@ public class PurchaseController {
 		CustomUserDetails cud = (CustomUserDetails) authentication.getPrincipal();
 		MemberVo mvo = cud.getMemberVo();
 		int mem_no = mvo.getMem_no();
-		HashMap<String, Object> map = new HashMap<String, Object>();
 		model.addAttribute("order_no", order_no);
 		model.addAttribute("mem_no",mem_no);
 		System.out.println(order_no);
@@ -237,6 +229,42 @@ public class PurchaseController {
 	@RequestMapping(value = "/paymentInsert", produces = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
 	public HashMap<String, Object> insert(PaymentVo vo) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		HashMap<String, Object> map2 = new HashMap<String, Object>();
+		
+		try {
+			map2.put("order_no", vo.getOrder_no());
+			map2.put("mid_num",vo.getMid_num());
+			System.out.println(vo);
+			pservice.insert(vo);
+			omservice.updateMidNum(map2);
+			map.put("code", "success");
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("code", "fail");
+		}
+		return map;
+	}
+	
+	@GetMapping("/paymentSuccess")
+	public String paymentSuccess(HttpSession session, Model model,int order_no,String mid_num) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("order_no",order_no );	
+		map.put("order_status","배송 준비중" );
+		map.put("payment_status","결제 완료" );
+		omservice.update(map);
+		System.out.println(mid_num);
+		HashMap<String, Object> map2 = new HashMap<String, Object>();
+		map2.put("order_no",order_no );	
+		map2.put("payment_status","결제 완료" );
+		pservice.update(map);
+		model.addAttribute("order_no", order_no);
+		return "frontend/order/paymentSuccess";
+	}
+	
+	@RequestMapping(value = "/paymentCCtest", produces = { MediaType.APPLICATION_JSON_VALUE })
+	@ResponseBody
+	public HashMap<String, Object> paymentCC(PaymentVo vo) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		try {
 			System.out.println(vo);
@@ -249,26 +277,10 @@ public class PurchaseController {
 		return map;
 	}
 	
-	@GetMapping("/paymentSuccess")
-	public String paymentSuccess(HttpSession session, Model model,int order_no) {
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("order_no",order_no );	
-		map.put("order_status","배송 준비중" );
-		map.put("payment_status","결제 완료" );
-		omservice.update(map);
-		
-		HashMap<String, Object> map2 = new HashMap<String, Object>();
-		map2.put("order_no",order_no );	
-		map2.put("payment_status","결제 완료" );
-		pservice.update(map);
-		model.addAttribute("order_no", order_no);
-		return "frontend/order/paymentSuccess";
-	}
-	
 	@GetMapping("/paymentFail")
 	public String paymentFail(HttpSession session, Model model,String payment_status,int order_no) {
 		model.addAttribute("order_no", order_no);
 		return "frontend/order/paymentFail";
 	}
-
+	
 }

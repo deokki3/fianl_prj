@@ -60,24 +60,7 @@
 		<div class="col-md-3"></div>
 		<div class="col-md-6">
 			<form method="post" action="${pageContext.request.contextPath }/account/login">
-				<div class="card-body">
-					<div class="row margin-bottom-1x">
-						<div class="col-xl-4 col-md-6 col-sm-4">
-							<a class="btn btn-sm btn-block facebook-btn" href="#">
-								<i class="socicon-facebook"></i>&nbsp; Facebook login
-							</a>
-						</div>
-						<div class="col-xl-4 col-md-6 col-sm-4">
-							<a class="btn btn-sm btn-block google-btn" href="#">
-								<i class="socicon-google"></i>&nbsp; Google login
-							</a>
-						</div>
-						<div class="col-xl-4 col-md-6 col-sm-4">
-							<div id="naver_id_login" style="text-align:center"><a href="${url}">
-<img width="223" src="https://developers.naver.com/doc/review_201802/CK_bEFnWMeEBjXpQ5o8N_20180202_7aot50.png"/></a></div>
-						</div>			
-					</div>
-					
+				<div class="card-body">					
 					<h4 class="margin-bottom-1x text-center">로그인 하기</h4>
 					<div class="form-group input-group">
 

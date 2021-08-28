@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -25,6 +26,9 @@
 	<!-- Modernizr-->
 	<script src="${pageContext.request.contextPath}/static/frontend/assets/js/modernizr.min.js"></script>
 <style>
+.table thead tr td img{
+	width: 20px;
+}
 .table tbody tr td p {
 	margin-top: 30px;
 	margin-bottom: 30px;
@@ -54,7 +58,7 @@
 				<li class="separator">&nbsp;</li>
 				<li><a href="#">QnA Board</a></li>
 				<li class="separator">&nbsp;</li>
-				<li>No.${vo.qna_board_no }</li>
+				<li>No.${map.qna_board_no }</li>
 			</ul>
 		</div>
 	</div>
@@ -86,7 +90,11 @@
 					</tr>
 					<tr>
 						<th scope="row">제목</th>
-						<td colspan="3">${map.qna_title }</td>
+						<td colspan="3">${map.qna_title }
+							<c:if test="${map.qna_secret_chk==true }">
+								<img src="${pageContext.request.contextPath}/static/frontend/assets/favicon&icon/lockicon.png" class="lock_img">
+							</c:if>
+						</td>
 						<th scope="row">조회수</th>
 						<td>${map.qna_hit }</td>
 					</tr>
@@ -114,25 +122,70 @@
 			
 			
 			<div class="row" style="margin-bottom:40px;">
+			<!--<c:if test="${id == 'admin' || id == 'manager' }">
 				<div style="margin-left:30px;">
-					<a class="btn btn-outline-secondary btn-sm" id="prevAtag" href="${pageContext.request.contextPath }/community/qnaboard_insertReply?qna_board_no=${map.qna_board_no}">
+					<a class="btn btn-outline-secondary btn-sm" id="prevAtag" href="${pageContext.request.contextPath }/community/qnaboard_reply?qna_board_no=${map.qna_board_no}">
 						답변하기
 					</a>
 				</div>
-				<div class="ml-md-auto" style="margin-right:30px;">
-					<a class="btn btn-outline-secondary btn-sm" id="nextAtag" href="${pageContext.request.contextPath }/community/qnaboard_update?qna_board_no=${map.qna_board_no}">
-						수정
-					</a>
-					<a class="btn btn-outline-secondary btn-sm" id="nextAtag" href="#">
-						삭제
-					</a>
-				</div>
+				</c:if>-->
+				<sec:authorize access="hasAnyRole('ADMIN','MANAGER')">
+				<c:if test="${map.mem_no != 1 && map.mem_no != 2 }">
+					<div style="margin-left:30px;">
+						<a class="btn btn-outline-secondary btn-sm" id="prevAtag" href="${pageContext.request.contextPath }/community/qnaboard_reply?qna_board_no=${map.qna_board_no}">
+							답변하기
+						</a>
+					</div>
+				</c:if>
+				</sec:authorize>
+				
+				<c:if test="${mvo.mem_no != 1 && mvo.mem_no != 2 }">
+					<div style="margin-left:30px;">
+						<a class="btn btn-outline-secondary btn-sm" id="prevAtag" href="${pageContext.request.contextPath }/community/qnaboard_reply?qna_board_no=${map.qna_board_no}">
+							재문의하기
+						</a>
+					</div>
+				</c:if>
+				
+				<c:if test="${map.mem_no == mvo.mem_no }">
+					<div class="ml-md-auto" style="margin-right:30px;">
+						<a class="btn btn-outline-secondary btn-sm" id="nextAtag" href="${pageContext.request.contextPath }/community/qnaboard_update?qna_board_no=${map.qna_board_no}">
+							수정
+						</a>
+						<button class="btn btn-outline-secondary btn-sm" id="nextAtag"
+						   data-toggle="modal" data-target="#deleteModal" 
+						   type="button">
+							삭제
+						</button>
+					</div>
+				</c:if>
+				
 			</div>
 			
 		</div>
 	</div>
 </div>
 <!-- 페이지 컨텐트 끝 -->
+
+
+	<!-- modal -->
+	<div class="modal fade" id="deleteModal">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">문의글 삭제</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
+				</div>
+				<div class="modal-body">
+					<p>문의글을 삭제 하시겠습니까?</p>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-info btn-sm" onclick="location.href='${pageContext.request.contextPath }/community/qnaboard_delete?qna_board_no=${map.qna_board_no}'">Yes</button>
+					<button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal" onclick="return false;">No</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 
 <!-- footer -->
@@ -144,5 +197,8 @@
 	<!-- JavaScript (jQuery) libraries, plugins and custom scripts-->
 	<script src="${pageContext.request.contextPath}/static/frontend/assets/js/vendor.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/frontend/assets/js/scripts.min.js"></script>
+<script>
+	
+</script>
 </body>
 </html>
