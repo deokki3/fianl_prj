@@ -16,16 +16,20 @@
 		delete from product where product_id=#{product_id}
 	</delete>
 	
-		<sql id="search">
-
-		<if test="field!=null and field!=''">
-			where product_name like CONCAT('%',#{keyword},'%')
-			
-		</if> 
+		<sql id="price">
+		<choose>
+		<when test="minPrice!=0 and maxPrice!=10000000">
+			<![CDATA[	where selling_price>#{minPrice} and selling_price<#{maxPrice} and img_category='main' ]]>		
+		</when> 
+		<otherwise>
+			where img_category='main'
+		</otherwise>
+		</choose>
 		</sql>
 		<sql id="cate">
 				<choose>
-				<when  test="category_id==10000">
+				
+				<when  test="category_id==10000"> <!-- 검색 -->
 					where product_name like CONCAT('%',#{keyword},'%')
 						<if test="order=='new'">order by product_id desc</if>
 						<if test="order=='low'">order by selling_price asc </if>
@@ -33,7 +37,7 @@
 						<if test="order=='name_high'">order by product_name asc </if>
 						<if test="order=='name_low'">order by product_name desc </if> 
 				</when>
-				<when test="category_id==20000">
+				<when test="category_id==20000"> <!-- shop클릭시 -->
 						<if test="order=='new'">order by product_id desc</if>
 						<if test="order=='low'">order by selling_price asc </if>
 						<if test="order=='high'">order by selling_price desc </if>
@@ -42,7 +46,7 @@
 				</when>
 				
 				<otherwise>
-				<if test="category_id!=null and category_id!=''">
+				<if test="category_id!=null and category_id!=''"> <!-- 그 이외에 -->
 					where category_id=#{category_id}
 					<if test="order=='new'">order by product_id desc</if>
 					<if test="order=='low'">order by selling_price asc </if>
@@ -57,8 +61,16 @@
 	
 		<!--해당 전체 상품의 갯수 -->
 	<select id="count" parameterType="int" resultType="int">
-		select IFnull(count(*),0) from product
-			<include refid="search"/>	
+		            select IFnull(count(*),0) from 
+		 (
+		SELECT @rownum:=@rownum+1  rnum, aa.*,bb.product_img_no,bb.img_name_save,bb.img_name_origin,bb.img_size,bb.img_category FROM 
+				product aa inner join product_img bb 
+                  on aa.product_id= bb.product_id, 
+  				(SELECT @ROWNUM := 0) R
+		<include refid="cate"/>	
+		)a 
+               <include refid="price"/>	
+			
 	</select>
 	
 
@@ -79,7 +91,7 @@
   				(SELECT @ROWNUM := 0) R
 		<include refid="cate" />
 		)a 
-                 where img_category='main'
+                 <include refid="price"/>	
 	</select>
 
 	<update id="update" parameterType="ProductVo">

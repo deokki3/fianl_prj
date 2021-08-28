@@ -160,7 +160,7 @@
 			<section class="widget widget-categories">
 			<h3 class="widget-title">가격</h3>
 				<form 
-				class="price-range-slider" method="post" 
+				class="price-range-slider" id="priceCheck"
 				data-start-min="0"
 				data-start-max="10000000"
 				data-min="0"
@@ -169,16 +169,18 @@
 					<div class="ui-range-slider"></div>
 					<footer class="ui-range-slider-footer">
 						<div class="column">
-							<button class="btn btn-outline-primary btn-sm" type="submit">적용</button>
+							<input type="hidden" name="category_id" value="${ category_id}">
+							<button class="btn btn-outline-primary btn-sm" onclick=check()>적용</button>
 						</div>
 						<div class="column">
 							<div class="ui-range-values mb-3">
 								<div class="ui-range-value-min">
-									￦<span></span> <input type="hidden">
+									￦<span></span> <input type="hidden" name="minPrice" value="0" >
 								</div>
 								&nbsp;-&nbsp;
 								<div class="ui-range-value-max">
-									￦<span></span> <input type="hidden">
+									￦<span></span> <input type="hidden" name="maxPrice"  value="10000000">
+									
 								</div>
 							</div>
 						</div>
@@ -235,17 +237,37 @@
 	
 	<script type="text/javascript">
 $(function(){
-	
-	
+
 	var category_id=$("#category_id").val();
 	var a='${param.category_id}';
 	var keyword='${param.keyword}';
+	var minPrice=0;
+	console.log("minPrice===="+minPrice);
+	var maxPrice=10000000;
+	if('${minPrice}'!=null && '${maxPrcie}'!=null) {
+		
+		minPrice='${minPrice }';
+	
+		 maxPrice='${maxPrice }';
+	}
+	
+	function check(){
+		var theForm = document.priceCheck;
+		
+		
+		theForm.method = "post";
+
+		theForm.action = "${pageContext.request.contextPath}/shop/product_grid";
+	}
+	
+
 	if(a=='10000')
 		{ 
-		list(1,"new",10000,keyword);
+		list(1,"new",10000,keyword,'0','10000000');
 		}
 	else 
-		list(1,"new",category_id,keyword); 
+		list(1,"new",category_id,keyword,'0','10000000'); 
+
 	
 	
 
@@ -254,7 +276,7 @@ $(function(){
 		
 		var order=$(this).val(); 
 		console.log(order);
-		list(1,order,category_id,keyword); 
+		list(1,order,category_id,keyword,minPrice,maxPrice); 
 		   
 	}); //option값 가져오기 
 	
@@ -263,7 +285,7 @@ $(function(){
 //list(1); 지우니까 오류가없네여
 });
 	var currentPage=1; 
-	function list(pageNum,order,category_id,keyword){ 
+	function list(pageNum,order,category_id,keyword,minPrice,maxPrice){ 
 		
 		Number.prototype.format = function(){
 		    if(this==0) return 0;
@@ -281,12 +303,11 @@ $(function(){
 		};
 		 
 		currentPage=pageNum;
-		console.log(order);
-		console.log(pageNum);
+	
 		$("#commList").empty();
 		$.ajax({
 			url:"${pageContext.request.contextPath}/shop/ajaxlist",
-			data:{"pageNum":pageNum,"order":order,"category_id":category_id,"keyword":keyword},  
+			data:{"pageNum":pageNum,"order":order,"category_id":category_id,"keyword":keyword,"minPrice":minPrice,"maxPrice":maxPrice},  
 			dataType:"json", 
 			Type:"GET", 
 			success:function(data){ 

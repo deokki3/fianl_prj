@@ -216,9 +216,9 @@
 		id="details">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-11">
+				<div class="col-md-12">
 					<h3 class="h4">상품정보</h3>
-
+					<div class="mb-4"></div>
 					<img
 						src="<c:url value='/upload/product_img/${list[1].img_name_save}' />"
 						alt="<c:url value='/upload/product_img/${img.img_name_save}' />" />
