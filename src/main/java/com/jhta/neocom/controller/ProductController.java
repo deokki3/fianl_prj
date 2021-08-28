@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.jhta.neocom.model.CustomUserDetails;
 import com.jhta.neocom.model.MemberVo;
 import com.jhta.neocom.model.ProductVo;
 import com.jhta.neocom.model.Product_ImgVo;
@@ -113,10 +115,12 @@ public class ProductController {
 	
 		@RequestMapping(value="/review/insert",produces= {MediaType.APPLICATION_JSON_VALUE})
 
-		public @ResponseBody HashMap<String,Object> insert(String review_title,String review_content, HttpSession session,int star,int product_id,MultipartFile file1){
-			String id = (String) session.getAttribute("id");
-			MemberVo mvo = service3.select(id);
-		
+		public @ResponseBody HashMap<String,Object> insert(String review_title,String review_content,Authentication authentication,int star,int product_id,MultipartFile file1){
+			CustomUserDetails cud = (CustomUserDetails) authentication.getPrincipal();
+			MemberVo mvo = cud.getMemberVo();
+			System.out.println("멤버 테스트"+mvo.getMem_no());
+			System.out.println("멤버 닉네임 테스트+===="+mvo.getNickname());
+			
 			
 			
 			String img_path = uploadFilePath + "\\product_img";

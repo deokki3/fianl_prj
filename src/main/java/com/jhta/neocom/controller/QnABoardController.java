@@ -36,7 +36,7 @@ public class QnABoardController {
 		String id = (String) session.getAttribute("id");
 		int mem_no = m_service.searchNo(id);
 		vo.setMem_no(mem_no);
-		
+
 		System.out.println(vo);
 		service.insert(vo);
 

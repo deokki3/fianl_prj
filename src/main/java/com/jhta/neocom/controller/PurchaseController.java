@@ -4,7 +4,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -19,17 +18,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.jhta.neocom.model.CartVo;
 import com.jhta.neocom.model.OrderDetailVo;
 import com.jhta.neocom.model.OrderMainVo;
 import com.jhta.neocom.model.PaymentVo;
 import com.jhta.neocom.model.ProductVo;
-import com.jhta.neocom.service.CartService;
 import com.jhta.neocom.service.OrderDetailService;
 import com.jhta.neocom.service.OrderMainService;
 import com.jhta.neocom.service.PaymentService;
 import com.jhta.neocom.service.ProductService;
-
 
 @Controller
 public class PurchaseController {
@@ -52,13 +48,12 @@ public class PurchaseController {
 		 */
 		System.out.println(product_count);
 		ModelAndView mv = new ModelAndView("frontend/order/purchase");
-		int mem_no = (Integer) session.getAttribute("mem_no");
 		mv.addObject("product_count", product_count);
 		mv.addObject("product_id", product_id);
 		mv.addObject("product_name", product_name);
 		mv.addObject("selling_price", selling_price);
 		mv.addObject("img_name_save", img_name_save);
-		System.out.println("img_name_save"+img_name_save);
+		System.out.println(product_id+"aa"+img_name_save);
 		return mv;
 		/* } */
 
@@ -67,20 +62,21 @@ public class PurchaseController {
 	// 장바구니에서 주문
 	@RequestMapping(value = "/purchase1", produces = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
-	public ModelAndView purchase1(HttpSession session, Model model, @RequestParam("chkbox") ArrayList<String> chkbox,
-			@RequestParam("cnt") ArrayList<String> cnt) {
+	public ModelAndView purchase1(HttpSession session, Model model, @RequestParam("chkbox") ArrayList<Integer> chkbox,
+			@RequestParam("cnt") ArrayList<Integer> cnt) {
 		/*
 		 * if(session!=null) { //회원인 경우 세션에 아이디 담기 session.setAttribute("id", id);
 		 * return "order_dc/purchase"; }else {
 		 */
 
 		System.out.println(chkbox.size());
-		System.out.println(Integer.parseInt(cnt.get(0)));
-		System.out.println(Integer.parseInt(chkbox.get(0)));
-		int a = Integer.parseInt(chkbox.get(0));
+		System.out.println(cnt);
+		System.out.println(chkbox);
+
+		//int a = Integer.parseInt(chkbox.get(0));
 		ArrayList<ProductVo> purchaseList = new ArrayList<ProductVo>();
 		for (int i = 0; i < chkbox.size(); i++) {
-			purchaseList.addAll(productservice.purchaseList(Integer.parseInt(chkbox.get(i))));
+			purchaseList.addAll(productservice.purchaseList(chkbox.get(i)));
 		}
 		System.out.println(purchaseList);
 		ModelAndView mv = new ModelAndView("frontend/order/purchase");
@@ -161,10 +157,10 @@ public class PurchaseController {
 			omservice.updateno(map3);
 			ModelAndView mv = new ModelAndView("frontend/order/purchase2");
 			mv.addObject("order_no", order_num_update);
-			/*
-			 * vo3.setOrder_no(order_num_update); vo3.setMem_no(mem_no);
-			 * System.out.println(vo3); odservice.insert(vo3);
-			 */
+			
+//			vo3.setOrder_no(order_num_update); vo3.setMem_no(mem_no);
+//			System.out.println(vo3); odservice.insert(vo3);
+			
 
 			OrderDetailVo odvo1 = new OrderDetailVo();
 
