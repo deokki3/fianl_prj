@@ -42,33 +42,37 @@ public class ProductController {
 	@RequestMapping(value = "/shop/ajaxlist",produces= {MediaType.APPLICATION_JSON_VALUE})
 	public @ResponseBody HashMap<String,Object> cpulist(@RequestParam(value="pageNum",defaultValue = "1") int pageNum,String order,int category_id,
 			String keyword,String minPrice,String maxPrice){
+		
+		HashMap<String,Object> pmap=new HashMap<String, Object>(); //매퍼에 넣을거
+		HashMap<String,Object> map=new HashMap<String, Object>(); // list ,grid에 뿌릴거
+		System.out.println("minPrie존재여부 ajax쪽==="+minPrice);
+		System.out.println("maxPrice존재여부 ajax쪽==="+maxPrice);
 		int min=Integer.parseInt(minPrice);
 		int max=Integer.parseInt(maxPrice);
-		HashMap<String,Object> map=new HashMap<String, Object>();
-		int totalRowCount = service.getCount(map);// 전체 글의 갯수
-		PageUtil pu = new PageUtil(pageNum, 10, 10, totalRowCount);
-		HashMap<String,Object> pmap=new HashMap<String, Object>();
-		System.out.println("여기서 min???"+min);
-		System.out.println("여기서 max???"+max);
 		pmap.put("minPrice", min);
 		pmap.put("maxPrice", max);
+		pmap.put("keyword", keyword);
+		pmap.put("category_id", category_id);
+		pmap.put("order", order);
+		int totalRowCount = service.getCount(pmap);// 전체 글의 갯수
+		PageUtil pu = new PageUtil(pageNum, 10, 10, totalRowCount);
 		pmap.put("startRow",pu.getStartRow());
-		pmap.put("endRow", pu.getEndRow());
-		map.put("order",order);
-		map.put("category_id", category_id);
-		map.put("keyword", keyword);
-		map.put("minPrice", min);
-		map.put("maxPrice", max);
-		List<HashMap<String, Object>> list = service.list(map);
 		
 		
+
+//		map.put("order",order);
+//		map.put("category_id", category_id);
+//		map.put("keyword", keyword);
+		
+		List<HashMap<String, Object>> list = service.list(pmap);
+		System.out.println("list 체크===="+list);
 		map.put("list", list);
 		map.put("startPageNum", pu.getStartPageNum());
+		map.put("minPrice", min);
+		map.put("maxPrice", max);
 		map.put("endPageNum", pu.getEndPageNum());
 		map.put("pageCount", pu.getTotalPageCount());
 		map.put("pageNum", pageNum);
-		System.out.println("최소값===="+min);
-		
 		return map;
 		
 	} 
@@ -79,30 +83,28 @@ public class ProductController {
 			String keyword,String order,int category_id,String minPrice,String maxPrice) { 
   		ModelAndView mv = new ModelAndView("frontend/shop/product_list");
   			mv.addObject("category_id", category_id);
-			mv.addObject("keyword",keyword);
-			if(minPrice!=null && maxPrice!=null) {
-				mv.addObject("maxPrice", maxPrice);
-				mv.addObject("minPrice", minPrice);
-			}
-			
+  			mv.addObject("keyword",keyword);
+  			mv.addObject("minPrice1", minPrice);
+  			mv.addObject("maxPrice1", maxPrice);
+
+  	
 
 
   		return mv; 
        
     }
-	//상품 리스트(product_grid) 페이지 grid
+	//상품 리스트(product_list) 페이지 grid
 	@RequestMapping(value = "/shop/product_grid",method = {RequestMethod.GET, RequestMethod.POST}) 
     public ModelAndView frontendProductGrid(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum, String field,
 			String keyword,String order,int category_id,String minPrice,String maxPrice) {
-		System.out.println("찍히나 min=="+minPrice);
-		System.out.println("찍히나 max=="+maxPrice);
+	
   		ModelAndView mv = new ModelAndView("frontend/shop/product_grid");
   			mv.addObject("category_id", category_id);
   			mv.addObject("keyword",keyword);
-  			if(minPrice!=null && maxPrice!=null) {
-  				mv.addObject("maxPrice", maxPrice);
-  				mv.addObject("minPrice", minPrice);
-  			}
+  			mv.addObject("minPrice1", minPrice);
+  			mv.addObject("maxPrice1", maxPrice);
+  			System.out.println("grid price==="+minPrice);
+  			
   			
   			
 

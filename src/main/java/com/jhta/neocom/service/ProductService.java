@@ -25,6 +25,7 @@ public class ProductService {
 	}
 
 	public List<HashMap<String, Object>> list(HashMap<String, Object> map) {
+		System.out.println("map뭐뭐 들어오나" +map);
 		return mapper.list(map);
 
 	}

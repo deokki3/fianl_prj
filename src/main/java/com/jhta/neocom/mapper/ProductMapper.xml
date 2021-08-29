@@ -17,18 +17,17 @@
 	</delete>
 	
 		<sql id="price">
-			
-			<if test="minPrice!=null and minPrice!=''">
-				 where selling_price between #{minPrice} and  #{maxPrice} 
-			</if>
-			
-		 
-				</sql>
+		
+		<if test="minPrice!= null and minPrice!= ''">
+			and selling_price between #{minPrice} and #{maxPrice}		
+		</if>
+		
+		</sql>
 		<sql id="cate">
 				<choose>
 				
 				<when  test="category_id==10000"> <!-- 검색 -->
-					where product_name like CONCAT('%',#{keyword},'%') and img_category='main'
+					where product_name like CONCAT('%',#{keyword},'%')
 						<if test="order=='new'">order by product_id desc</if>
 						<if test="order=='low'">order by selling_price asc </if>
 						<if test="order=='high'">order by selling_price desc </if>
@@ -36,7 +35,6 @@
 						<if test="order=='name_low'">order by product_name desc </if> 
 				</when>
 				<when test="category_id==20000"> <!-- shop클릭시 -->
-					where img_category='main'
 						<if test="order=='new'">order by product_id desc</if>
 						<if test="order=='low'">order by selling_price asc </if>
 						<if test="order=='high'">order by selling_price desc </if>
@@ -44,32 +42,30 @@
 						<if test="order=='name_low'">order by product_name desc </if> 
 				</when>
 				
-				
-				<when test="category_id!=null and category_id!=''"> <!-- 그 이외에 -->
-					where category_id=#{category_id} and img_category='main'
+				<otherwise>
+				<if test="category_id!=null and category_id!=''"> <!-- 그 이외에 -->
+					where category_id=#{category_id}
 					<if test="order=='new'">order by product_id desc</if>
 					<if test="order=='low'">order by selling_price asc </if>
 					<if test="order=='high'">order by selling_price desc </if>
 					<if test="order=='name_high'">order by product_name asc </if>
 					<if test="order=='name_low'">order by product_name desc </if> 
 				
-				</when>
-				<otherwise> <!-- 메인화면 -->
-				  where img_category='main'
+				</if>
 				</otherwise>
 				</choose>
 		</sql>
 	
 		<!--해당 전체 상품의 갯수 -->
-	<select id="count" parameterType="int" resultType="int">	
-		 select IFnull(count(*),0) from 
+	<select id="count" parameterType="hashmap" resultType="int">
+		  select IFnull(count(*),0) from 
 		 (
 		SELECT  aa.*,bb.product_img_no,bb.img_name_save,bb.img_name_origin,bb.img_size,bb.img_category FROM 
 				product aa inner join product_img bb 
                   on aa.product_id= bb.product_id
-  				<include refid="cate"/>	
-			)a  <include refid="price"/>	
-           
+			<include refid="cate"/>	
+		)a where img_category='main' <include refid="price"/>	
+			
 	</select>
 	
 
@@ -87,8 +83,9 @@
 		SELECT  aa.*,bb.product_img_no,bb.img_name_save,bb.img_name_origin,bb.img_size,bb.img_category FROM 
 				product aa inner join product_img bb 
                   on aa.product_id= bb.product_id
-  				<include refid="cate"/>		
-		)a		 <include refid="price"/>	
+				<include refid="cate"/>	
+		)a where img_category='main' <include refid="price"/>	
+        limit #{startRow},10
 	</select>
 
 	<update id="update" parameterType="ProductVo">

@@ -76,9 +76,21 @@
 			<div class="column">
 				
 				<div class="shop-view">
+								 	<c:choose>
+				 		<c:when test="${keyword ne null }">
+							<a class="grid-view" href="${pageContext.request.contextPath}/shop/product_grid?category_id=${category_id}&keyword=${keyword}"><span></span><span></span><span></span></a>
+							<a class="list-view active" href="${pageContext.request.contextPath}/shop/product_list?category_id=${category_id}&keyword=${keyword}"><span></span><span></span><span></span></a>		
+						</c:when>
+						<c:when test="${minPrice1 ne null }">
+						 	<a class="grid-view" href="${pageContext.request.contextPath}/shop/product_grid?category_id=${category_id}&keyword=${keyword}&minPrice=${minPrice1}&maxPrice=${maxPrice1}"><span></span><span></span><span></span></a>
+							<a class="list-view active" href="${pageContext.request.contextPath}/shop/product_list?category_id=${category_id}&keyword=${keyword}&minPrice=${minPrice1}&maxPrice=${maxPrice1}"><span></span><span></span><span></span></a>		
+						</c:when>
+						<c:otherwise>
+							<a class="grid-view" href="${pageContext.request.contextPath}/shop/product_grid?category_id=${category_id}"><span></span><span></span><span></span></a>
+							<a class="list-view active" href="${pageContext.request.contextPath}/shop/product_list?category_id=${category_id}"><span></span><span></span><span></span></a>	
+						</c:otherwise>
 				
-					<a class="grid-view " href="${pageContext.request.contextPath}/shop/product_grid?category_id=${category_id}&keyword=${keyword}"><span></span><span></span><span></span></a>
-					<a class="list-view active" href="${pageContext.request.contextPath}/shop/product_list?category_id=${category_id}&keyword=${keyword}"><span></span><span></span><span></span></a>
+				</c:choose>
 				</div>
 				
 			</div>
@@ -154,35 +166,79 @@
 				</li>
 			</ul> 
 			</section>
+			<c:choose>
+				<c:when test="${minPrice1 ne null  }">
 			<!-- 가격 범위 --> 
 			<section class="widget widget-categories">
 			<h3 class="widget-title">가격</h3>
 				<form 
-				class="price-range-slider" method="post" 
-				data-start-min="0"
-				data-start-max="10000000"
+				class="price-range-slider" id="priceCheck"
+				data-start-min="${minPrice1 }"
+				data-start-max="${maxPrice1 }"
 				data-min="0"
 				data-max="10000000"
-				data-step="10000">
+				data-step="5000">
 					<div class="ui-range-slider"></div>
 					<footer class="ui-range-slider-footer">
 						<div class="column">
-							<button class="btn btn-outline-primary btn-sm" type="submit">적용</button>
+							<input type="hidden" name="category_id" value="${category_id}">
+							<input type="hidden" name="keywrod" value="${keyword }">
+							<button class="btn btn-outline-primary btn-sm" onclick=check()>적용</button>
 						</div>
 						<div class="column">
 							<div class="ui-range-values mb-3">
 								<div class="ui-range-value-min">
-									￦<span></span> <input type="hidden">
+									￦<span></span> <input type="hidden" name="minPrice"  >
 								</div>
 								&nbsp;-&nbsp;
 								<div class="ui-range-value-max">
-									￦<span></span> <input type="hidden">
+									￦<span></span> <input type="hidden" name="maxPrice"  >
+									
 								</div>
 							</div>
 						</div>
 					</footer>
 				</form>
 			</section>
+			</c:when>
+			<c:otherwise>
+			
+			<!-- 가격 범위 --> 
+			<section class="widget widget-categories">
+			<h3 class="widget-title">가격</h3>
+				<form 
+				class="price-range-slider" id="priceCheck"
+				data-start-min="0"
+				data-start-max="10000000"
+				data-min="0"
+				data-max="10000000"
+				data-step="5000">
+					<div class="ui-range-slider"></div>
+					<footer class="ui-range-slider-footer">
+						<div class="column">
+							<input type="hidden" name="category_id" value="${category_id}">
+							<input type="hidden" name="keywrod" value="${keyword }">
+							<button class="btn btn-outline-primary btn-sm" onclick=check()>적용</button>
+						</div>
+						<div class="column">
+							<div class="ui-range-values mb-3">
+								<div class="ui-range-value-min">
+									￦<span></span> <input type="hidden" name="minPrice"  value="${minPrice1 }">
+								</div>
+								&nbsp;-&nbsp;
+								<div class="ui-range-value-max">
+									￦<span></span> <input type="hidden" name="maxPrice" value="${maxPrice1 }" >
+									
+								</div>
+							</div>
+						</div>
+					</footer>
+				</form>
+			</section>
+			
+			
+			</c:otherwise>
+			</c:choose>
 			<!-- 브랜드 필터 -->
 			<section class="widget">
 			<h3 class="widget-title">브랜드</h3>
@@ -218,6 +274,7 @@
 </div>
 <!-- 페이지 컨텐트 끝 -->
 
+
         
              
            
@@ -236,67 +293,72 @@
 	<script src="${pageContext.request.contextPath}/static/frontend/assets/js/modernizr.min.js"></script>
 	
 	<script type="text/javascript">
-	$(function(){
-		var category_id=$("#category_id").val();
-		var a='${param.category_id}';
-		var keyword='${param.keyword}';
-		var minPrice=$("input[name=minPrice]").val();
-		console.log("minPrice===="+minPrice);
-		var maxPrice=$("input[name=maxPrice]").val();
+$(function(){
+	
+	
+	var category_id=$("#category_id").val();
+	var a='${param.category_id}';
+	var keyword='${param.keyword}';
+	var minPrice=$("input[name=minPrice]").val();
+	console.log("minPrice===="+minPrice);
+	var maxPrice=$("input[name=maxPrice]").val();
+	
+	function check(){
+		var theForm = document.priceCheck;
 		
-		function check(){
-			var theForm = document.priceCheck;
-			
-			
-			theForm.method = "post";
-			theForm.action = "${pageContext.request.contextPath}/shop/product_grid";
+		
+		theForm.method = "post";
+		theForm.action = "${pageContext.request.contextPath}/shop/product_grid";
+	}
+	
+	
+	
+	if(a=='10000')
+		{ 
+		list(1,"new",10000,keyword,minPrice,maxPrice);
 		}
+	else 
+		list(1,"new",category_id,keyword,minPrice,maxPrice); 
+	
+	
+	$("#order").change(function(){
 		
-		if(a=='10000')
-			{ 
-			list(1,"new",10000,keyword,minPrice,maxPrice);
-			}
-		else 
-			list(1,"new",category_id,keyword,minPrice,maxPrice); 
+		var order=$(this).val(); 
+		console.log(order);
+		list(1,order,category_id,keyword,minPrice,maxPrice); 
+		   
+	}); //option값 가져오기 
+	
+	
+//list(1); 지우니까 오류가없네여
+});
+	var currentPage=1; 
+	function list(pageNum,order,category_id,keyword,minPrice,maxPrice){ 
 		
-		
-		$("#order").change(function(){
-			
-			var order=$(this).val(); 
-			console.log(order);
-			list(1,order,category_id,keyword,minPrice,maxPrice); 
-			   
-		}); //option값 가져오기 
-		
-		
-	//list(1); 지우니까 오류가없네여
-	});
-		var currentPage=1; 
-		function list(pageNum,order,category_id,keyword,minPrice,maxPrice){ 
-			
-			Number.prototype.format = function(){
-			    if(this==0) return 0;
-			    var reg = /(^[+-]?\d+)(\d{3})/;
-			    var n = (this + '');
-			    while (reg.test(n)) n = n.replace(reg, '$1' + ',' + '$2');
-			    return n;
-			};
-			//문자에 대한 기능 추가
-			String.prototype.format = function(){
-			    var num = parseFloat(this);
-			    if( isNaN(num) ) return "0"; 
-			    return num.format();
-			};
-			 
-			currentPage=pageNum;
-		
-			$("#commList").empty();
-			$.ajax({
-				url:"${pageContext.request.contextPath}/shop/ajaxlist",
-				data:{"pageNum":pageNum,"order":order,"category_id":category_id,"keyword":keyword,"minPrice":minPrice,"maxPrice":maxPrice},  
-				dataType:"json", 
-				Type:"GET", 
-				success:function(data){ 
+		Number.prototype.format = function(){
+		    if(this==0) return 0;
+		    var reg = /(^[+-]?\d+)(\d{3})/;
+		    var n = (this + '');
+		    while (reg.test(n)) n = n.replace(reg, '$1' + ',' + '$2');
+		    return n;
+		};
+		//문자에 대한 기능 추가
+		String.prototype.format = function(){
+		    var num = parseFloat(this);
+		    if( isNaN(num) ) return "0"; 
+		    return num.format();
+		};
+		 
+		currentPage=pageNum;
+		console.log(order);
+		console.log(pageNum);
+		$("#commList").empty();
+		$.ajax({
+			url:"${pageContext.request.contextPath}/shop/ajaxlist",
+			data:{"pageNum":pageNum,"order":order,"category_id":category_id,"keyword":keyword,"minPrice":minPrice,"maxPrice":maxPrice},  
+			dataType:"json", 
+			Type:"GET", 
+			success:function(data){ 
 				//console.log(data.list);	
 				if(data.list.length==0) {
 					let	html=	"<div class='col-md-4 col-sm-6'>";			
@@ -368,7 +430,7 @@
 			}		
 		});	
 	}
-
+	
 </script>
 </body>
 </html>
