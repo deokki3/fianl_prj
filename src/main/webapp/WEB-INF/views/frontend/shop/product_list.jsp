@@ -236,62 +236,67 @@
 	<script src="${pageContext.request.contextPath}/static/frontend/assets/js/modernizr.min.js"></script>
 	
 	<script type="text/javascript">
-$(function(){
-	
-	
-	var category_id=$("#category_id").val();
-	var a='${param.category_id}';
-	var keyword='${param.keyword}';
-	if(a=='10000')
-		{ 
-		list(1,"new",10000,keyword);
+	$(function(){
+		var category_id=$("#category_id").val();
+		var a='${param.category_id}';
+		var keyword='${param.keyword}';
+		var minPrice=$("input[name=minPrice]").val();
+		console.log("minPrice===="+minPrice);
+		var maxPrice=$("input[name=maxPrice]").val();
+		
+		function check(){
+			var theForm = document.priceCheck;
+			
+			
+			theForm.method = "post";
+			theForm.action = "${pageContext.request.contextPath}/shop/product_grid";
 		}
-	else 
-		list(1,"new",category_id,keyword); 
-	
-	
-
-
-	$("#order").change(function(){
 		
-		var order=$(this).val(); 
-		console.log(order);
-		list(1,order,category_id,keyword); 
-		   
-	}); //option값 가져오기 
-	
-	
-
-//list(1); 지우니까 오류가없네여
-});
-	var currentPage=1; 
-	function list(pageNum,order,category_id,keyword){ 
+		if(a=='10000')
+			{ 
+			list(1,"new",10000,keyword,minPrice,maxPrice);
+			}
+		else 
+			list(1,"new",category_id,keyword,minPrice,maxPrice); 
 		
-		Number.prototype.format = function(){
-		    if(this==0) return 0;
-		    var reg = /(^[+-]?\d+)(\d{3})/;
-		    var n = (this + '');
-		    while (reg.test(n)) n = n.replace(reg, '$1' + ',' + '$2');
-		    return n;
-		};
-
-		//문자에 대한 기능 추가
-		String.prototype.format = function(){
-		    var num = parseFloat(this);
-		    if( isNaN(num) ) return "0"; 
-		    return num.format();
-		};
-		 
-		currentPage=pageNum;
-		console.log(order);
-		console.log(pageNum);
-		$("#commList").empty();
-		$.ajax({
-			url:"${pageContext.request.contextPath}/shop/ajaxlist",
-			data:{"pageNum":pageNum,"order":order,"category_id":category_id,"keyword":keyword},  
-			dataType:"json", 
-			Type:"GET", 
-			success:function(data){ 
+		
+		$("#order").change(function(){
+			
+			var order=$(this).val(); 
+			console.log(order);
+			list(1,order,category_id,keyword,minPrice,maxPrice); 
+			   
+		}); //option값 가져오기 
+		
+		
+	//list(1); 지우니까 오류가없네여
+	});
+		var currentPage=1; 
+		function list(pageNum,order,category_id,keyword,minPrice,maxPrice){ 
+			
+			Number.prototype.format = function(){
+			    if(this==0) return 0;
+			    var reg = /(^[+-]?\d+)(\d{3})/;
+			    var n = (this + '');
+			    while (reg.test(n)) n = n.replace(reg, '$1' + ',' + '$2');
+			    return n;
+			};
+			//문자에 대한 기능 추가
+			String.prototype.format = function(){
+			    var num = parseFloat(this);
+			    if( isNaN(num) ) return "0"; 
+			    return num.format();
+			};
+			 
+			currentPage=pageNum;
+		
+			$("#commList").empty();
+			$.ajax({
+				url:"${pageContext.request.contextPath}/shop/ajaxlist",
+				data:{"pageNum":pageNum,"order":order,"category_id":category_id,"keyword":keyword,"minPrice":minPrice,"maxPrice":maxPrice},  
+				dataType:"json", 
+				Type:"GET", 
+				success:function(data){ 
 				//console.log(data.list);	
 				if(data.list.length==0) {
 					let	html=	"<div class='col-md-4 col-sm-6'>";			
@@ -363,7 +368,6 @@ $(function(){
 			}		
 		});	
 	}
-	
 
 </script>
 </body>

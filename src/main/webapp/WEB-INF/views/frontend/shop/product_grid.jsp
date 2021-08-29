@@ -76,9 +76,21 @@
 			<div class="column">
 				
 				<div class="shop-view">
-				 
+				 <c:choose>
+				 <c:when test="${category_id ne null }"> <!-- shop 눌렀을 때 -->
+					<a class="grid-view active" href="${pageContext.request.contextPath}/shop/product_grid?category_id=${category_id}"><span></span><span></span><span></span></a>
+					<a class="list-view" href="${pageContext.request.contextPath}/shop/product_list?category_id=${category_id}"><span></span><span></span><span></span></a>
+				</c:when>
+				<c:when test="${category_id ne null } && ${keyword ne null }"> <!--  검색했을 때 -->
 					<a class="grid-view active" href="${pageContext.request.contextPath}/shop/product_grid?category_id=${category_id}&keyword=${keyword}"><span></span><span></span><span></span></a>
 					<a class="list-view" href="${pageContext.request.contextPath}/shop/product_list?category_id=${category_id}&keyword=${keyword}"><span></span><span></span><span></span></a>
+				</c:when>
+				<c:when test="${category_id ne null } && ${minPrice ne null }"><!-- 가격제한걸때 -->
+					<a class="grid-view active" href="${pageContext.request.contextPath}/shop/product_grid?category_id=${category_id}&keyword=${keyword}&minPrice=${minPrice}&maxPrice=${maxPrice}"><span></span><span></span><span></span></a>
+					<a class="list-view" href="${pageContext.request.contextPath}/shop/product_list?category_id=${category_id}&keyword=${keyword}&minPrice=${minPrice}&maxPrice=${maxPrice}"><span></span><span></span><span></span></a>
+				</c:when>
+				</c:choose>
+				
 				</div>
 				
 			</div>
@@ -157,15 +169,17 @@
 			</ul> 
 			</section>
 			<!-- 가격 범위 --> 
+			
 			<section class="widget widget-categories">
 			<h3 class="widget-title">가격</h3>
 				<form 
 				class="price-range-slider" id="priceCheck"
-				data-start-min="0"
-				data-start-max="10000000"
+				
+				data-start-min="${minPrice }"
+				data-start-max="${maxPrice }"
 				data-min="0"
 				data-max="10000000"
-				data-step="10000">
+				data-step="1000">
 					<div class="ui-range-slider"></div>
 					<footer class="ui-range-slider-footer">
 						<div class="column">
@@ -187,6 +201,7 @@
 					</footer>
 				</form>
 			</section>
+			
 			<!-- 브랜드 필터 -->
 			<section class="widget">
 			<h3 class="widget-title">브랜드</h3>
@@ -237,41 +252,29 @@
 	
 	<script type="text/javascript">
 $(function(){
-
 	var category_id=$("#category_id").val();
 	var a='${param.category_id}';
 	var keyword='${param.keyword}';
-	var minPrice=0;
+	var minPrice=$("input[name=minPrice]").val();
 	console.log("minPrice===="+minPrice);
-	var maxPrice=10000000;
-	if('${minPrice}'!=null && '${maxPrcie}'!=null) {
-		
-		minPrice='${minPrice }';
-	
-		 maxPrice='${maxPrice }';
-	}
+	var maxPrice=$("input[name=maxPrice]").val();
 	
 	function check(){
 		var theForm = document.priceCheck;
 		
 		
 		theForm.method = "post";
-
 		theForm.action = "${pageContext.request.contextPath}/shop/product_grid";
 	}
 	
-
 	if(a=='10000')
 		{ 
-		list(1,"new",10000,keyword,'0','10000000');
+		list(1,"new",10000,keyword,minPrice,maxPrice);
 		}
 	else 
-		list(1,"new",category_id,keyword,'0','10000000'); 
-
+		list(1,"new",category_id,keyword,minPrice,maxPrice); 
 	
 	
-
-
 	$("#order").change(function(){
 		
 		var order=$(this).val(); 
@@ -281,7 +284,6 @@ $(function(){
 	}); //option값 가져오기 
 	
 	
-
 //list(1); 지우니까 오류가없네여
 });
 	var currentPage=1; 
@@ -294,7 +296,6 @@ $(function(){
 		    while (reg.test(n)) n = n.replace(reg, '$1' + ',' + '$2');
 		    return n;
 		};
-
 		//문자에 대한 기능 추가
 		String.prototype.format = function(){
 		    var num = parseFloat(this);
@@ -384,7 +385,6 @@ $(function(){
 		});	
 	}
 	
-
 </script>
 </body>
 </html>
