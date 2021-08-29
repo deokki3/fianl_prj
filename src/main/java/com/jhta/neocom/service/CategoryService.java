@@ -49,6 +49,10 @@ public class CategoryService {
 
 	public List<HashMap<String, Integer>> selectjoin(int product_id) {
 		return mapper.selectjoin(product_id);
+		
+	}
+	public List<HashMap<String, Object>> classification(int category_parent){
+		return mapper.classification(category_parent);
 	}
 
 }

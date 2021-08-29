@@ -17,14 +17,11 @@
 	</delete>
 	
 		<sql id="price">
-		<choose>
-		<when test="minPrice!=0 and maxPrice!=10000000">
-			<![CDATA[	where selling_price>#{minPrice} and selling_price<#{maxPrice} and img_category='main' ]]>		
-		</when> 
-		<otherwise>
-			where img_category='main'
-		</otherwise>
-		</choose>
+		
+		<if test="minPrice!= null and minPrice!= ''">
+			and selling_price between #{minPrice} and #{maxPrice}		
+		</if>
+		
 		</sql>
 		<sql id="cate">
 				<choose>
@@ -60,16 +57,14 @@
 		</sql>
 	
 		<!--해당 전체 상품의 갯수 -->
-	<select id="count" parameterType="int" resultType="int">
-		            select IFnull(count(*),0) from 
+	<select id="count" parameterType="hashmap" resultType="int">
+		  select IFnull(count(*),0) from 
 		 (
-		SELECT @rownum:=@rownum+1  rnum, aa.*,bb.product_img_no,bb.img_name_save,bb.img_name_origin,bb.img_size,bb.img_category FROM 
+		SELECT  aa.*,bb.product_img_no,bb.img_name_save,bb.img_name_origin,bb.img_size,bb.img_category FROM 
 				product aa inner join product_img bb 
-                  on aa.product_id= bb.product_id, 
-  				(SELECT @ROWNUM := 0) R
-		<include refid="cate"/>	
-		)a 
-               <include refid="price"/>	
+                  on aa.product_id= bb.product_id
+			<include refid="cate"/>	
+		)a where img_category='main' <include refid="price"/>	
 			
 	</select>
 	
@@ -85,13 +80,12 @@
 	<select id="list" parameterType="hashmap" resultType="hashmap">
 		select a.* from 
 		 (
-		SELECT @rownum:=@rownum+1  rnum, aa.*,bb.product_img_no,bb.img_name_save,bb.img_name_origin,bb.img_size,bb.img_category FROM 
+		SELECT  aa.*,bb.product_img_no,bb.img_name_save,bb.img_name_origin,bb.img_size,bb.img_category FROM 
 				product aa inner join product_img bb 
-                  on aa.product_id= bb.product_id, 
-  				(SELECT @ROWNUM := 0) R
-		<include refid="cate" />
-		)a 
-                 <include refid="price"/>	
+                  on aa.product_id= bb.product_id
+				<include refid="cate"/>	
+		)a where img_category='main' <include refid="price"/>	
+        limit #{startRow},10
 	</select>
 
 	<update id="update" parameterType="ProductVo">

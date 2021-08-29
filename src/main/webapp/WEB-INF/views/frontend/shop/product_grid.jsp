@@ -76,9 +76,21 @@
 			<div class="column">
 				
 				<div class="shop-view">
-				 
-					<a class="grid-view active" href="${pageContext.request.contextPath}/shop/product_grid?category_id=${category_id}&keyword=${keyword}"><span></span><span></span><span></span></a>
-					<a class="list-view" href="${pageContext.request.contextPath}/shop/product_list?category_id=${category_id}&keyword=${keyword}"><span></span><span></span><span></span></a>
+				 	<c:choose>
+				 		<c:when test="${keyword ne null }">
+							<a class="grid-view active" href="${pageContext.request.contextPath}/shop/product_grid?category_id=${category_id}&keyword=${keyword}"><span></span><span></span><span></span></a>
+							<a class="list-view" href="${pageContext.request.contextPath}/shop/product_list?category_id=${category_id}&keyword=${keyword}"><span></span><span></span><span></span></a>		
+						</c:when>
+						<c:when test="${minPrice1 ne null }">
+						 	<a class="grid-view active" href="${pageContext.request.contextPath}/shop/product_grid?category_id=${category_id}&keyword=${keyword}&minPrice=${minPrice1}&maxPrice=${maxPrice1}"><span></span><span></span><span></span></a>
+							<a class="list-view" href="${pageContext.request.contextPath}/shop/product_list?category_id=${category_id}&keyword=${keyword}&minPrice=${minPrice1}&maxPrice=${maxPrice1}"><span></span><span></span><span></span></a>		
+						</c:when>
+						<c:otherwise>
+							<a class="grid-view active" href="${pageContext.request.contextPath}/shop/product_grid?category_id=${category_id}"><span></span><span></span><span></span></a>
+							<a class="list-view" href="${pageContext.request.contextPath}/shop/product_list?category_id=${category_id}"><span></span><span></span><span></span></a>	
+						</c:otherwise>
+				
+				</c:choose>
 				</div>
 				
 			</div>
@@ -156,6 +168,43 @@
 				</li>
 			</ul> 
 			</section>
+			<c:choose>
+				<c:when test="${minPrice1 ne null  }">
+			<!-- 가격 범위 --> 
+			<section class="widget widget-categories">
+			<h3 class="widget-title">가격</h3>
+				<form 
+				class="price-range-slider" id="priceCheck"
+				data-start-min="${minPrice1 }"
+				data-start-max="${maxPrice1 }"
+				data-min="0"
+				data-max="10000000"
+				data-step="5000">
+					<div class="ui-range-slider"></div>
+					<footer class="ui-range-slider-footer">
+						<div class="column">
+							<input type="hidden" name="category_id" value="${category_id}">
+							<input type="hidden" name="keywrod" value="${keyword }">
+							<button class="btn btn-outline-primary btn-sm" onclick=check()>적용</button>
+						</div>
+						<div class="column">
+							<div class="ui-range-values mb-3">
+								<div class="ui-range-value-min">
+									￦<span></span> <input type="hidden" name="minPrice"  >
+								</div>
+								&nbsp;-&nbsp;
+								<div class="ui-range-value-max">
+									￦<span></span> <input type="hidden" name="maxPrice"  >
+									
+								</div>
+							</div>
+						</div>
+					</footer>
+				</form>
+			</section>
+			</c:when>
+			<c:otherwise>
+			
 			<!-- 가격 범위 --> 
 			<section class="widget widget-categories">
 			<h3 class="widget-title">가격</h3>
@@ -165,21 +214,22 @@
 				data-start-max="10000000"
 				data-min="0"
 				data-max="10000000"
-				data-step="10000">
+				data-step="5000">
 					<div class="ui-range-slider"></div>
 					<footer class="ui-range-slider-footer">
 						<div class="column">
-							<input type="hidden" name="category_id" value="${ category_id}">
+							<input type="hidden" name="category_id" value="${category_id}">
+							<input type="hidden" name="keywrod" value="${keyword }">
 							<button class="btn btn-outline-primary btn-sm" onclick=check()>적용</button>
 						</div>
 						<div class="column">
 							<div class="ui-range-values mb-3">
 								<div class="ui-range-value-min">
-									￦<span></span> <input type="hidden" name="minPrice" value="0" >
+									￦<span></span> <input type="hidden" name="minPrice"  value="${minPrice1 }">
 								</div>
 								&nbsp;-&nbsp;
 								<div class="ui-range-value-max">
-									￦<span></span> <input type="hidden" name="maxPrice"  value="10000000">
+									￦<span></span> <input type="hidden" name="maxPrice" value="${maxPrice1 }" >
 									
 								</div>
 							</div>
@@ -187,6 +237,10 @@
 					</footer>
 				</form>
 			</section>
+			
+			
+			</c:otherwise>
+			</c:choose>
 			<!-- 브랜드 필터 -->
 			<section class="widget">
 			<h3 class="widget-title">브랜드</h3>
@@ -241,16 +295,10 @@ $(function(){
 	var category_id=$("#category_id").val();
 	var a='${param.category_id}';
 	var keyword='${param.keyword}';
-	var minPrice=0;
+	var minPrice=$("input[name=minPrice]").val();
 	console.log("minPrice===="+minPrice);
-	var maxPrice=10000000;
-	if('${minPrice}'!=null && '${maxPrcie}'!=null) {
-		
-		minPrice='${minPrice }';
-	
-		 maxPrice='${maxPrice }';
-	}
-	
+	var maxPrice=$("input[name=maxPrice]").val();
+
 	function check(){
 		var theForm = document.priceCheck;
 		
@@ -263,10 +311,10 @@ $(function(){
 
 	if(a=='10000')
 		{ 
-		list(1,"new",10000,keyword,'0','10000000');
+		list(1,"new",10000,keyword,minPrice,maxPrice);
 		}
 	else 
-		list(1,"new",category_id,keyword,'0','10000000'); 
+		list(1,"new",category_id,keyword,minPrice,maxPrice); 
 
 	
 	

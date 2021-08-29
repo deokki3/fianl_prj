@@ -41,4 +41,8 @@
 		select r.category_rel_no,r.product_id,c.* from category_rel r inner join category c on r.category_id=c.category_id
 		<![CDATA[  where product_id=#{product_id} ]]>
 	</select>
+	<!-- 카테고리별 분류 -->
+	<select id="classification" parameterType="int"  resultType="hashmap">
+		select * from category where category_parent=#{category_parent}
+	</select>
 </mapper>
