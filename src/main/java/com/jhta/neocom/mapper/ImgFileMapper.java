@@ -11,7 +11,9 @@ public interface ImgFileMapper {
 
 	int delete(int product_img_no);
 
-	List<Product_ImgVo> find(int product_id);
+	int deleteBySave(String img_name_save);
+
+	List<Product_ImgVo> findByPid(int product_id);
 
 	int update(Product_ImgVo vo);
 

@@ -42,17 +42,14 @@ a {
 	text-decoration: none;
 	color: black;
 }
-
 .table {
 	margin-left: auto;
 	margin-right: auto;
 }
-
 .table tbody tr td {
 	height: 50px;
 	vertical-align: middle;
 }
-
 .table tbody tr td img {
 	width: 20px;
 }
@@ -135,57 +132,53 @@ a {
 						<tbody>
 							<c:forEach var="item" items="${advboardlist}">
 								<tr>
-									<c:choose>
-										<c:when test="${item.adv_show  }==1">
-											<td colspan="5" class="text-left">
-											<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [ ${item.adv_title } ]</span>
-											</td>
-										</c:when>
-										<c:when test="${item.adv_group_order >1 }">
-											<td></td>
-											<td class="text-left"><a
-												href="${pageContext.request.contextPath }/service/advboard_detail?adv_board_no=${item.adv_board_no}&adv_secret_chk=${item.adv_secret_chk }">
-													<c:forEach var="i" begin="2" end="${item.adv_group_depth }">
+
+					<c:choose>
+						<c:when test="${item.adv_show eq true}">
+							<td></td>	
+							<td colspan="4" class="text-left">
+								<span style="color:gray;">
+									<c:if test="${item.adv_group_depth >0 }">
+										<c:forEach var="i" begin="1" end="${item.adv_group_depth }">
 										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									</c:forEach> [Re]&nbsp; ${item.adv_title }
-											</a> <c:if test="${item.adv_secret_chk==true }">
-													<img
-														src="${pageContext.request.contextPath}/static/frontend/assets/favicon&icon/lockicon.png"
-														class="lock_img">
-												</c:if>
-											<td>${item.Nickname }</td>
-											<td><fmt:parseDate value="${item.adv_regdate }"
-													var="adv_regdate" pattern="yyyy-MM-dd'T'HH:mm:ss" />
-												<fmt:formatDate value="${adv_regdate }"
-													pattern="yyyy-MM-dd HH:mm:ss" /></td>
-											<td>${item.adv_hit }</td>
-											
+									</c:forEach>
+									[Re]&nbsp;
+									</c:if>
+									작성자에 의해 삭제된 글 입니다.
+								</span>
+							</td>
+						</c:when>
+						<c:otherwise>
+							<td>
+								<c:if test="${item.adv_group_depth == 0 }">
+									${item.adv_board_no }
+								</c:if>
+							</td>
+							<td class="text-left">
+								<a href="javascript:clickTitle('${item.adv_board_no }','${item.adv_secret_chk }');">
+									<c:if test="${item.adv_group_depth >0 }">
+										<c:forEach var="i" begin="1" end="${item.adv_group_depth }">
+											&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										</c:forEach>
+										[Re]&nbsp;
+									</c:if>
+									${item.adv_title }
+									<c:if test="${item.adv_secret_chk==true }">
+									<img src="${pageContext.request.contextPath}/static/frontend/assets/favicon&icon/lockicon.png" class="lock_img">
+								</c:if>
+								</a>
+							</td>
+							<td>${item.Nickname }</td>
+							<td><fmt:parseDate value="${item.adv_regdate }" var="adv_regdate" pattern="yyyy-MM-dd'T'HH:mm:ss" /><fmt:formatDate value="${adv_regdate }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+							<td>${item.adv_hit }</td>
+						</c:otherwise>
+					</c:choose>
+					</tr>
+				</c:forEach>
+				</tbody>
+			</table>
+		</div>
 
-										</c:when>
-										<c:otherwise>
-
-
-											<td>${item.adv_board_no }</td>
-											<td class="text-left"><a
-												href="${pageContext.request.contextPath }/service/advboard_detail?adv_board_no=${item.adv_board_no}&adv_secret_chk=${item.adv_secret_chk }">${item.adv_title }</a>
-												<c:if test="${item.adv_secret_chk==true }">
-													<img
-														src="${pageContext.request.contextPath}/static/frontend/assets/favicon&icon/lockicon.png"
-														class="lock_img">
-												</c:if>
-											<td>${item.Nickname }</td>
-											<td><fmt:parseDate value="${item.adv_regdate }"
-													var="adv_regdate" pattern="yyyy-MM-dd'T'HH:mm:ss" /> <fmt:formatDate
-													value="${adv_regdate }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
-											<td>${item.adv_hit }</td>
-											
-										</c:otherwise>
-									</c:choose>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
-				</div>
 
 				<!-- 페이징 -->
 				<nav class="pagination" style="margin-top: 20px;">
@@ -283,13 +276,26 @@ a {
 	<script>
 	//로그인 상태에서만 문의하기 가능 
 	function clickInsert(){
+	var id = null;
+		<sec:authorize access="isAuthenticated()">
+			id = '<sec:authentication property="principal.memberVo.id"/>';
+		</sec:authorize>
+	console.log("아이디:" + id);
+	if(id!=null && id!='') {
+		location.href='${pageContext.request.contextPath}/service/advboard_insert';
+	}else{
+		$("#loginModal").modal();
+	}
+}
+	function clickTitle(adv_board_no,adv_secret_chk){
 		var id = null;
 			<sec:authorize access="isAuthenticated()">
 				id = '<sec:authentication property="principal.memberVo.id"/>';
 			</sec:authorize>
 		console.log("아이디:" + id);
+		
 		if(id!=null && id!='') {
-			location.href='${pageContext.request.contextPath}/service/advboard_insert';
+			location.href="${pageContext.request.contextPath }/service/advboard_detail?adv_board_no="+adv_board_no+"&adv_secret_chk="+adv_secret_chk;
 		}else{
 			$("#loginModal").modal();
 		}

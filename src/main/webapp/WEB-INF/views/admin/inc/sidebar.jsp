@@ -125,11 +125,6 @@
 								<div class="menu-submenu">
 									<div class="menu-item has-sub">
 										<a href="javascript:;" class="menu-link">
-											<a href="${pageContext.request.contextPath }/admin/comunity/" class="menu-link">전체 게시글 목록<div class="menu-text"></div></a>
-										</a>
-									</div>
-									<div class="menu-item has-sub">
-										<a href="javascript:;" class="menu-link">
 											<a href="${pageContext.request.contextPath }/admin/community/board_list" class="menu-link">게시판 관리<div class="menu-text"></div></a>
 										</a>
 									</div>

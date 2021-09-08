@@ -65,19 +65,22 @@
 		<hr class="margin-bottom-1x">
 		
 		<div class="card-body">
-		<form action="${pageContext.request.contextPath }/account/pwdmodify" method="post">	
+		<form action="${pageContext.request.contextPath }/account/pwdmodify" method="post" >	
 		<div class="form-group input-group">
+			<input type="hidden" name="id" value="${vo.id }">
 			현재 비밀번호			
-			<input class="form-control" type="password" name="password">
+			<input class="form-control" id="old_pw" name="old_pw" type="password">
 		</div>	
 		<div class="form-group input-group">	
 			새 비밀번호			
-			<input class="form-control" type="password" name="password1">
+			<input class="form-control" name="password" type="password" id="pw">			
+		</div>
+		<div class="form-group input-group">
 			비밀번호 확인
-			<input class="form-control" type="password" name="password2">
+			<input class="form-control" type="password" name="password2" id="pw2">
 		</div>	
 		<div class="text-center text-sm-right">
-			<button class="btn btn-primary margin-bottom-none" type="submit">비밀번호 저장</button>
+			<button class="btn btn-primary margin-bottom-none" id="joinBtn" type="submit">비밀번호 수정</button>
 		</div>
 		</form>			
 	</div>	
@@ -98,5 +101,29 @@
 	<!-- JavaScript (jQuery) libraries, plugins and custom scripts-->
 	<script src="${pageContext.request.contextPath}/static/frontend/assets/js/vendor.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/frontend/assets/js/scripts.min.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/static/frontend/assets/js/jquery-3.6.0.min.js"></script>
+<script>
+	$(function(){
+		if(${msg ne null}){
+			alert('${msg}');
+		};
+		
+		if($("#pwForm").submit(function(){
+			if($("#pw").val() !== $("#pw2").val()){
+				alert("비밀번호가 다릅니다.");
+				$("#pw").val("").focus();
+				$("#pw2").val("");
+				return false;
+			}else if ($("#pw").val().length < 8) {
+				alert("비밀번호는 8자 이상으로 설정해야 합니다.");
+				$("#pw").val("").focus();
+				return false;
+			}else if($.trim($("#pw").val()) !== $("#pw").val()){
+				alert("공백은 입력이 불가능합니다.");
+				return false;
+			}
+		}));
+	})
+</script>
 </body>
 </html>

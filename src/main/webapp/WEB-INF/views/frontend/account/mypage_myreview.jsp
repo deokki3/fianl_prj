@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -43,7 +45,7 @@
 		</div>
 		<div class="column">
 			<ul class="breadcrumbs">
-				<li><a href="#">Home</a></li>
+				<li><a href="${pageContext.request.contextPath}/">Home</a></li>
 				<li class="separator">&nbsp;</li>
 				<li>My Page</li>
 			</ul>
@@ -60,8 +62,95 @@
 	<jsp:include page="/WEB-INF/views/frontend/account/inc/mypage_sidebar.jsp"/>
 	
 	<!-- 나의문의 여기서부터 -->
-	
-	
+	<div class="col-lg-9 col-md-8 order-md-2">
+		<h6 class="text-muted text-lg text-uppercase">나의 리뷰</h6>
+		<hr class="margin-bottom-1x">
+		<div class="table-responsive wishlist-table mb-0">
+			<div class="row mb-2" style="margin-left:5px;">
+				<!--
+				<input value="${startDate }" type="date" id="startDate" name="startDate" class="form-control col-md-3">
+				<span>~</span>
+				<input value="${endDate }" type="date" id="endDate" name="endDate" class="form-control col-md-3">
+				 -->
+			</div>
+			
+			
+		
+		
+			
+			<table class="table">
+				<thead>
+					<tr>
+						<th width="10%" class="text-center">상품번호</th>
+						<th width="30%" class="text-center">제목</th>
+						<th width="25%" class="text-center">등록일자</th>
+						<th width="55%" class="text-center">이미지 </th>
+					</tr>
+				</thead>
+				<tbody>
+				<c:forEach var="vo" items="${list }">
+					<tr>
+						<td class="text-center">${vo.product_id }</td>
+						<td class="text-center">	
+							<a href="${pageContext.request.contextPath }/review_detail?board_num=${vo.board_num}">
+								${vo.review_title }
+							</a>
+						</td>
+						<td class="text-center"><fmt:parseDate value="${vo.regdate }" var="regdate" pattern="yyyy-MM-dd'T'HH:mm:ss" /><fmt:formatDate value="${regdate }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+						<td class="text-center">
+							<img width=80; height=80; src="<c:url value='/upload/review_img/${vo.review_img}' />"
+							alt="<c:url value='/upload/product_img/${vo.review_img}' />" />
+						</td>
+					</tr>
+				</c:forEach>
+				</tbody>
+			</table>
+			
+					<!-- 페이징 -->
+		<nav class="pagination text-center" style="margin-top:20px;">
+			<div class="column">
+				<c:choose>
+					<c:when test="${pu.prevPage }">
+						<a class="btn btn-outline-secondary btn-sm" href="${pageContext.request.contextPath}/account/mypage_myreview?pageNum=${pu.pageNum-1 }"><i class="icon-chevron-left"></i> 이전</a>
+					</c:when>
+					<c:otherwise>
+						<a class="btn btn-outline-secondary btn-sm disabled"><i class="icon-chevron-left"></i> 이전</a>
+					</c:otherwise>
+				</c:choose>
+			</div>
+			<div class="column">
+			<ul class="pages" style="margin-top:20px;">
+			
+			<c:forEach var="i" begin="${pu.startPageNum }" end="${pu.endPageNum }">
+				<c:choose>
+					<c:when test="${pu.pageNum==i }">
+						<li class="active">
+							<a href="${pageContext.request.contextPath}/account/mypage_myreview?pageNum=${i }">${i }</a>
+						</li>
+					</c:when>
+					<c:otherwise>
+						<li>
+							<a href="${pageContext.request.contextPath}/account/mypage_myreview?pageNum=${i }">${i }</a>
+						</li>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+			</ul>
+			</div>
+			<div class="column">
+				<c:choose>
+					<c:when test="${pu.nextPage }">
+						<a class="btn btn-outline-secondary btn-sm" href="${pageContext.request.contextPath}/account/mypage_myreview?pageNum=${pu.pageNum+1 }">다음 <i class="icon-chevron-right"></i></a>
+					</c:when>
+					<c:otherwise>
+						<a class="btn btn-outline-secondary btn-sm disabled">다음 <i class="icon-chevron-right"></i></a>
+					</c:otherwise>
+				</c:choose>
+			</div>
+		</nav>
+		
+		</div>
+		</div>
 </div>
 </div>
 <!-- 페이지 컨텐트 끝 -->

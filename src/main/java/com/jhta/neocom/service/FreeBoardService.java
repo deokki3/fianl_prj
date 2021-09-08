@@ -37,6 +37,14 @@ public class FreeBoardService {
 		return mapper.showDeletePost(free_board_no);
 	}
 	
+	public int blindPost(int free_board_no) {
+		return mapper.blindPost(free_board_no);
+	}
+	
+	public int showPost(int free_board_no) {
+		return mapper.showPost(free_board_no);
+	}
+	
 	public int update(FreeBoardVo vo) {
 		return mapper.update(vo);
 	}
@@ -63,5 +71,10 @@ public class FreeBoardService {
 	
 	public FreeBoardVo next(int free_board_no) {
 		return mapper.next(free_board_no);
+	}
+	
+	
+	public List<HashMap<String,Object>> ff_list(HashMap<String,Object> ff_map) {
+		return mapper.ff_list(ff_map);
 	}
 }

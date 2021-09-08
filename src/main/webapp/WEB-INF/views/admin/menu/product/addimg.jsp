@@ -15,7 +15,6 @@
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
 	<link href="${pageContext.request.contextPath}/static/admin/assets/css/vendor.min.css" rel="stylesheet" />
 	<link href="${pageContext.request.contextPath}/static/admin/assets/css/default/app.min.css" rel="stylesheet" />
-	<link href="${pageContext.request.contextPath}/static/admin/assets/css/imgShow.css" rel="stylesheet" />
 	<!-- ================== END core-css ================== -->
 	
 	<!-- ================== BEGIN page-css ================== -->
@@ -24,6 +23,7 @@
 	<link href="${pageContext.request.contextPath}/static/admin/assets/plugins/nvd3/build/nv.d3.css" rel="stylesheet" />
 	<link href=" ${pageContext.request.contextPath}/static/admin/assets/plugins/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
     <link href=" ${pageContext.request.contextPath}/static/admin/assets/plugins/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+	<link href="${pageContext.request.contextPath}/static/admin/assets/css/imgShow.css" rel="stylesheet" />
 	<!-- ================== END page-css ================== -->
 	
 </head>
@@ -65,7 +65,7 @@
 								<thead>
 									<tr>
 										<th width="10%">고유번호</th>
-										<th width="8%" data-orderable="true">이미지</th>
+										<%-- <th width="8%" data-orderable="true">메인이미지</th> --%>
 										<th class="text-nowrap">상품명</th>
 										<th width="15%"></th>
 									</tr>
@@ -77,7 +77,7 @@
 											<c:forEach var="img_vo" items="${img_list}">
 												<c:choose>
 												   <c:when test="${product_vo.product_id == img_vo.product_id and img_vo.img_category == 'main'}">
-														<td><img class="rounded h-30px" src="<c:url value='/upload/product_img/${img_vo.img_name_save}' />" alt="<c:url value='/upload/product_img/${img_vo.img_name_save}'/>" /></td>
+														<%-- <td><img class="rounded h-30px" src="<c:url value='/upload/product_img/${img_vo.uploadPath}/${img_vo.img_name_save}' />" alt="<c:url value='/upload/product_img/${img_vo.uploadPath}/${img_vo.img_name_save}' />" /></td> --%>
 												   </c:when>
 												   <c:otherwise>
 												   </c:otherwise>
@@ -143,9 +143,6 @@
                     				<div class="uploadResult">
                         				<ul></ul>
                    					 </div>
-									<div class='bigPictureWrapper'>
-										<div class='bigPicture'></div>
-									</div>
                 				</div>
             				</div>
         				</div>
@@ -158,10 +155,13 @@
 			</div>
 			</div>
 		</div>
+		<div class='bigPictureWrapper'>
+			<div class='bigPicture'></div>
+		</div>
 		</div>
 	</div>
 	<!-- END #app -->
-	
+
 	<!-- ================== BEGIN core-js ================== -->
 	<script src="${pageContext.request.contextPath}/static/admin/assets/js/jquery-3.6.0.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/admin/assets/js/vendor.min.js"></script>
@@ -183,22 +183,55 @@
     <script>
 
 		function showImage(fileCallPath) {
-        		// alert(fileCallPath);
 				$(".bigPictureWrapper").css("display","flex").show();  //화면 가운데 배치
         		$(".bigPicture")
-        		.html("<img src='${pageContext.request.contextPath}/admin/product/imgdisplay?fileName="+encodeURI(fileCallPath)+"'>")  //<img>추가
-        		.show({width:'100%', height:'100%'}, 1000);
-
+        		.html("<img src='${pageContext.request.contextPath}/admin/product/imgdisplay?fileName="+fileCallPath+"'>")  //<img>추가
+        		.show({width:'100%', height:'100%'}, 1000);				
     	}
 
+
 		$(document).ready(function(e){
+			$(".uploadResult").on("click", "li", function(e){
+				console.log("view image");
+				var liObj = $(this);
+				var path = encodeURIComponent("C:/final_project/uploads/product_img/"+liObj.data("path")+"/"+liObj.data("save"));
+
+				showImage(path.replace(new RegExp(/\\/g), "/"));
+
+			});
+		
+
+			// 원본 이미지 창 닫기
+			$(".bigPictureWrapper").on("click", function(e){
+				$(".bigPictureWrapper").hide();
+			});
+
 
 			$(document).on("click", ".open_modal", function () {
-				$('#preview_img').empty();
 				var id = $(this).data('id');
 				var name = $(this).data('name');
 				$("#product_id").val(id);
 				$("#product_name").val(name);
+
+				$.getJSON("${pageContext.request.contextPath}/admin/product/getAttachList", {'product_id' : id}, function(arr){
+					console.log(arr);
+
+					var str="";
+        
+					$(arr).each(function(i,attach) {
+						var fileCallPath = encodeURIComponent("C:/final_project/uploads/product_img/"+attach.uploadPath+"/s_"+attach.img_name_save);
+						str += "<li style='cursor:pointer' data-path='"+attach.uploadPath+"'  data-type='image'";
+						str += " data-save='"+attach.img_name_save +"' data-origin='"+attach.img_name_origin+"'";
+						str += "<div>";
+						str += "<figure class='figure'>";
+						str += "<img src='${pageContext.request.contextPath}/admin/product/imgdisplay?fileName=" + fileCallPath + "'>";
+						str += "<figcaption class='figure-caption text-center'>"+ attach.img_category +"</figcaption></figure>";
+						str += "</div>";
+						str += "</li>";
+
+					});
+					$(".uploadResult ul").html(str);
+				});			
 			});
 
 			$(".bigPictureWrapper").on("click", function(e){
@@ -233,40 +266,21 @@
    				var str = "";
    
    				$(uploadResultArr).each(function(i, obj) {
-					var fileCallPath = encodeURIComponent();
-					// var originPath = obj.uploadPath + "\\" + obj.img_name_save;
-					// originPath = originPath.replace(new RegExp(/\\/g),"/");
-
 					var fileCallPath = encodeURIComponent(obj.uploadPath+"/s_"+obj.img_name_save);
-					str += "<li><div>";
+					var fileLink = fileCallPath.replace(new RegExp(/\\/g), "/");
+					str += "<li data-path='"+obj.uploadPath+"'";
+					str += " data-save='"+obj.img_name_save+"' data-origin='"+obj.img_name_origin+"' data-type='image'";
+					str += " data-category='"+ obj.img_category +"' ><div>";
 					str += "<span> " + obj.img_category + ", " + obj.img_name_origin + "</span>";
-					str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='image' class='btn btn-warning btn-sm'><i class='fa fa-times'></i></button><br>";
+					str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='image'"
+					str += "class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
 					str += "<img src='${pageContext.request.contextPath}/admin/product/imgdisplay?fileName="+fileCallPath+"'>";
 					str += "</div>";
 					str += "</li>";
-
    				});
    
    				uploadResult.append(str);
 			}
-
-			$(".uploadResult").on("click","button",function(e){
-    			var targetFile = $(this).data("file");
-    			var type = $(this).data("type");
-
-				var targetLi = $(this).closest("li");
-
-    			$.ajax({
-        			url: '${pageContext.request.contextPath}/admin/product/deleteFile',
-        			data: {fileName: targetFile, type: type},
-        			dataType: 'text',
-        			type: 'POST',
-        			success: function(result) {
-            			alert(result);
-						targetLi.remove();
-        			}
-    			});
-			});
 
 			var cloneObj = $(".uploadDiv").clone(); 
 
@@ -323,7 +337,23 @@
 
 			
 		$("#submitBtn").click(function () {                 
-  
+			var formObj = $("#fileUploadForm");
+			console.log("submit clicked");
+			console.log("formObj");
+				
+			// 추가
+			var str = "";
+			$(".uploadResult ul li").each(function(i,obj){
+				var jobj = $(obj);
+				console.dir(jobj);
+					
+				str += "<input type='hidden' name='img_List["+i+"].img_name_origin' value='"+jobj.data("origin")+"'>";
+				str += "<input type='hidden' name='img_List["+i+"].img_name_save' value='"+jobj.data("save")+"'>";
+				str += "<input type='hidden' name='img_List["+i+"].uploadPath' value='"+jobj.data("path")+"'>";
+				str += "<input type='hidden' name='img_List["+i+"].fileType' value='"+jobj.data("type")+"'>";
+			});
+			formObj.append(str).submit();
+
 		});
 
 		$('#data-table-responsive').DataTable({

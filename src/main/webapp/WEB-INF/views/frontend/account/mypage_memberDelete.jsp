@@ -65,7 +65,7 @@
 		<hr class="margin-bottom-1x">
 		
 		<div class="card-body">
-		<form action="${pageContext.request.contextPath }/account/memberDel" method="post">	
+		<form action="${pageContext.request.contextPath }/account/memberDel" name="removefrm" method="post">	
 		<div class="form-group input-group">
 			<input type="hidden" name="mem_no" value="${vo.mem_no }">
 			아이디			
@@ -73,10 +73,10 @@
 		</div>	
 		<div class="form-group input-group">	
 			비밀번호			
-			<input class="form-control" type="password" name="password" placeholder="비밀번호를 입력하세요">
+			<input class="form-control" type="password" name="password" id="password"placeholder="비밀번호를 입력하세요">
 		</div>	
 		<div class="text-center text-sm-right">
-			<button class="btn btn-primary margin-bottom-none" type="submit">회원탈퇴</button>
+			<input class="btn btn-primary margin-bottom-none" onclick="removeCheck()" type="button" value="회원탈퇴">
 		</div>
 		</form>			
 	</div>	
@@ -97,5 +97,23 @@
 	<!-- JavaScript (jQuery) libraries, plugins and custom scripts-->
 	<script src="${pageContext.request.contextPath}/static/frontend/assets/js/vendor.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/frontend/assets/js/scripts.min.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/static/frontend/assets/js/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript">
+	
+		function removeCheck() {
+
+			 if (confirm("탈퇴 하시겠습니까?") == true){    //확인
+				alert("탈퇴되었습니다.")
+				document.removefrm.submit();				
+			 }else{   //취소
+				
+			     return ;
+
+			 }
+
+			}
+			
+	
+	</script>
 </body>
 </html>

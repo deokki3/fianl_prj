@@ -22,6 +22,10 @@ public class CartService {
 		return mapper.delete(cart_no);
 	}
 	
+	public List<CartVo> cartnoSearch(int cart_no){
+		return mapper.cartnoSearch(cart_no);
+	}
+	
 	public List<CartVo> cartList(int mem_no){
 		return mapper.cartList(mem_no);
 	}

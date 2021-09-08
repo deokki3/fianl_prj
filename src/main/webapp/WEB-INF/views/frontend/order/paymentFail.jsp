@@ -106,12 +106,10 @@ font-family: 'Noto Serif KR', serif;
       <div class="card text-center">
         <div class="card-body padding-top-2x">
           <h3 class="card-title">결제에 실패하였습니다.</h3>
-          <p class="card-text">Your order has been placed and will be processed as soon as possible.</p>
           <p class="card-text">주문번호 : <span class="text-medium">${order_no }</span></p>
-          <p class="card-text">You will be receiving an email shortly with confirmation of your order. 
-            <u>You can now:</u>
+          <p class="card-text">마이 페이지 에서 다시 결제 하실수 있습니다. 
           </p>
-          <div class="padding-top-1x padding-bottom-1x"><a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/shop/product_list?category_id=20000">계속 쇼핑하기</a><a class="btn btn-outline-primary" href="#">다시 결제하기(아직 미구현)</a></div>
+          <div class="padding-top-1x padding-bottom-1x"><a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/shop/product_list?category_id=20000">계속 쇼핑하기</a><a class="btn btn-outline-primary" href="${pageContext.request.contextPath }/account/mypage_order">마이페이지로</a></div>
         </div>
       </div>
     </div>

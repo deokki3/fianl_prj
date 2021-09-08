@@ -58,5 +58,9 @@ public int cntHit(int adv_board_no) {
 public List<HashMap<String,Object>> list(HashMap<String,Object> map) {
 	return mapper.list(map);
 }
+
+public List<HashMap<String,Object>> aa_list(HashMap<String,Object> aa_map) {
+	return mapper.aa_list(aa_map);
+}
 }
 

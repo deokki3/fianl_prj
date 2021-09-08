@@ -1,6 +1,5 @@
 package com.jhta.neocom.model;
 
-
 import java.sql.Timestamp;
 
 import lombok.AllArgsConstructor;

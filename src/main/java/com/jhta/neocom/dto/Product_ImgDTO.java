@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class Product_ImgDTO {
-    private int product_id; // 상품 고유번호
     private String img_name_save; // 이미지이름(저장)
     private String img_name_origin; // 이미지이름
     private String uploadPath; // 업로드 경로

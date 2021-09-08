@@ -21,5 +21,6 @@ public class FreeBoardVo {
 	private int free_group_no;
 	private int free_group_order;
 	private int free_group_depth;
+	private int free_show;
 	private String Nickname;
 }

@@ -10,5 +10,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MemberRepository extends JpaRepository<MemberVo, Integer> {
     public Optional<MemberVo> findById(String id);
-
+    
+    public boolean existsById(String id);
+    
+   
 }

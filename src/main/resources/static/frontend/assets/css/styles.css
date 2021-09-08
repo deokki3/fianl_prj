@@ -5449,7 +5449,7 @@ video {
 
 .widget-categories ul > li.has-children.expanded > ul,
 .widget-links ul > li.has-children.expanded > ul {
-  max-height: 800px;
+  max-height: 1500px;
 }
 
 .widget-featured-posts > .entry,

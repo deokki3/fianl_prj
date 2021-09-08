@@ -109,46 +109,39 @@ a {
 				<c:forEach var="vo" items="${list }">
 					<tr>
 					<c:choose>
-						<c:when test="${vo.qna_show == 1 && vo.qna_group_depth == 0}">
-							<td>${vo.qna_board_no }</td>
-							<td colspan="4" class="text-left">
-								<span style="color:gray;">
-								 작성자에 의해 삭제된 글 입니다. </span>
-							</td>
-						</c:when>
 						<c:when test="${vo.qna_show == 1 }">
 							<td></td>
 							<td colspan="4" class="text-left">
 								<span style="color:gray;">
-									<c:forEach var="i" begin="2" end="${vo.qna_group_depth }">
+									<c:if test="${vo.qna_group_depth >0 }">
+										<c:forEach var="i" begin="1" end="${vo.qna_group_depth }">
 										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 									</c:forEach>
-								[Re] 작성자에 의해 삭제된 글 입니다. </span>
+									[Re]&nbsp;
+									</c:if>
+									작성자에 의해 삭제된 글 입니다.
+								</span>
 							</td>
-						</c:when>
-						<c:when test="${vo.qna_group_order >0 }">
-							<td></td>
-							<td class="text-left">
-								<a href="javascript:clickTitle('${vo.qna_board_no }','${vo.qna_secret_chk }');">
-									<c:forEach var="i" begin="2" end="${vo.qna_group_depth }">
-										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									</c:forEach>
-								[Re]&nbsp; ${vo.qna_title }</a>
-								<c:if test="${vo.qna_secret_chk==true }">
-									<img src="${pageContext.request.contextPath}/static/frontend/assets/favicon&icon/lockicon.png" class="lock_img">
-								</c:if>
-							</td>
-							<td>${vo.Nickname }</td>
-							<td><fmt:parseDate value="${vo.qna_regdate }" var="qna_regdate" pattern="yyyy-MM-dd'T'HH:mm:ss" /><fmt:formatDate value="${qna_regdate }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
-							<td>${vo.qna_hit }</td>
 						</c:when>
 						<c:otherwise>
-							<td>${vo.qna_board_no }</td>
+							<td>
+								<c:if test="${vo.qna_group_depth == 0 }">
+									${vo.qna_board_no }
+								</c:if>
+							</td>
 							<td class="text-left">
-								<a href="javascript:clickTitle('${vo.qna_board_no }','${vo.qna_secret_chk }');">${vo.qna_title }</a>
-								<c:if test="${vo.qna_secret_chk==true }">
+								<a href="javascript:clickTitle('${vo.qna_board_no }','${vo.qna_secret_chk }');">
+									<c:if test="${vo.qna_group_depth >0 }">
+										<c:forEach var="i" begin="1" end="${vo.qna_group_depth }">
+											&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										</c:forEach>
+										[Re]&nbsp;
+									</c:if>
+									${vo.qna_title }
+									<c:if test="${vo.qna_secret_chk==true }">
 									<img src="${pageContext.request.contextPath}/static/frontend/assets/favicon&icon/lockicon.png" class="lock_img">
 								</c:if>
+								</a>
 							</td>
 							<td>${vo.Nickname }</td>
 							<td><fmt:parseDate value="${vo.qna_regdate }" var="qna_regdate" pattern="yyyy-MM-dd'T'HH:mm:ss" /><fmt:formatDate value="${qna_regdate }" pattern="yyyy-MM-dd HH:mm:ss" /></td>

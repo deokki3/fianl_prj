@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>    
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -10,7 +11,7 @@
 	<meta name="description" content="Unishop - Universal E-Commerce Template">
 	<meta name="keywords" content="shop, e-commerce, modern, flat style, responsive, online store, business, mobile, blog, bootstrap 4, html5, css3, jquery, js, gallery, slider, touch, creative, clean">
 	<meta name="author" content="Rokaux">
-	<sec:csrfMetaTags />
+	
 	<!-- Favicon and Apple Icons-->
 	<link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/static/frontend/assets/favicon&icon/neocom_favicon.ico">
 	<link rel="icon" type="image/png" href="${pageContext.request.contextPath}/static/frontend/assets/favicon&icon/neocom_favicon.png">
@@ -59,8 +60,9 @@
 	<div class="row">
 		<div class="col-md-3"></div>
 		<div class="col-md-6">
+		
 			<form method="post" action="${pageContext.request.contextPath }/account/login">
-				<div class="card-body">					
+
 					<h4 class="margin-bottom-1x text-center">로그인 하기</h4>
 					<div class="form-group input-group">
 
@@ -81,18 +83,20 @@
 							<label class="custom-control-label" for="remember-me">로그인 유지</label>
 						</div>
 						<!-- 아이디/비밀번호 찾기 -->
-						<a class="navi-link" href="#">아이디/비밀번호 찾기</a>
+						<a class="navi-link" href="${pageContext.request.contextPath }/account/findAccount">아이디/비밀번호 찾기</a>
 					</div>
 					<div class="text-center text-sm-right">
 						<button class="btn btn-primary margin-bottom-none" type="submit">로그인</button>
 							
 					</div>
+					</form>
 				</div>
-			</form>
+			
+			
 		</div>
 		<div class="col-md-3"></div>
 	</div>
-</div>
+
 <!-- 페이지 컨텐트 끝 -->
 
 

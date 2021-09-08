@@ -53,11 +53,9 @@ a {
 		</div>
 		<div class="column">
 			<ul class="breadcrumbs">
-				<li><a href="#">Home</a></li>
+				<li><a href="${pageContext.request.contextPath}/">Home</a></li>
 				<li class="separator">&nbsp;</li>
-				<li><a href="#">Community</a></li>
-				<li class="separator">&nbsp;</li>
-				<li>Review Board</li>
+				<li>Review Board list</li>
 			</ul>
 		</div>
 	</div>
@@ -72,7 +70,7 @@ a {
 	<div class="col-lg-12 col-md-10 order-md-2 text-center">
 		<!-- <hr class="margin-bottom-1x"> -->
 		<div>
-			<form action="${pageContext.request.contextPath}/community/review_list?product_id=${product_id}" method="post">
+			<form action="${pageContext.request.contextPath}/review_list?product_id=${product_id}" method="post">
 				<div class="row">
 				<input type="hidden" name="product_id" value="${product_id}">
 					<div class="p-2"></div>
@@ -105,7 +103,7 @@ a {
 					<tr>
 					
 							<td>${vo.board_num }</td>
-							<td class="text-left"><a href="${pageContext.request.contextPath}/community/review_detail?board_num=${vo.board_num}">${vo.review_title }</a></td>
+							<td class="text-left"><a href="${pageContext.request.contextPath}/review_detail?board_num=${vo.board_num}">${vo.review_title }</a></td>
 							<td>${vo.Nickname }</td>
 							<td><fmt:parseDate value="${vo.regdate }" var="regdate" pattern="yyyy-MM-dd'T'HH:mm:ss" /><fmt:formatDate value="${regdate }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 							
@@ -121,7 +119,7 @@ a {
 			<div class="column">
 				<c:choose>
 					<c:when test="${pu.prevPage }">
-						<a class="btn btn-outline-secondary btn-sm" href="${pageContext.request.contextPath}/community/review_list?product_id=${product_id }&pageNum=${pu.pageNum-1 }&field=${field}&keyword=${keyword}"><i class="icon-chevron-left"></i> 이전</a>
+						<a class="btn btn-outline-secondary btn-sm" href="${pageContext.request.contextPath}/review_list?product_id=${product_id }&pageNum=${pu.pageNum-1 }&field=${field}&keyword=${keyword}"><i class="icon-chevron-left"></i> 이전</a>
 					</c:when>
 					<c:otherwise>
 						<a class="btn btn-outline-secondary btn-sm disabled"><i class="icon-chevron-left"></i> 이전</a>
@@ -135,12 +133,12 @@ a {
 				<c:choose>
 					<c:when test="${pu.pageNum==i }">
 						<li class="active">
-							<a href="${pageContext.request.contextPath}/community/review_list?product_id=${product_id }&pageNum=${i }&field=${field}&keyword=${keyword}">${i }</a>
+							<a href="${pageContext.request.contextPath}/review_list?product_id=${product_id }&pageNum=${i }&field=${field}&keyword=${keyword}">${i }</a>
 						</li>
 					</c:when>
 					<c:otherwise>
 						<li>
-							<a href="${pageContext.request.contextPath}/community/review_list?product_id=${product_id }&pageNum=${i }&field=${field}&keyword=${keyword}">${i }</a>
+							<a href="${pageContext.request.contextPath}/review_list?product_id=${product_id }&pageNum=${i }&field=${field}&keyword=${keyword}">${i }</a>
 						</li>
 					</c:otherwise>
 				</c:choose>
@@ -150,7 +148,7 @@ a {
 			<div class="column">
 				<c:choose>
 					<c:when test="${pu.nextPage }">
-						<a class="btn btn-outline-secondary btn-sm" href="${pageContext.request.contextPath}/community/review_list?product_id=${product_id }&pageNum=${pu.pageNum+1 }&field=${field}&keyword=${keyword}">다음 <i class="icon-chevron-right"></i></a>
+						<a class="btn btn-outline-secondary btn-sm" href="${pageContext.request.contextPath}/review_list?product_id=${product_id }&pageNum=${pu.pageNum+1 }&field=${field}&keyword=${keyword}">다음 <i class="icon-chevron-right"></i></a>
 					</c:when>
 					<c:otherwise>
 						<a class="btn btn-outline-secondary btn-sm disabled">다음 <i class="icon-chevron-right"></i></a>
@@ -194,17 +192,6 @@ a {
 	<!-- JavaScript (jQuery) libraries, plugins and custom scripts-->
 	<script src="${pageContext.request.contextPath}/static/frontend/assets/js/vendor.min.js"></script>
 	<script src="${pageContext.request.contextPath}/static/frontend/assets/js/scripts.min.js"></script>
-<script>
-/* 로그인 상태에서만 문의하기 가능 */
-function clickInsert(){
-	var sessionId = "${id}";
-	console.log(sessionId);
-	if(sessionId!=null && sessionId!='') {
-		location.href='${pageContext.request.contextPath}/community/qnaboard_insert';
-	}else{
-		$("#insertModal").modal();
-	}
-}
-</script>
+
 </body>
 </html>

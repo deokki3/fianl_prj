@@ -161,31 +161,46 @@ opacity: 0;
 		<h4>작성글 수정</h4>
 		<hr class="padding-bottom-1x">
 		
-		<form class="row" name="advForm" method="post" action="${pageContext.request.contextPath}/service/advboard_update">
+		<form class="row" name="advForm" method="post" action="${pageContext.request.contextPath}/service/advboard_update?adv_board_no=${map.adv_board_no }">>
+			<div class="col-md-12">
+			<div class="form-group">
+					<label for="adv_title">글번호</label>
+					<input type="text" class="form-control" name="adv_board_no" id="adv_board_no" value="${map.adv_board_no }" readonly style="cursor:default">
+					</div>
+					</div>
+			<div class="col-md-12">
+			<div class="form-group">
+					<label for="adv_title">작성자 닉네임</label>
+					<input type="text" class="form-control" name="nickname" id="nickname" value="${map.Nickname }" readonly style="cursor:default">
+				</div>
+			</div>
 			<div class="col-md-12">
 				<div class="form-group">
 					<label for="adv_title">제목</label>
 					<input type="text" class="form-control" name="adv_title" id="adv_title" value="${map.adv_title }">
 				</div>
-			</div>
+				</div>
 			<div class="col-md-12">
 				<div class="form-group">
-					<label for="adv_content">내용</label>
+					<label for="adv_title">내용</label>
 					<textarea rows="15" cols="4000" class="form-control" name="adv_content" id="adv_content">${map.adv_content }</textarea>
 				</div>
 			</div>
 			<div class="col-12 padding-top-1x">
-				
 				<div class="custom-control custom-checkbox d-block">
-					<input class="custom-control-input" type="checkbox" name="adv_secret_chk" id="adv_secret_chk" value="${map.adv_password }">
+					<!--  <input class="custom-control-input" type="checkbox" name="adv_secret_chk" id="adv_secret_chk" value="${map.adv_password }">
 					<label class="custom-control-label" for="adv_secret_chk">비밀글 &nbsp;</label>
-					<input type="password" name="adv_password" id="adv_password">
+					<input type="password" name="adv_password" id="adv_password">-->
 				</div>
 				<div class="padding-bottom-1x"></div>
 				<hr class="margin-top-1x margin-bottom-1x">
 				<div class="text-right">
-					<button class="btn btn-primary margin-bottom-none" data-toggle="modal" data-target="#add" type="button">등록</button>
-					<button class="btn btn-outline-secondary margin-bottom-none" data-toggle="modal" data-target="#cancel" type="button">취소</button>
+					<button class="btn btn-primary margin-bottom-none" data-toggle="modal" data-target="#add" type="button" 
+							style="background-color:#0da9ef; display: inline-block; position: relative; height: 44px; border: 1px solid transparent; border-radius: 22px;width:100px;">
+							등록</button>
+					<button class="btn btn-outline-secondary margin-bottom-none" data-toggle="modal" data-target="#cancel" type="button" 
+							style="border-radius: 22px; width:100px;">
+							취소</button>
 				</div>
 			</div>
 		</form>
@@ -244,12 +259,12 @@ opacity: 0;
 	<script src="${pageContext.request.contextPath}/static/frontend/assets/js/scripts.min.js"></script>
 <script>
 	function clickAdd(formName){
-		formName.action = "${pageContext.request.contextPath}/service/advboard_update";
+		formName.action = "${pageContext.request.contextPath}/service/advboard_update?adv_board_no=${map.adv_board_no }";
 		formName.method = "post";
 		formName.submit();
 	}
 
-	$("#adv_password").attr("disabled",true);
+	/* $("#adv_password").attr("disabled",true);
 	$("#adv_secret_chk").on("click",function(){
 		var chk = $("input:checkbox[id='adv_secret_chk']").is(":checked");
 		if(chk==true){
@@ -257,9 +272,9 @@ opacity: 0;
 			$(this).val(1);
 		}else{
 			$("#adv_password").prop("disabled",true);
-			$(this).val(0);
+			$(this).val(0); 
 		}
-	});
+	});*/
 </script>
 </body>
 </html>

@@ -12,8 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class AdminMemberController {
-    @Autowired
-    MemberService service;
+   @Autowired
+   MemberService service;
+	
 
     @GetMapping("/admin/member/memlist")
     public ModelAndView list() {

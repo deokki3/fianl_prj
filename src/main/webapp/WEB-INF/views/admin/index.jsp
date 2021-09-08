@@ -20,6 +20,7 @@
 	<link href="${pageContext.request.contextPath}/static/admin/assets/plugins/bootstrap-calendar/css/bootstrap_calendar.css" rel="stylesheet" />
 	<link href="${pageContext.request.contextPath}/static/admin/assets/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" />
 	<link href="${pageContext.request.contextPath}/static/admin/assets/plugins/nvd3/build/nv.d3.css" rel="stylesheet" />
+	<link href="${pageContext.request.contextPath}/static/admin/assets/plugins/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet" />
 	<!-- ================== END page-css ================== -->
 	
 </head>
@@ -38,179 +39,228 @@
 		<!-- BEGIN #content -->
 		<div id="content" class="app-content">
 			<!-- BEGIN page-header -->
-			<h1 class="page-header">DASHBOARD</h1>
+			<h1 class="page-header mb-3">DASHBOARD</h1>
 			<!-- END page-header -->
-			
+			<!-- BEGIN daterange-filter -->
+			<div class="d-sm-flex align-items-center mb-3">
+				<a href="#" class="btn btn-inverse me-2 text-truncate" id="daterange-filter">
+					<i class="fa fa-calendar fa-fw text-white-transparent-5 ms-n1"></i> 
+					<span></span>
+					<b class="caret ms-1 opacity-5"></b>
+				</a>
+			</div>
+			<!-- END daterange-filter -->
 			<!-- BEGIN row -->
 			<div class="row">
-				<!-- BEGIN col-3 -->
-				<div class="col-xl-3 col-md-6">
-					<div class="widget widget-stats bg-teal">
-						<div class="stats-icon stats-icon-lg"><i class="fa fa-globe fa-fw"></i></div>
-						<div class="stats-content">
-							<div class="stats-title">방문자 수</div>
-							<div class="stats-number"></div>
-							<div class="stats-progress progress">
-								<div class="progress-bar" style="width: 0.0%;"></div>
+				<!-- BEGIN col-6 -->
+				<div class="col-xl-6">
+					<!-- BEGIN card -->
+					<div class="card border-0 mb-3 overflow-hidden bg-gray-800 text-white">
+						<!-- BEGIN card-body -->
+						<div class="card-body">
+							<!-- BEGIN row -->
+							<div class="row">
+								<!-- BEGIN col-7 -->
+								<div class="col-xl-7 col-lg-8">
+									<!-- BEGIN title -->
+									<div class="mb-3 text-gray-500">
+										<b>총 매출</b>
+									</div>
+									<!-- END title -->
+									<!-- BEGIN total-sales -->
+									<div class="d-flex mb-1">
+										<h2 class="mb-0">￦<span id="tot_sales"  data-value="500000">0.00</span></h2>
+										<div class="ms-auto mt-n1 mb-n1"><div id="total-sales-sparkline"></div></div>
+									</div>
+									<!-- END total-sales -->
+									<hr class="bg-white-transparent-5" />
+									<!-- BEGIN row -->
+									<div class="row text-truncate">
+										<!-- BEGIN col-6 -->
+										<div class="col-6">
+											<div class="fs-12px text-gray-500">총 주문 수</div>
+											<div class="fs-18px mb-5px fw-bold" id="order_count"  data-value="0">0</div>
+										</div>
+										<!-- END col-6 -->
+										<!-- BEGIN col-6 -->
+										<div class="col-6">
+											<div class="fs-12px text-gray-500">주문당 매출</div>
+											<div class="fs-18px mb-5px fw-bold">￦<span id="sales_per_order"  data-value="0.0">0.00</span></div>
+										</div>
+										<!-- END col-6 -->
+									</div>
+									<!-- END row -->
+								</div>
+								<!-- END col-7 -->
+								<!-- BEGIN col-5 -->
+								<div class="col-xl-5 col-lg-4 align-items-center d-flex justify-content-center">
+									<img src="${pageContext.request.contextPath}/static/admin/assets/img/svg/img-1.svg" height="150px" class="d-none d-lg-block" />
+								</div>
+								<!-- END col-5 -->
 							</div>
-							<div class="stats-desc">저번 주 대비 증가량 (0.0%)</div>
+							<!-- END row -->
 						</div>
+						<!-- END card-body -->
 					</div>
+					<!-- END card -->
 				</div>
-				<!-- END col-3 -->
-				<!-- BEGIN col-3 -->
-				<div class="col-xl-3 col-md-6">
-					<div class="widget widget-stats bg-blue">
-						<div class="stats-icon stats-icon-lg"><i class="fa fa-dollar-sign fa-fw"></i></div>
-						<div class="stats-content">
-							<div class="stats-title">순이익</div>
-							<div class="stats-number"></div>
-							<div class="stats-progress progress">
-								<div class="progress-bar" style="width: 40.0%;"></div>
+				<!-- END col-6 -->
+				<!-- BEGIN col-6 -->
+				<div class="col-xl-6">
+					<!-- BEGIN row -->
+					<div class="row">
+						<!-- BEGIN col-6 -->
+						<div class="col-sm-6">
+							<!-- BEGIN card -->
+							<div class="card border-0 text-truncate mb-3 bg-gray-800 text-white">
+								<!-- BEGIN card-body -->
+								<div class="card-body">
+									<!-- BEGIN title -->
+									<div class="mb-3 text-gray-500">
+										<b class="mb-3">결제 완료 비율</b> 
+									</div>
+									<!-- END title -->
+									<!-- BEGIN conversion-rate -->
+									<div class="d-flex align-items-center mb-1">
+										<h2 class="text-white mb-0"><span id="paymentRate" data-value="0">0.00</span>%</h2>
+										<div class="ms-auto">
+											<div id="conversion-rate-sparkline"></div>
+										</div>
+									</div>
+									<!-- END conversion-rate -->
+									<!-- BEGIN percentage -->
+									<div class="mb-4 text-gray-500 ">
+						
+									</div>
+									<!-- END percentage -->
+									<!-- BEGIN info-row -->
+									<div class="d-flex mb-2">
+										<div class="d-flex align-items-center">
+											<i class="fa fa-circle text-red fs-8px me-2"></i>
+											장바구니 추가
+										</div>
+										<div class="d-flex align-items-center ms-auto">
+											<div class="w-50px text-end ps-2 fw-bold"><span id="cartCount" data-value="0">0</span></div>
+										</div>
+									</div>
+									<!-- END info-row -->
+									<!-- BEGIN info-row -->
+									<div class="d-flex mb-2">
+										<div class="d-flex align-items-center">
+											<i class="fa fa-circle text-warning fs-8px me-2"></i>
+											총 주문 수
+										</div>
+										<div class="d-flex align-items-center ms-auto">
+											<div class="w-50px text-end ps-2 fw-bold"><span id="allOrderCount" data-value="0">0</span></div>
+										</div>
+									</div>
+									<!-- END info-row -->
+									<!-- BEGIN info-row -->
+									<div class="d-flex">
+										<div class="d-flex align-items-center">
+											<i class="fa fa-circle text-lime fs-8px me-2"></i>
+											결제 취소
+										</div>
+										<div class="d-flex align-items-center ms-auto">								
+											<div class="w-50px text-end ps-2 fw-bold"><span id="cancleCount" data-value="0">0</span></div>
+										</div>
+									</div>
+									<!-- END info-row -->
+								</div>
+								<!-- END card-body -->
 							</div>
-							<div class="stats-desc">저번 주 대비 증가량 (40.0%)</div>
+							<!-- END card -->
 						</div>
-					</div>
-				</div>
-				<!-- END col-3 -->
-				<!-- BEGIN col-3 -->
-				<div class="col-xl-3 col-md-6">
-					<div class="widget widget-stats bg-indigo">
-						<div class="stats-icon stats-icon-lg"><i class="fa fa-archive fa-fw"></i></div>
-						<div class="stats-content">
-							<div class="stats-title">주문 증가</div>
-							<div class="stats-number"></div>
-							<div class="stats-progress progress">
-								<div class="progress-bar" style="width: 50.0%;"></div>
+						<!-- END col-6 -->
+						<!-- BEGIN col-6 -->
+						<div class="col-sm-6">
+							<!-- BEGIN card -->
+							<div class="card border-0 text-truncate mb-3 bg-gray-800 text-white">
+								<!-- BEGIN card-body -->
+								<div class="card-body">
+									<!-- BEGIN title -->
+									<div class="mb-3 text-gray-500">
+										<b class="mb-3">총 회원 수</b> 
+									</div>
+									<!-- END title -->
+									<!-- BEGIN store-session -->
+									<div class="d-flex align-items-center mb-1">
+										<h2 class="text-white mb-0"><span id="allMemberCount" data-value="0">0</span></h2>
+										<div class="ms-auto">
+											<div id="store-session-sparkline"></div>
+										</div>
+									</div>
+									<!-- END store-session -->
+									<!-- BEGIN percentage -->
+									<div class="mb-4 text-gray-500 ">
+										
+									</div>
+									<!-- END percentage -->
+									<!-- BEGIN info-row -->
+									<div class="d-flex mb-2">
+										<div class="d-flex align-items-center">
+											<i class="fa fa-circle text-teal fs-8px me-2"></i>
+											신규 회원
+										</div>
+										<div class="d-flex align-items-center ms-auto">
+											<div class="w-50px text-end ps-2 fw-bold"><span id="memberCount" data-value="0">0</span></div>
+										</div>
+									</div>
+									<!-- END info-row -->
+									<!-- BEGIN info-row -->
+									<div class="d-flex mb-2">
+										<div class="d-flex align-items-center">
+											<i class="fa fa-circle text-blue fs-8px me-2"></i>
+											신규 방문자
+										</div>
+										<div class="d-flex align-items-center ms-auto">
+											<div class="w-50px text-end ps-2 fw-bold"><span  data-value="0">${visit_count}</span></div>
+										</div>
+									</div>
+									<!-- END info-row -->
+									<!-- BEGIN info-row -->
+									<div class="d-flex">
+										<div class="d-flex align-items-center">
+											<i class="fa fa-circle text-cyan fs-8px me-2"></i>
+											가입률
+										</div>
+										<div class="d-flex align-items-center ms-auto">
+											<div class="w-50px text-end ps-2 fw-bold"><span  data-value="0">0</span>%</div>
+										</div>
+									</div>
+									<!-- END info-row -->
+								</div>
+								<!-- END card-body -->
 							</div>
-							<div class="stats-desc">저번 주 대비 증가량 (50.0%)</div>
+							<!-- END card -->
 						</div>
+						<!-- END col-6 -->
 					</div>
+					<!-- END row -->
 				</div>
-				<!-- END col-3 -->
-				<!-- BEGIN col-3 -->
-				<div class="col-xl-3 col-md-6">
-					<div class="widget widget-stats bg-dark">
-						<div class="stats-icon stats-icon-lg"><i class="fa fa-comment-alt fa-fw"></i></div>
-						<div class="stats-content">
-							<div class="stats-title">게시글 등록수</div>
-							<div class="stats-number"></div>
-							<div class="stats-progress progress">
-								<div class="progress-bar" style="width: 70.0%;"></div>
-							</div>
-							<div class="stats-desc">저번 주 대비 증가량 (70.0%)</div>
-						</div>
-					</div>
-				</div>
-				<!-- END col-3 -->
+				<!-- END col-6 -->
 			</div>
 			<!-- END row -->
 			<!-- BEGIN row -->
 			<div class="row">
-				<!-- BEGIN col-8 -->
-				<div class="col-xl-8">
-					<div class="widget-chart with-sidebar inverse-mode">
-						<div class="widget-chart-content bg-dark">
-							<h4 class="chart-title">
-								카테고리별 판매량
-								<small></small>
-							</h4>
-							<div id="visitors-line-chart" class="widget-chart-full-width nvd3-inverse-mode" style="height: 260px;"></div>
-						</div>
-						<div class="widget-chart-sidebar bg-gray-900">
-							<div class="chart-number">
-								5,000,000
-								<small>총 순이익</small>
+				<!-- BEGIN col-12 -->
+				<div class="col-xl-12 col-lg-6">
+					<!-- BEGIN card -->
+					<div class="card border-0 mb-3 bg-gray-800 text-white">
+						<!-- BEGIN card-body -->
+						<div id="topSelling" class="card-body">
+							<!-- BEGIN title -->
+							<div class="mb-3 text-gray-500">
+								<b>판매상품 순위</b>
 							</div>
-							<div class="flex-grow-1 d-flex align-items-center">
-								<div id="visitors-donut-chart" class="nvd3-inverse-mode" style="height: 180px"></div>
-							</div>
-							<ul class="chart-legend fs-11px">
-								<li><i class="fa fa-circle fa-fw text-blue fs-9px me-5px t-minus-1"></i> 30.0% <span>CPU</span></li>
-								<li><i class="fa fa-circle fa-fw text-teal fs-9px me-5px t-minus-1"></i> 60.0% <span>VGA</span></li>
-								<li><i class="fa fa-circle fa-fw text-teal fs-9px me-5px t-minus-1"></i> 10.0% <span>RAM</span></li>
-							</ul>
+							<!-- END title -->
+							
 						</div>
+						<!-- END card-body -->
 					</div>
+					<!-- END card -->
 				</div>
-				<!-- END col-8 -->
-				<!-- BEGIN col-4 -->
-				<div class="col-xl-4">
-					<div class="panel panel-inverse" data-sortable-id="index-1">
-						<div class="panel-heading">
-							<h4 class="panel-title">
-								카테고리별 판매량
-							</h4>
-						</div>
-						<div id="visitors-map" class="bg-gray-900" style="height: 170px;"></div>
-						<div class="list-group">
-							<a href="javascript:;" class="list-group-item rounded-0 list-group-item-action list-group-item-inverse d-flex justify-content-between align-items-center text-ellipsis">
-								1. VGA
-								<span class="badge bg-teal fs-10px">60.00%</span>
-							</a>
-							<a href="javascript:;" class="list-group-item list-group-item-action list-group-item-inverse d-flex justify-content-between align-items-center text-ellipsis">
-								2. CPU
-								<span class="badge bg-blue fs-10px">30.00%</span>
-							</a>
-							<a href="javascript:;" class="list-group-item list-group-item-action list-group-item-inverse d-flex justify-content-between align-items-center text-ellipsis">
-								3. RAM
-								<span class="badge bg-gray-600 fs-10px">10.00%</span>
-							</a>
-						</div>
-					</div>
-				</div>
-				<!-- END col-4 -->
-			</div>
-			<!-- END row -->
-			<!-- BEGIN row -->
-			<div class="row">
-			  
-				<!-- BEGIN col-4 -->
-				<div class="col-xl-4 col-lg-6">
-					<!-- BEGIN panel -->
-					<div class="panel panel-inverse" data-sortable-id="index-3">
-						<div class="panel-heading">
-							<h4 class="panel-title">오늘의 일정</h4>
-						</div>
-						<div id="schedule-calendar" class="bootstrap-calendar"></div>
-						<hr class="m-0 bg-gray-500" />
-						<div class="list-group list-group-flush">
-							<a href="javascript:;" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center text-ellipsis">
-								판매 리포팅
-								<span class="badge bg-teal fs-10px">09:00</span>
-							</a> 
-							<a href="javascript:;" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center text-ellipsis rounded-bottom">
-								판매부서와 미팅
-								<span class="badge bg-blue fs-10px">14:25</span>
-							</a>
-						</div>
-					</div>
-					<!-- END panel -->
-				</div>
-				<!-- END col-4 -->
-				<!-- BEGIN col-4 -->
-				<div class="col-xl-4 col-lg-6">
-					<!-- BEGIN panel -->
-					<div class="panel panel-inverse" data-sortable-id="index-4">
-						<div class="panel-heading">
-							<h4 class="panel-title">오늘의 신규 가입자</h4>
-							<span class="badge bg-teal">15</span>
-						</div>
-						<%-- <ul class="registered-users-list">
-							<li>
-								<h4 class="username text-ellipsis">
-									Savory Posh
-									<small>Algerian</small>
-								</h4>
-							</li>
-						</ul> --%>
-						<div class="panel-footer text-center">
-							<a href="javascript:;" class="text-decoration-none text-inverse">View All</a>
-						</div>
-					</div>
-					<!-- END panel -->
-				</div>
-				<!-- END col-4 -->
+				<!-- END col-12 -->
 			</div>
 			<!-- END row -->
 		</div>
@@ -233,7 +283,133 @@
 	<script src=" ${pageContext.request.contextPath}/static/admin/assets/plugins/nvd3/build/nv.d3.min.js"></script>
 	<script src=" ${pageContext.request.contextPath}/static/admin/assets/plugins/jvectormap-next/jquery-jvectormap.min.js"></script>
 	<script src=" ${pageContext.request.contextPath}/static/admin/assets/plugins/jvectormap-next/jquery-jvectormap-world-mill.js"></script>
-	<script src=" ${pageContext.request.contextPath}/static/admin/assets/plugins/bootstrap-calendar/js/bootstrap_calendar.min.js"></script>
+	<script src=" ${pageContext.request.contextPath}/static/admin/assets/plugins/apexcharts/dist/apexcharts.min.js"></script>
+	<script src=" ${pageContext.request.contextPath}/static/admin/assets/plugins/moment/min/moment.min.js"></script>
+	<script src=" ${pageContext.request.contextPath}/static/admin/assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
 	<!-- ================== END page-js ================== -->
+	<script>
+	var handleDateRangeFilter = function() {
+		$('#daterange-filter span').html(moment().subtract(7, 'days').format('YYYY-MM-DD') + ' - ' + moment().format('YYYY-MM-DD'));
+
+		$('#daterange-filter').daterangepicker({
+			format: 'YYYY-MM-DD',
+			startDate: moment().subtract(7, 'days'),
+			endDate: moment(),
+			minDate: '2021/08/01',
+			maxDate: moment(),
+			dateLimit: { days: 60 },
+			showDropdowns: true,
+			showWeekNumbers: true,
+			timePicker: false,
+			timePickerIncrement: 1,
+			timePicker12Hour: true,
+			ranges: {
+				'오늘': [moment(), moment()],
+				'어제': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+				'지난 7 일간': [moment().subtract(6, 'days'), moment()],
+				'지난 30 일간': [moment().subtract(29, 'days'), moment()],
+				'당월': [moment().startOf('month'), moment().endOf('month')],
+				'전월': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+			},
+			opens: 'right',
+			drops: 'down',
+			buttonClasses: ['btn', 'btn-sm'],
+			applyClass: 'btn-primary',
+			cancelClass: 'btn-default',
+			separator: ' to ',
+			locale: {
+				applyLabel: '수정',
+				cancelLabel: '취소',
+				fromLabel: 'From',
+				toLabel: 'To',
+				customRangeLabel: '직접입력',
+				daysOfWeek: ['일', '월', '화', '수', '목', '금','토'],
+				monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+				firstDay: 1
+			}
+		}, function(start, end, label) {
+			$('#daterange-filter span').html(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
+			
+		});
+	};
+
+	var sendDates = function (startDate, endDate) {
+		$.ajax({
+				url:"${pageContext.request.contextPath}/admin/stats/totsales",
+				data:{"startDate":startDate , "endDate":endDate},
+				type:"post",
+				dataType:"json",
+				success:function(result){
+					if(result.totSales == null || result.totSales == ""){
+						alert("선택한 기간에는 판매한 상품이 없습니다.");
+						return;
+					}
+					var tot_sales = $('#tot_sales'); // 총 매출
+					var order_count = $('#order_count'); // 총 주문수
+					var sales_per_order = $('#sales_per_order'); // 주문당 매출
+					var paymentRate = $('#paymentRate'); // 주문완료 비율
+					var cartCount = $('#cartCount'); // 장바구니 수
+					var cancleCount = $('#cancleCount'); // 취소 비율
+					var allOrderCount = $('#allOrderCount'); // 전체 주문수
+					var allMemberCount = $('#allMemberCount'); // 총 회원수
+					var memberCount = $('#memberCount'); // 신규가입회원 수
+					var topSelling = $('#topSelling');
+					topSelling.find($(".topProduct")).remove();
+
+					tot_sales.html(result.totSales.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+					order_count.html(result.orderCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+					paymentRate.html((result.orderCount/result.allOrderCount).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+					cartCount.html(result.cartCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+					cancleCount.html(result.cancleCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+					allOrderCount.html(result.allOrderCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+					sales_per_order.html((result.totSales/result.orderCount).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+					allMemberCount.html(result.allMemberCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+					memberCount.html(result.memberCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+					
+					$.each(result.topSellingList, function(index, value) { 
+						let div=`
+						<div class="topProduct d-flex align-items-center mb-15px">
+							<div class="text-truncate">
+								<div >\${value.product_name}</div>
+							</div>
+							<div class="ms-auto text-center">
+								<div class="fs-13px"><span  data-value="0">\${value.sellingCount}</span></div>
+								<div class="text-gray-500 fs-10px">판매수</div>
+							</div>
+						</div>
+						`
+						topSelling.append(div);
+					});
+					
+						
+				},
+				error: function (e) {  
+						console.log("ERROR : ", e);       
+						alert("fail");      
+				},     
+		});
+	};
+
+	var Dashboard = function () {
+		"use strict";
+		return {
+			//main function
+			init: function () {
+				handleDateRangeFilter();
+				sendDates(moment().subtract(7, 'days').format('YYYY-MM-DD'), moment().format('YYYY-MM-DD'));
+			}
+		};
+	}();
+
+	$(document).ready(function() {
+		Dashboard.init();
+		
+		$('#daterange-filter').on('apply.daterangepicker', function(ev, picker) {
+			var startDate = picker.startDate.format('YYYY-MM-DD');
+			var endDate = picker.endDate.format('YYYY-MM-DD');
+			sendDates(startDate,endDate);
+		});
+	});
+	</script>
 </body>
 </html>

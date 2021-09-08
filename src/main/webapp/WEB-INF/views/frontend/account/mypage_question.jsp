@@ -119,6 +119,49 @@ a {
 			</table>
 		
 		</div>
+		
+		<!-- 페이징 -->
+		<nav class="pagination text-center" style="margin-top:20px;">
+			<div class="column">
+				<c:choose>
+					<c:when test="${pu.prevPage }">
+						<a class="btn btn-outline-secondary btn-sm" href="${pageContext.request.contextPath}/account/mypage_question?pageNum=${pu.pageNum-1 }"><i class="icon-chevron-left"></i> 이전</a>
+					</c:when>
+					<c:otherwise>
+						<a class="btn btn-outline-secondary btn-sm disabled"><i class="icon-chevron-left"></i> 이전</a>
+					</c:otherwise>
+				</c:choose>
+			</div>
+			<div class="column">
+			<ul class="pages" style="margin-top:20px;">
+			
+			<c:forEach var="i" begin="${pu.startPageNum }" end="${pu.endPageNum }">
+				<c:choose>
+					<c:when test="${pu.pageNum==i }">
+						<li class="active">
+							<a href="${pageContext.request.contextPath}/account/mypage_question?pageNum=${i }">${i }</a>
+						</li>
+					</c:when>
+					<c:otherwise>
+						<li>
+							<a href="${pageContext.request.contextPath}/account/mypage_question?pageNum=${i }">${i }</a>
+						</li>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+			</ul>
+			</div>
+			<div class="column">
+				<c:choose>
+					<c:when test="${pu.nextPage }">
+						<a class="btn btn-outline-secondary btn-sm" href="${pageContext.request.contextPath}/account/mypage_question?pageNum=${pu.pageNum+1 }">다음 <i class="icon-chevron-right"></i></a>
+					</c:when>
+					<c:otherwise>
+						<a class="btn btn-outline-secondary btn-sm disabled">다음 <i class="icon-chevron-right"></i></a>
+					</c:otherwise>
+				</c:choose>
+			</div>
+		</nav>
 	<!--<div class="accordion" id="accordion1" role="tablist">
 			<div class="card">
 				<div class="card-header" rold="tab">

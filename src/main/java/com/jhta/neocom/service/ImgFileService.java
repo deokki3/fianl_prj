@@ -45,7 +45,7 @@ public class ImgFileService {
 		return false;
 	}
 
-	public Product_ImgDTO uploadImg(MultipartFile img, int product_id, String img_category) {
+	public Product_ImgDTO uploadImg(MultipartFile img, String img_category) {
 
 		if (img == null) {
 			return null;
@@ -75,9 +75,11 @@ public class ImgFileService {
 				thumbnail.close();
 			}
 
+			String getDate = uploadPath.getAbsolutePath().substring(uploadPath.getAbsolutePath().length() - 10,
+					uploadPath.getAbsolutePath().length());
+
 			// 업로드된 파일정보 dto에 저장하기
-			Product_ImgDTO dto = new Product_ImgDTO(product_id, img_name_save, img_name_origin,
-					uploadPath.getAbsolutePath(), img_size, img_category);
+			Product_ImgDTO dto = new Product_ImgDTO(img_name_save, img_name_origin, getDate, img_size, img_category);
 
 			return dto;
 		} catch (Exception e) {
@@ -94,16 +96,20 @@ public class ImgFileService {
 		return mapper.insert(vo);
 	}
 
+	public int delete(int product_img_no) {
+		return mapper.delete(product_img_no);
+	}
+
 	public List<Product_ImgVo> list() {
 		return mapper.list();
 	}
 
-	public List<Product_ImgVo> find(int product_id) {
-		return mapper.find(product_id);
+	public List<Product_ImgVo> findByPid(int product_id) {
+		return mapper.findByPid(product_id);
 	}
 
-	public int delete(int product_img_no) {
-		return mapper.delete(product_img_no);
+	public int deleteBySave(String img_name_save) {
+		return mapper.deleteBySave(img_name_save);
 	}
 
 	public int update(Product_ImgVo vo) {

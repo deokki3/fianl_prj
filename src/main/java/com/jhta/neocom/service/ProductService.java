@@ -25,7 +25,7 @@ public class ProductService {
 	}
 
 	public List<HashMap<String, Object>> list(HashMap<String, Object> map) {
-		System.out.println("map뭐뭐 들어오나" +map);
+		
 		return mapper.list(map);
 
 	}
@@ -56,5 +56,8 @@ public class ProductService {
 		return mapper.purchaseList(product_id);
 	}
 
+	public List<HashMap<String, Object>> findcate(HashMap<String, Object> map){
+		return mapper.findcate(map);
+	}
 
 }

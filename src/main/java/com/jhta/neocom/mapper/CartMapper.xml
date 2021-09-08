@@ -1,28 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  <mapper namespace="com.jhta.neocom.mapper.CartMapper">
-  	<insert id="insert" parameterType="hashmap">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jhta.neocom.mapper.CartMapper">
+	<insert id="insert" parameterType="hashmap">
   		insert into cart values(get_seq('cart_Seq'),#{mem_no},#{product_id},1)
   	</insert>
-  	
- 	<delete id="delete" parameterType="int">
+
+	<delete id="delete" parameterType="int">
  		delete from cart where cart_no=#{cart_no}
- 	</delete> 
- 	
- 	<update id="update" parameterType="hashmap">
+ 	</delete>
+
+	<update id="update" parameterType="hashmap">
  		update cart set product_count=#{product_count} where cart_no=${cart_no}
  	</update>
 
+	<select id="cartnoSearch" resultType="com.jhta.neocom.model.CartVo" parameterType="int">
+		select cart_no,mem_no,p.product_id,product_name,product_count, selling_price,img_name_save,uploadPath
+		from cart c LEFT JOIN product p ON c.product_id = p.product_id JOIN product_img pi 
+		ON c.product_id = pi.product_id where cart_no= #{cart_no} and img_category='main' 
+		
+	</select>
+
 	<select id="cartList" resultType="com.jhta.neocom.model.CartVo" parameterType="int">
-  		SELECT cart_no,mem_no,p.product_id,product_name,product_count, selling_price, img_name_save 
+  		SELECT cart_no,mem_no,p.product_id,product_name,product_count,selling_price,img_name_save,uploadPath
   		FROM cart c LEFT JOIN product p ON c.product_id = p.product_id 
   		JOIN product_img pi ON c.product_id = pi.product_id where mem_no=#{mem_no} 
-  		and img_category='main' order by cart_no asc
+  		and img_category='main' order by cart_no desc
   	</select>
-  	
-  	<select id="isMember" parameterType="hashmap" resultType="com.jhta.neocom.model.CartVo">
+
+	<select id="isMember" parameterType="hashmap" resultType="com.jhta.neocom.model.CartVo">
   		select * from cart where id=#{id} and pwd=#{pwd}
   	</select>
-  </mapper>
+</mapper>

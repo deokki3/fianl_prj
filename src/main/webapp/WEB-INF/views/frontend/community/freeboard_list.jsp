@@ -106,40 +106,46 @@ a {
 				<c:forEach var="vo" items="${list }">
 					<tr>
 					<c:choose>
-						<c:when test="${vo.free_show == 1 && vo.free_group_depth == 0}">
-							<td>${vo.free_board_no }</td>
-							<td colspan="4" class="text-left">
-								<span style="color:gray;">
-								 작성자에 의해 삭제된 글 입니다. </span>
-							</td>
-						</c:when>
 						<c:when test="${vo.free_show == 1 }">
 							<td></td>
 							<td colspan="4" class="text-left">
 								<span style="color:gray;">
-									<c:forEach var="i" begin="2" end="${vo.free_group_depth }">
-										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									</c:forEach>
-								[Re] 작성자에 의해 삭제된 글 입니다. </span>
+									<c:if test="${vo.free_group_depth >0 }">
+										<c:forEach var="i" begin="1" end="${vo.free_group_depth }">
+											&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										</c:forEach>
+										[Re]
+									</c:if>
+									작성자에 의해 삭제된 글 입니다.
+								</span>
 							</td>
 						</c:when>
-						<c:when test="${vo.free_group_order >0 }">
+						<c:when test="${vo.free_show == 2 }">
 							<td></td>
-							<td class="text-left">
-								<a href="javascript:clickTitle('${vo.free_board_no }');">
-									<c:forEach var="i" begin="2" end="${vo.free_group_depth }">
-										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									</c:forEach>
-								[Re]&nbsp; ${vo.free_title }</a>
+							<td colspan="4" class="text-left">
+								<span style="color:gray;">
+									<c:if test="${vo.free_group_depth > 0 }">
+										<c:forEach var="i" begin="1" end="${vo.free_group_depth }">
+											&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										</c:forEach>
+										[Re]&nbsp;
+									</c:if>
+									관리자에 의해 블라인드 처리된 글 입니다. 
+								</span>
 							</td>
-							<td>${vo.Nickname }</td>
-							<td><fmt:parseDate value="${vo.free_regdate }" var="free_regdate" pattern="yyyy-MM-dd'T'HH:mm:ss" /><fmt:formatDate value="${free_regdate }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
-							<td>${vo.free_hit }</td>
 						</c:when>
 						<c:otherwise>
 							<td>${vo.free_board_no }</td>
 							<td class="text-left">
-								<a href="javascript:clickTitle('${vo.free_board_no }');">${vo.free_title }</a>
+								<a href="javascript:clickTitle('${vo.free_board_no }');">
+									<c:if test="${vo.free_group_depth >0 }">
+										<c:forEach var="i" begin="1" end="${vo.free_group_depth }">
+											&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										</c:forEach>
+										[Re]&nbsp;
+									</c:if>
+									${vo.free_title }
+								</a>
 							</td>
 							<td>${vo.Nickname }</td>
 							<td><fmt:parseDate value="${vo.free_regdate }" var="free_regdate" pattern="yyyy-MM-dd'T'HH:mm:ss" /><fmt:formatDate value="${free_regdate }" pattern="yyyy-MM-dd HH:mm:ss" /></td>

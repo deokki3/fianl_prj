@@ -148,7 +148,7 @@ opacity: 0;
 		<h4>글쓰기</h4>
 		<hr class="padding-bottom-1x">
 		
-		<form class="row" name="freeForm" method="post" action="${pageContext.request.contextPath}/community/freeboard_insert">
+		<form id="frm" class="row" name="freeForm" method="post" action="${pageContext.request.contextPath}/community/freeboard_insert" enctype="multipart/form-data">
 			<div class="col-md-12">
 				<div class="form-group">
 					<label for="free_title">제목</label>
@@ -160,7 +160,29 @@ opacity: 0;
 					<label for="free_content">내용</label>
 					<textarea rows="15" cols="4000" class="form-control" name="free_content" id="free_content"></textarea>
 				</div>
+			</div>		
+				
+		<!--<div class="col-md-9" style="margin-top:20px;">
+				<div class="custom-file">
+					<input multiple="multiple" type="file" class="custom-file-input" name="file1" id="file1">
+					<label for="file1" class="custom-file-label">첨부파일</label>
+				</div>
 			</div>
+			<div class="col-md-3">
+				<div class="row">
+				<a href="#this" class="btn btn-secondary btn-sm" id="delFile" name="delFile">삭제</a>
+				<a href="#this" class="btn btn-secondary btn-sm" id="addFile" name="addFile">파일추가</a>
+				</div>
+			</div> -->
+		
+			<div id="fileDiv" class="col-md-9">
+				<p>
+					<input type="file" class="" multiple="multiple" id="file" name="file_0">
+					<a href="#this" class="btn btn-secondary btn-sm" id="delFile" name="delFile">삭제</a>
+				</p>
+			</div>
+			<a href="#this" class="btn btn-secondary btn-sm ml-md-auto" id="addFile">파일추가</a>
+			
 			<div class="col-12 padding-top-1x">
 			<!--<div class="custom-control custom-checkbox d-block">
 					<input class="custom-control-input" type="checkbox" name="free_secret_chk" id="free_secret_chk">
@@ -238,8 +260,46 @@ opacity: 0;
 		formName.method = "post";
 		formName.submit();
 	}
-
-/*	$("#free_password").attr("disabled",true);
+	
+	
+	/* form-control class 적용시 첨부파일에 경로와 파일명 띄우는 스크립트 
+	$("#file1").on("change",function(){
+		var fileName = $(this).val();
+		$(this).next(".custom-file-label").html(fileName);
+	}); */
+	
+	
+	/* 첨부파일 추가 및 삭제 버튼 */
+	$("#addFile").on("click",function(e){
+		e.preventDefault();
+		fn_addFile();
+	});
+	
+	$("a[name='delFile']").on("click",function(e){
+		e.preventDefault();
+		fn_deleteFile($(this));
+	});
+	
+	function fn_addFile(){
+		var str = "<p>" +
+				  "<input type='file' class='' multiple='multiple' name='file_0' >" +
+				  "<a href='#this' class='btn btn-secondary btn-sm' name='delFile'>삭제</a>" +
+				  "</p>";
+		$("#fileDiv").append(str);
+		$("a[name='delFile']").on("click",function(e){
+			e.preventDefault();
+			fn_deleteFile($(this));
+		});
+	}
+	
+	function fn_deleteFile(obj){
+		obj.parent().remove();
+	}
+	/* 첨부파일 추가 및 삭제 버튼 끝 */
+	
+	
+	/* 비밀글 체크 옵션 스크립트
+	$("#free_password").attr("disabled",true);
 		$("#free_secret_chk").on("click",function(){
 			var chk = $("input:checkbox[id='free_secret_chk']").is(":checked");
 			if(chk==true){

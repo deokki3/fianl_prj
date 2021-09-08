@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.jhta.neocom.mapper.AdressMapper">
+  
+	<insert id="addrTest" parameterType="com.jhta.neocom.model.AdressVo">
+	<selectKey keyProperty="addr_no" order="BEFORE" resultType="int">
+		select get_seq('addrSeq') as addr_no from dual
+	</selectKey>
+		insert into address (addr_no, mem_no, zip_code, address, adress_detail)
+		values (#{addr_no},#{mem_no},#{zip_code},#{address},#{adress_detail})
+	</insert>
+	
+	<update id="addrModify" parameterType="com.jhta.neocom.model.AdressVo">
+		update address set zip_code=#{zip_code},address=#{address},adress_detail=#{adress_detail}
+		where addr_no=#{addr_no}
+	</update>
+	
+	  
+	<select id="addrList" resultType="com.jhta.neocom.model.AdressVo" parameterType="String">
+		select id,addr_no,zip_code,address,adress_detail
+		from member_Info 
+		left join address 
+		on address.mem_no=member_Info.mem_no
+		where id=#{id}
+	</select>
+	
+	<select id="zipSelect" resultType="com.jhta.neocom.model.AdressVo" parameterType="int">
+		select addr_no,zip_code,address,adress_detail
+		from member_Info 
+		left join address 
+		on address.mem_no=member_Info.mem_no
+		where addr_no=#{addr_no}
+	</select>
+	
+	</mapper>

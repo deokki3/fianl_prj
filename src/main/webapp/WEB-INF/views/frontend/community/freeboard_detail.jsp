@@ -97,6 +97,15 @@
 							<p>${map.free_content }</p>
 						</td>
 					</tr>
+					<tr>
+						<td>
+							<c:forEach var="filemap" items="${filemap }">
+								<a href="${pageContext.request.contextPath }/community/freeboard_filedownload?file_num=${filemap.file_num}">
+									${filemap.file_name_org }
+								</a>
+							</c:forEach>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 			

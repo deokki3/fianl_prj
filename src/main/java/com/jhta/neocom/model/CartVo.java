@@ -15,4 +15,5 @@ public class CartVo {
 	private String product_name;
 	private int selling_price;
 	private String img_name_save;
+	private String uploadPath;
 }

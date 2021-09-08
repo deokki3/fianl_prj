@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jhta.neocom.mapper.StatsMapper">
+    <select id="selectTotSales" parameterType="map" resultType="map">
+        select sum(tot_price) totSales, count(*) orderCount from order_main where payment_status="결제 완료" and order_date between #{startDate} and #{endDate}
+    </select>
+    <select id="selectMemberCount" parameterType="map" resultType="map">
+        select count(*) memberCount from member_Info where reg_date between #{startDate} and #{endDate}
+    </select>
+    <select id="selectAllMemberCount" resultType="map">
+        select count(*) allMemberCount from member_Info
+    </select>
+    <select id="selectCartCount" resultType="map">
+        select count(*) cartCount from cart
+    </select>
+    <select id="selectCancleCount" resultType="map">
+        select count(*) cancleCount from order_main where payment_status= "환불 완료"
+    </select>
+    <select id="selectAllOrderCount" resultType="map">
+        select count(*) allOrderCount from order_main
+    </select>
+    <select id="selectTopSelling" resultType="map">
+        select aa.product_id product_id,cc.product_name product_name,sum(product_count) sellingCount from order_detail aa left join order_main bb on aa.order_no=bb.order_no join product cc on aa.product_id=cc.product_id where payment_status="결제 완료" group by product_id order by sellingCount desc
+    </select>
+</mapper>

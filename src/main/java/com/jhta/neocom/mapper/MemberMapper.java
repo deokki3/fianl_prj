@@ -1,6 +1,5 @@
 package com.jhta.neocom.mapper;
 
-import java.util.HashMap;
 import java.util.List;
 
 import com.jhta.neocom.model.MemberVo;
@@ -12,7 +11,7 @@ public interface MemberMapper {
 
 	MemberVo select(String id);
 
-	MemberVo isMember(HashMap<String, String> map);
+	MemberVo isMember(String id);
 
 	int searchNo(String id);
 
@@ -23,8 +22,12 @@ public interface MemberMapper {
 	int updateName(MemberVo vo);
 
 	int updatePhone(MemberVo vo);
+	
+	int updateEmail(MemberVo vo);
 
 	MemberVo selectid(String id);
+	
+	String selectpwd(String id);
 
 	int memberDel(MemberVo vo);
 	
@@ -33,6 +36,20 @@ public interface MemberMapper {
 	MemberVo login(MemberVo vo);
 
 	int update(MemberVo vo);
+	
+	int updatePwd(MemberVo vo);
 
 	int delete(int mem_no);
+	
+	String findId(String email);
+	
+	String find_Pwd(String email);
+	
+	MemberVo findPwd(String id);
+	
+	int idcheck(String id);
+	
+	int emailcheck(String email);
+	
+	MemberVo logina(String id);
 }

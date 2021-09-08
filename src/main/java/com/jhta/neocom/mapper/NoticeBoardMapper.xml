@@ -84,9 +84,7 @@
 	<select id="nn_list" resultType="hashmap" parameterType="hashmap">
 		select nn.*,mm.mem_no,mm.Nickname 
 		from notice_board nn inner join member_Info mm on nn.mem_no=mm.mem_no 
-		<include refid="search" />
 		order by nn.n_board_no desc
-		limit #{nn_startRow},10
 	</select>
 	
 </mapper>

@@ -12,6 +12,7 @@
         <typeAlias type="com.jhta.neocom.model.QnABoardVo" alias="qnaboard" />
         <typeAlias type="com.jhta.neocom.model.FreeBoardVo" alias="freeboard" />
         <typeAlias type="com.jhta.neocom.model.FileVo" alias="file" />
+        <typeAlias type="com.jhta.neocom.model.WishlistVo" alias="wishlist" />
     </typeAliases>
 
 </configuration>

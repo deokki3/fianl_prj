@@ -62,8 +62,12 @@ public class QnABoardService {
 	}
 	
 	
-	public List<HashMap<String,Object>> myqna(int mem_no) {
-		return mapper.myqna(mem_no);
+	public int myCount(int mem_no) {
+		return mapper.myCount(mem_no);
+	}
+	
+	public List<HashMap<String,Object>> myqna(HashMap<String,Object> map) {
+		return mapper.myqna(map);
 	}
 	
 	

@@ -28,6 +28,11 @@
 	height: 100px;
 	vertical-align: middle;
 }
+.form-control,.card-body {
+	width: 600px;
+	margin: auto;
+}
+
 </style>
 </head>
 <body>
@@ -69,7 +74,7 @@
 		<form action="${pageContext.request.contextPath }/account/update" method="post">
 		<div class="form-group input-group">
 			아이디
-			<input class="form-control" type="text" name="id" readonly="readonly" value="${vo.id }">
+			<input style="cursor:default" class="form-control" type="text" name="id" readonly="readonly" value="${vo.id }">
 		</div>
 		<div class="form-group input-group">
 			닉네임
@@ -80,16 +85,20 @@
 			<input class="form-control" type="text" name="name" value="${vo.name }">
 		</div>
 		<div class="form-group input-group">
+			이메일
+			<input class="form-control" type="text" name="email" value="${vo.email }">
+		</div>
+		<div class="form-group input-group">
 			휴대폰번호
 			<input class="form-control" type="text" name="phone" value="${vo.phone }">
 		</div>
 		<div class="form-group input-group">
 			생년월일
-			<input class="form-control" type="text" name="birthday" readonly="readonly" value="${vo.birth_date }">
+			<input style="cursor:default" class="form-control" type="text" name="birthday" readonly="readonly" value="${vo.birth_date }">
 		</div>
 		<div class="form-group input-group">
 			가입일
-			<input class="form-control" type="text" name="regdate" readonly="readonly" value="${vo.reg_date }">
+			<input style="cursor:default" class="form-control" type="text" name="regdate" readonly="readonly" value="${vo.reg_date }">
 		</div>
 		
 		
@@ -98,10 +107,10 @@
 		</div>
 		</form>	
 		<form action="${pageContext.request.contextPath }/account/pwdmodify">
-		<div class="form-group input-group">
-			비밀번호						
-			<input class="form-control" type="password" name="password" readonly="readonly" value="${vo.password }">		
-			<button class="btn btn-primary btn-sm" type="submit">비밀번호변경</button>
+		<div class="text-center text-sm-right">					
+			<input class="form-control" type="hidden" name="id" readonly="readonly" value="${vo.id }">
+			<input class="form-control" type="hidden" name="password" readonly="readonly" value="${vo.password }">		
+			<button class="btn btn-primary margin-bottom-none" type="submit">비밀번호변경</button>
 		</div>	
 		</form>	
 		<form action="${pageContext.request.contextPath }/account/memberDel">
@@ -111,6 +120,9 @@
 			<button class="btn btn-primary margin-bottom-none" type="submit">회원 탈퇴</button>
 		</div>
 		</form>		
+
+					
+
 	</div>	
 	<hr class="mt-2 mb-3">
 	</div>

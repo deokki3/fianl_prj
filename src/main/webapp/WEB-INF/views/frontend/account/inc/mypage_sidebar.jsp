@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+
 	<!-- 마이페이지 사이드바 -->
 	<div class="col-lg-3">
 		<aside class="user-info-wrapper">
@@ -21,6 +23,7 @@
 			</div>
 		</aside>
 		<nav class="list-group">
+		
 			<a class="list-group-item" id="order" href="${pageContext.request.contextPath }/account/mypage_order">주문내역</a>
 			<a class="list-group-item" id="delivery" href="${pageContext.request.contextPath }/account/mypage_delivery">배송지 관리</a>
 			<a class="list-group-item" id="question" href="${pageContext.request.contextPath }/account/mypage_question">문의내역</a>

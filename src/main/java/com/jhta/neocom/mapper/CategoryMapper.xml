@@ -43,6 +43,41 @@
 	</select>
 	<!-- 카테고리별 분류 -->
 	<select id="classification" parameterType="int"  resultType="hashmap">
-		select * from category where category_parent=#{category_parent}
+		WITH RECURSIVE CTE AS (
+		    SELECT 
+				
+				category_id,
+				
+				category_parent,
+				
+				category_name,
+				
+				category_order
+				
+				FROM category 
+				
+				WHERE category_id = #{category_id}
+				
+				UNION ALL
+				
+				SELECT
+				
+				a.category_id,
+				
+				a.category_parent,
+				
+				a.category_name,
+				
+				a.category_order
+				
+				FROM category a
+				
+				INNER JOIN CTE b ON a.category_parent = b.category_id 
+				
+		)
+		
+		SELECT category_id, category_parent, category_name , category_order FROM CTE
+
+
 	</select>
 </mapper>

@@ -1,5 +1,6 @@
 package com.jhta.neocom.admin.controller;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,15 +16,25 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jhta.neocom.service.OrderCancelService;
+import com.jhta.neocom.service.OrderMainService;
+import com.jhta.neocom.service.PaymentService;
 
 @RestController
 public class PaybackController {
+	 @Autowired
+	    private OrderMainService service;
+	 @Autowired
+	    private PaymentService pservice;
+	 @Autowired
+	    private OrderCancelService odccservice;
 	public static final String IMPORT_TOKEN_URL = "https://api.iamport.kr/users/getToken";
 	public static final String IMPORT_PAYMENTINFO_URL = "https://api.iamport.kr/payments/find/";
 	public static final String IMPORT_CANCEL_URL = "https://api.iamport.kr/payments/cancel";
@@ -64,16 +75,17 @@ public class PaybackController {
 		return paramList;
 	} 
 	
-	// 결제취소
+	// 결제취소: 주문취소(환불)
 	@RequestMapping(value ="/order/payback1", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public HashMap<String, Object> cancelPayment(@RequestParam Map<String, Object> param,String mid) {
+	public HashMap<String, Object> cancelPayment(@RequestParam Map<String, Object> param,String mid,
+			int order_no,Date od_cc_complete_date) {
 		HttpClient client = HttpClientBuilder.create().build();
 		HttpPost post = new HttpPost(IMPORT_CANCEL_URL);
 		Map<String, String> map = new HashMap<String, String>();
 		HashMap<String, Object> map2 = new HashMap<String, Object>();
 		post.setHeader("Authorization", getImportToken());
-		map.put("merchant_uid", (String)param.get("mid"));
-		System.out.println((String)param.get("mid")+ " ::주문번호");
+		map.put("merchant_uid",mid);
+		System.out.println(mid+ " ::주문번호 ::" +order_no);
 		String asd = "";
 		try {
 			post.setEntity(new UrlEncodedFormEntity(convertParameter(map)));
@@ -84,20 +96,91 @@ public class PaybackController {
 			JsonNode rootNode = mapper.readTree(enty);
 			asd = rootNode.get("response").asText();
 			System.out.println(rootNode.get("response")+" fffff");
-			System.out.println(asd+ ":asd");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+		//order_main 테이블 업데이트
+		HashMap<String, Object> omUpdate = new HashMap<String, Object>();
+		HashMap<String, Object> pmUpdate = new HashMap<String, Object>();
+		HashMap<String, Object> odccUpdate = new HashMap<String, Object>();
 		if (asd.equals("null")) {
-			map2.put("code", "success");
-			
+			map2.put("code", "fail");
+			System.out.println(od_cc_complete_date+"sss");
+			System.err.println("환불실패");
 			return map2;
 		} else {
-			map2.put("code", "fail");
+			map2.put("code", "success");
+			System.err.println("환불성공");
+			omUpdate.put("order_no", order_no);
+			omUpdate.put("order_status","취소 완료");
+			omUpdate.put("payment_status","환불 완료");
+			omUpdate.put("od_cc_status","취소 완료");
+			pmUpdate.put("order_no", order_no);
+			pmUpdate.put("payment_status","결제 취소");
+			odccUpdate.put("order_no", order_no);
+			odccUpdate.put("od_cc_complete_date", od_cc_complete_date);
+			System.out.println(od_cc_complete_date+"sss");
+			odccUpdate.put("od_cc_status", "취소 완료");
+			service.update(omUpdate);
+			pservice.update(pmUpdate);
+			odccservice.updateODCC(odccUpdate);
 			return map2;
 		}
 	} 
+	
+	// 결제취소: 반품(환불)
+		@RequestMapping(value ="/order/payback2", produces = { MediaType.APPLICATION_JSON_VALUE })
+		public HashMap<String, Object> cancelPayment2(@RequestParam Map<String, Object> param,String mid,
+				int order_no,Date od_cc_complete_date) {
+			HttpClient client = HttpClientBuilder.create().build();
+			HttpPost post = new HttpPost(IMPORT_CANCEL_URL);
+			Map<String, String> map = new HashMap<String, String>();
+			HashMap<String, Object> map2 = new HashMap<String, Object>();
+			post.setHeader("Authorization", getImportToken());
+			map.put("merchant_uid",mid);
+			System.out.println(mid+ " ::주문번호 ::" +order_no);
+			String asd = "";
+			try {
+				post.setEntity(new UrlEncodedFormEntity(convertParameter(map)));
+				HttpResponse res = client.execute(post);
+				ObjectMapper mapper = new ObjectMapper();
+				String enty = EntityUtils.toString(res.getEntity());
+				System.out.println(enty+ "enty!!");
+				JsonNode rootNode = mapper.readTree(enty);
+				asd = rootNode.get("response").asText();
+				System.out.println(rootNode.get("response")+" fffff");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			//order_main 테이블 업데이트
+			HashMap<String, Object> omUpdate = new HashMap<String, Object>();
+			HashMap<String, Object> pmUpdate = new HashMap<String, Object>();
+			HashMap<String, Object> odccUpdate = new HashMap<String, Object>();
+			if (asd.equals("null")) {
+				map2.put("code", "fail");
+				System.out.println(od_cc_complete_date+"sss");
+				System.err.println("환불실패");
+				return map2;
+			} else {
+				map2.put("code", "success");
+				System.err.println("환불성공");
+				omUpdate.put("order_no", order_no);
+				omUpdate.put("order_status","반품 완료");
+				omUpdate.put("payment_status","환불 완료");
+				omUpdate.put("od_cc_status","반품 완료");
+				pmUpdate.put("order_no", order_no);
+				pmUpdate.put("payment_status","결제 취소");
+				odccUpdate.put("order_no", order_no);
+				odccUpdate.put("od_cc_complete_date", od_cc_complete_date);
+				System.out.println(od_cc_complete_date+"sss");
+				odccUpdate.put("od_cc_status", "반품 완료");
+				service.update(omUpdate);
+				pservice.update(pmUpdate);
+				odccservice.updateODCC(odccUpdate);
+				return map2;
+			}
+		} 
+	
 	
 	// 아임포트
 

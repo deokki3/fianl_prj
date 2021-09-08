@@ -23,5 +23,5 @@ public interface CategoryMapper {
 	List<HashMap<String, Integer>> selectjoin(int product_id); // 카테고리 디테일 order&order name뽑기
 	
 	
-	List<HashMap<String, Object>> classification(int category_parent); //카테고리별 분류
+	List<CategoryVo> classification(int category_id); //카테고리별 분류
 }

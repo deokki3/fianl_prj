@@ -3,8 +3,6 @@ package com.jhta.neocom.mapper;
 import java.util.HashMap;
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
 import com.jhta.neocom.model.ReviewVo;
 
 
@@ -20,5 +18,7 @@ public interface ReviewMapper {
 	double getAvgStar(int product_id);
 	int getCountStar(HashMap<String,Integer> map);
 	List<HashMap<String,Integer>> getStar(int product_id);
+	List<HashMap<String,Object>> mylist(HashMap<String,Object> map);
+	int getmycnt(int mem_no);
 
 }

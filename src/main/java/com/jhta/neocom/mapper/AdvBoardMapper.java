@@ -22,5 +22,6 @@ HashMap<String, Object> detail (int adv_board_no);
 int cntHit(int adv_board_no);
 List<HashMap<String,Object>> list(HashMap<String,Object> map);
 
+List<HashMap<String,Object>> aa_list(HashMap<String,Object> aa_map);
 }
  

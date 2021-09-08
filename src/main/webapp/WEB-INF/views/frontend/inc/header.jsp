@@ -16,7 +16,7 @@
 	<!-- 검색 및 카테고리 -->
 	<div class="search-box-wrap d-flex">
 		<div class="search-box-inner align-self-center">
-			<div class="search-box d-flex col-md-10">
+			<div class="search-box d-flex">
 				<!-- 카테고리 -->
 				<div class="btn-group categories-btn">
 					<button class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"><i class="icon-menu text-lg"></i>&nbsp;카테고리</button>
@@ -31,19 +31,21 @@
 							<div class="col-sm-3"><a class="d-block navi-link text-center mb-30" href="${pageContext.request.contextPath }/shop/product_grid?category_id=7"><img class="d-block" src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/header-categories/ssd.png"><span class="text-gray-dark">SSD</span></a></div>
 							<div class="col-sm-3"><a class="d-block navi-link text-center mb-30" href="${pageContext.request.contextPath }/shop/product_grid?category_id=8"><img class="d-block" src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/header-categories/hdd.png"><span class="text-gray-dark">HDD</span></a></div>
 							<div class="col-sm-3"><a class="d-block navi-link text-center mb-30" href="${pageContext.request.contextPath }/shop/product_grid?category_id=9"><img class="d-block" src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/header-categories/power.png"><span class="text-gray-dark">파워</span></a></div>
-							<div class="col-sm-3"><a class="d-block navi-link text-center mb-30" href="${pageContext.request.contextPath }/shop/product_grid?category_id=3"><img class="d-block" src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/header-categories/peripherals.jpg"><span class="text-gray-dark">주변기기</span></a></div>
+							<div class="col-sm-3"><a class="d-block navi-link text-center mb-30" href="${pageContext.request.contextPath }/shop/product_grid?category_id=1500"><img class="d-block" src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/header-categories/peripherals.jpg"><span class="text-gray-dark">주변기기</span></a></div>
 						</div>
 					</div>
 				</div>
 				<!-- 카테고리 끝 -->
 				<!-- 헤더 검색창 -->
 
-				<form class="input-group" method="get" action="${pageContext.request.contextPath }/shop/product_grid">
+				<form class="input-group" name="formsearch">
+					<fieldset>
+					<span class="input-group-btn">
+						<button type="button" onclick="twocheck()"><i class="icon-search"></i></button>
+					</span>
 					<input class="form-control" type="search" placeholder="검색어를 입력하세요." name="keyword" value=${keyword }>
 					<input type="hidden" name="category_id" value="10000">
-					<span class="input-group-btn">
-						<button type="submit"><i class="icon-search"></i></button>
-					</span>
+					</fieldset>
 				</form>
 				<!-- 헤더 검색창 끝 -->
 			</div>
@@ -91,12 +93,12 @@
 				<div>
 					<span class="cart-icon">
 						<i class="icon-shopping-cart"></i>
-						<span class="count-label">0</span>
+						<!--<span class="count-label">0</span>-->
 					</span>
 					<span class="text-label">장바구니</span>
 				</div>
 			</a>
-			<!-- 장바구니 아이콘 드롭다운(기능 구현 가능하면 유지, 불가할 경우 지우기) -->
+			<!-- 장바구니 아이콘 드롭다운(기능 구현 가능하면 유지, 불가할 경우 지우기) 
 			<div class="toolbar-dropdown cart-dropdown widget-cart">
 				<div class="entry">
 					<div class="entry-thumb"><a href="#"><img src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/widget/04.jpg" alt=""></a></div>
@@ -121,7 +123,7 @@
 					<div class="pr-2 w-50"><a class="btn btn-secondary btn-sm btn-block mb-0" href="#">버튼1</a></div>
 					<div class="pr-2 w-50"><a class="btn btn-primary btn-sm btn-block mb-0" href="#">버튼2</a></div>
 				</div>
-			</div>
+			</div> -->
 			<!-- 장바구니 아이콘 드롭다운 끝 -->
 		</div>
 	</div>
@@ -136,16 +138,16 @@
 		<button class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"><i class="icon-menu text-lg"></i>&nbsp;카테고리</button>
 		<div class="dropdown-menu mega-dropdown">
 		<div class="row">
-				<div class="col-sm-3"><a class="d-block navi-link text-center mb-30" href="${pageContext.request.contextPath }/shop/product_list?category_id=3"><img class="d-block" src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/header-categories/cpu.png"><span class="text-gray-dark">CPU</span></a></div>
-				<div class="col-sm-3"><a class="d-block navi-link text-center mb-30" href="${pageContext.request.contextPath }/shop/product_list?category_id=4"><img class="d-block" src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/header-categories/mainboard.png"><span class="text-gray-dark">메인보드</span></a></div>
-				<div class="col-sm-3"><a class="d-block navi-link text-center mb-30" href="${pageContext.request.contextPath }/shop/product_list?category_id=5"><img class="d-block" src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/header-categories/ram.png"><span class="text-gray-dark">RAM</span></a></div>
-				<div class="col-sm-3"><a class="d-block navi-link text-center mb-30" href="${pageContext.request.contextPath }/shop/product_list?category_id=6"><img class="d-block" src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/header-categories/vga.png"><span class="text-gray-dark">그래픽카드</span></a></div>
+				<div class="col-sm-3"><a class="d-block navi-link text-center mb-30" href="${pageContext.request.contextPath }/shop/product_grid?category_id=3"><img class="d-block" src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/header-categories/cpu.png"><span class="text-gray-dark">CPU</span></a></div>
+				<div class="col-sm-3"><a class="d-block navi-link text-center mb-30" href="${pageContext.request.contextPath }/shop/product_grid?category_id=4"><img class="d-block" src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/header-categories/mainboard.png"><span class="text-gray-dark">메인보드</span></a></div>
+				<div class="col-sm-3"><a class="d-block navi-link text-center mb-30" href="${pageContext.request.contextPath }/shop/product_grid?category_id=5"><img class="d-block" src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/header-categories/ram.png"><span class="text-gray-dark">RAM</span></a></div>
+				<div class="col-sm-3"><a class="d-block navi-link text-center mb-30" href="${pageContext.request.contextPath }/shop/product_grid?category_id=6"><img class="d-block" src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/header-categories/vga.png"><span class="text-gray-dark">그래픽카드</span></a></div>
 		</div>
 		<div class="row">
-				<div class="col-sm-3"><a class="d-block navi-link text-center mb-30" href="${pageContext.request.contextPath }/shop/product_list?category_id=7"><img class="d-block" src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/header-categories/ssd.png"><span class="text-gray-dark">SSD</span></a></div>
-				<div class="col-sm-3"><a class="d-block navi-link text-center mb-30" href="${pageContext.request.contextPath }/shop/product_list?category_id=8"><img class="d-block" src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/header-categories/hdd.png"><span class="text-gray-dark">HDD</span></a></div>
-				<div class="col-sm-3"><a class="d-block navi-link text-center mb-30" href="${pageContext.request.contextPath }/shop/product_list?category_id=9"><img class="d-block" src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/header-categories/power.png"><span class="text-gray-dark">파워</span></a></div>
-				<div class="col-sm-3"><a class="d-block navi-link text-center mb-30" href="${pageContext.request.contextPath }/shop/product_list?category_id=3"><img class="d-block" src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/header-categories/peripherals.jpg"><span class="text-gray-dark">주변기기</span></a></div>
+				<div class="col-sm-3"><a class="d-block navi-link text-center mb-30" href="${pageContext.request.contextPath }/shop/product_grid?category_id=7"><img class="d-block" src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/header-categories/ssd.png"><span class="text-gray-dark">SSD</span></a></div>
+				<div class="col-sm-3"><a class="d-block navi-link text-center mb-30" href="${pageContext.request.contextPath }/shop/product_grid?category_id=8"><img class="d-block" src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/header-categories/hdd.png"><span class="text-gray-dark">HDD</span></a></div>
+				<div class="col-sm-3"><a class="d-block navi-link text-center mb-30" href="${pageContext.request.contextPath }/shop/product_grid?category_id=9"><img class="d-block" src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/header-categories/power.png"><span class="text-gray-dark">파워</span></a></div>
+				<div class="col-sm-3"><a class="d-block navi-link text-center mb-30" href="${pageContext.request.contextPath }/shop/product_grid?category_id=1500"><img class="d-block" src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/header-categories/peripherals.jpg"><span class="text-gray-dark">주변기기</span></a></div>
 		</div>
 		</div>
 	</div>
@@ -183,14 +185,7 @@
 							<li><a href="${pageContext.request.contextPath }/shop/product_grid?category_id=14">USB</a></li>
 						</ul>
 					</li>
-					<li><span class="mega-menu-title">월간견적 PC</span>
-						<ul class="sub-menu">
-							<li><a href="#">소분류1</a></li>
-							<li><a href="#">소분류2</a></li>
-							<li><a href="#">소분류3</a></li>
-							<li><a href="#">소분류4</a></li>
-						</ul>
-					</li>
+					
 				</ul>
 			</li>
 			<li class="has-submenu" id="service-li"><a href="${pageContext.request.contextPath }/service/advboard_list">Service</a>
@@ -247,16 +242,16 @@
 
 
 			<div class="toolbar-item">
-				<a class="" href="${pageContext.request.contextPath }/cart?id=${sessionScope.id}">
+				<a class="" href="${pageContext.request.contextPath }/member/cart">
 					<div>
 						<span class="cart-icon">
 							<i class="icon-shopping-cart"></i>
-							<span class="count-label">0</span>
+							<!--  <span class="count-label">0</span>-->
 						</span>
 						<span class="text-label">장바구니</span>
 					</div>
 				</a>
-				<!-- 장바구니 아이콘 드롭다운(기능 구현 가능하면 유지, 불가할 경우 지우기) -->
+				<!-- 장바구니 아이콘 드롭다운(기능 구현 가능하면 유지, 불가할 경우 지우기) 
 				<div class="toolbar-dropdown cart-dropdown widget-cart">
 					<div class="entry">
 						<div class="entry-thumb"><a href="#"><img src="${pageContext.request.contextPath}/static/frontend/assets/img/shop/widget/04.jpg" alt=""></a></div>
@@ -281,7 +276,7 @@
 						<div class="pr-2 w-50"><a class="btn btn-secondary btn-sm btn-block mb-0" href="#">버튼1</a></div>
 						<div class="pr-2 w-50"><a class="btn btn-primary btn-sm btn-block mb-0" href="#">버튼2</a></div>
 					</div>
-				</div>
+				</div>-->
 				<!-- 장바구니 아이콘 드롭다운 끝 -->
 			</div>
 		</div>
@@ -307,5 +302,21 @@
 		$("#aboutus-li").addClass("active");
 	}else{
 		$(".nav-ul li").removeClass("active");
+	}
+	
+	
+	function twocheck(){
+		var theForm =document.formsearch;
+		if ($("input[name=keyword]").val().length <= 1) {
+
+			alert("검색은 2글자 이상 입력해주세요");
+
+			return false;
+
+
+		}
+		theForm.method ="get";
+		theForm.action ="${pageContext.request.contextPath }/shop/product_grid";
+		theForm.submit();
 	}
 </script>

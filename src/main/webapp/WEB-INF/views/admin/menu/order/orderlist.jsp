@@ -66,39 +66,60 @@
 							<table id="data-table-responsive" class="table table-striped table-bordered align-middle">
 								<thead>
 									<tr>
-										<th width="10%">고유번호</th>
-										<th width="10%" data-orderable="true">회원번호</th>
-										<th class="text-nowrap">금액</th>
-										<th class="text-nowrap">주문날짜</th>
-										<th class="text-nowrap">주문상태</th>
-										<th class="text-nowrap">주문취소</th>
-										<th>상세보기</th>
-										<th width="5%"></th>
-										<th width="5%"></th>
+										<th class="text-center text-nowrap" width="15%">주문번호</th>
+										<th class="text-center text-nowrap" width="10%" data-orderable="true">회원번호</th>
+										<th class="text-center text-nowrap">금액</th>
+										<th class="text-center text-nowrap">주문날짜</th>
+										<th class="text-center text-nowrap">주문상태</th>
+										<th class="hide"></th>
+										<th class="text-center text-nowrap" class="text-nowrap">주문취소</th>
+										<th class="text-center text-nowrap" width="10%">상세보기</th>
+										<!--  <th width="5%"></th>
+										<th width="5%"></th>-->
 									</tr>
 								</thead>
 								<tbody id="tbody">
 									<c:forEach var="vo" items="${list }" varStatus="status">
 										<tr>
-											<td class="od_no">${vo.order_no }</td>
-											<td>${vo.mem_no }</td>
-											<td class="td">${vo.tot_price } 원</td>
-											<td>${vo.order_date }</td>
-											<td>${vo.order_status }</td>
-											<td style="display:none;">${vo.mid_num }</td>
+											<td class="od_no text-center">${vo.order_no }</td>
+											<td class="text-center">${vo.mem_no }</td>
+											<td class="td text-center">${vo.tot_price } 원</td>
+											<td class="text-center">${vo.order_date }</td>
 											<c:choose>
-												<c:when test="${vo.order_status=='취소 접수' }">
-													<td><button onclick="payback(${vo.order_no})">환불 요청</button></td>
+												<c:when test="${vo.order_status=='배송 준비중' }">
+													<td class="text-center">
+													<button class="btn btn-md btn-success w-120px me-1" onclick="changeStatus(${vo.order_no})">
+													${vo.order_status }</button></td>
+												</c:when>
+												<c:when test="${vo.order_status=='배송중' }">
+													<td class="text-center">
+													<button class="btn btn-md btn-warning w-120px me-1" onclick="changeStatus2(${vo.order_no})">
+													${vo.order_status }</button></td>
 												</c:when>
 												<c:otherwise>
-													<td>${vo.od_cc_status }</td>
+													<td class="text-center">${vo.order_status }</td>
 												</c:otherwise>
 											</c:choose>
-											<td>상세보기</td>
-											<td><a href="${pageContext.request.contextPath }/admin/cate/delete?order_no=${vo.order_no }" class="btn btn-sm btn-primary w-60px me-1">삭제</a></td>
+											<td class="hide">${vo.mid_num }</td>
+											<c:choose>
+												<c:when test="${vo.order_status=='취소 접수' }">
+													<td class="text-center"><button class="btn btn-md btn-primary w-120px me-1" onclick="payback(${vo.order_no})">취소 요청</button></td>
+													
+												</c:when>
+												<c:when test="${vo.od_cc_status=='반품 접수' }">
+													<td class="text-center"><button class="btn btn-md btn-primary w-120px me-1" onclick="paybackReturn(${vo.order_no})">반품 요청</button></td>
+													
+												</c:when>
+												<c:otherwise>
+													<td class="text-center">${vo.od_cc_status }</td>
+												</c:otherwise>
+											</c:choose>
+											<td class="text-center"><a href="${pageContext.request.contextPath }/" class="open_modal btn btn-md btn-white w-120px">상세보기</a></td>
+											
+											<!--  <td><a href="${pageContext.request.contextPath }/admin/cate/delete?order_no=${vo.order_no }" class="btn btn-sm btn-primary w-60px me-1">삭제</a></td>
 											<td><a href="#modal-dialog" class="open_modal btn btn-sm btn-white w-60px" data-bs-toggle="modal" 
 											data-order_no="${vo.order_no}" data-mem_no="${vo.mem_no}" data-order_num="${vo.order_num}" data-tot_price="${vo.tot_price}"
-											data-order_date="${vo.order_date}" data-order_status="${vo.order_status}">수정...?</a></td>
+											data-order_date="${vo.order_date}" data-order_status="${vo.order_status}">수정...?</a></td>-->
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -161,7 +182,7 @@
 			</div>
 		</div>
 		</div>
-		
+		<div id="today"></div>
 	</div>
 	<!-- END #app -->
 	
@@ -182,11 +203,12 @@
     <script src=" ${pageContext.request.contextPath}/static/admin/assets/plugins/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
 	<!-- ================== END page-js ================== -->
     <!-- script -->
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.3.2/bootbox.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     
     <script>
-	/*	
-    $(document).on("click", ".open_modal", function () {
+		
+	/*$(document).on("click", ".open_modal", function () {
 			data-order_no="${vo.order_no}" data-mem_no="${vo.mem_no}" data-order_num="${vo.order_num}" data-tot_price="${vo.tot_price}"
 											data-order_date="${vo.order_date}" data-order_status="${vo.order_status}
 			var order_no = $(this).data('order_no');
@@ -204,11 +226,12 @@
 
 		$(document).on("click", "" , function (){
 
-		});
+		});*/
 		
     	$('#data-table-responsive').DataTable({
         	responsive: true,
 			lengthMenu: [10,20,30,50],
+			order: [ [ 0, "desc" ] ],
 			language: {
             emptyTable: "데이터가 없습니다.",
             lengthMenu: "페이지당 _MENU_ 개씩 보기",
@@ -225,40 +248,54 @@
             },
           	},
     	});
-    	*/
+    	
 
-
-    	//$('.payback').click(function (order_no) {
     	function payback(order_no){	
     		var a = $(".od_no");
+    		var today=moment().format("YYYY-MM-DD");
+    		var mid="";
+    		var mem_no=0;
+			var tot_price=0;
     		a.each(function(i) {
     			if(a.eq(i).text()==order_no){
     				console.log(a.eq(i).parent().children().eq(5).text());
+    				mid=a.eq(i).parent().children().eq(5).text();
+    				mem_no=a.eq(i).parent().children().eq(1).text();
+    				tot_price=a.eq(i).parent().children().eq(2).text();
+    				console.log(a.eq(i).parent().children().eq(2).text());
+    				console.log(mem_no);
     			}
     		});
-    		alert("aa");
-			console.log(order_no);
-			var param = {
-			        "mid" : "merchant_1629707704738", 
-			        // 예: ORD20180131-0000011
-			        "cancel_request_amount": 100, // 환불금액
-			        "reason": "테스트 결제 환불", 
-			        // 환불사유
-			        "refund_holder": "홍길동", 
-			        // [가상계좌 환불시 필수입력] 환불 수령계좌 예금주
-			        "refund_bank": "88", 
-			        // [가상계좌 환불시 필수입력] 환불 수령계좌 은행코드(예: KG이니시스의 경우 신한은행은 88번)
-			        "refund_account": "56211105948400" // [가상계좌 환불시 필수입력] 환불 수령계좌 번호
-		      }
-			$.ajax({
+    		var result = confirm(mem_no+"번 회원의 주문금액: "+tot_price+"을 환불 처리 하시겠습니까?");
+			console.log(mem_no+"ddd");
+			console.log(today);
+			if(result){
+				$.ajax({
 			    	// 예: http://www.myservice.com/payments/cancel
 			      "url": "${pageContext.request.contextPath}/order/payback1",
 			      "type": "POST",
-			      "data": {"mid":"middd"},
+			      "data": { "mid" : mid, 
+				        // 예: ORD20180131-0000011
+				        "order_no":order_no,
+				        "od_cc_complete_date": today,
+				        "cancel_request_amount": 100, // 환불금액
+				        "reason": "환불 요청", 
+				        // 환불사유
+				        "refund_holder": "홍길동", 
+				        // [가상계좌 환불시 필수입력] 환불 수령계좌 예금주
+				        "refund_bank": "88", 
+				        // [가상계좌 환불시 필수입력] 환불 수령계좌 은행코드(예: KG이니시스의 경우 신한은행은 88번)
+				        "refund_account": "56211105948400" // [가상계좌 환불시 필수입력] 환불 수령계좌 번호
+				  		},
 			      "dataType": "json",
 			      success:function(data){
-						 alert("bb");
-						 
+						 alert("환불 처리가 완료 되었습니다.");
+						 location.href="${pageContext.request.contextPath }/admin/order/orderlist";
+						 $("#today").append(
+							`
+							<input type="hidden" name="today" value="\${today}">
+							`
+						 )
 					 },error:function(request, status, error){
 
 							alert("code:"+request.status+"error:"+error);
@@ -266,9 +303,91 @@
 						}
 					 
 			    });
+			}else{
+				 event.preventDefault ();
+			}
 			
-		  };
+			
+		};
+		
+		  
+		function paybackReturn(order_no){	
+    		var a = $(".od_no");
+    		var today=moment().format("YYYY-MM-DD");
+    		var mid="";
+    		var mem_no=0;
+			var tot_price=0;
+    		a.each(function(i) {
+    			if(a.eq(i).text()==order_no){
+    				console.log(a.eq(i).parent().children().eq(5).text());
+    				mid=a.eq(i).parent().children().eq(5).text();
+    				mem_no=a.eq(i).parent().children().eq(1).text();
+    				tot_price=a.eq(i).parent().children().eq(2).text();
+    				console.log(a.eq(i).parent().children().eq(2).text());
+    				console.log(mem_no);
+    			}
+    		});
+    		var result = confirm(mem_no+"번 회원의 주문금액: "+tot_price+"을 환불 처리 하시겠습니까?");
+			console.log(mem_no+"ddd");
+			console.log(today);
+			if(result){
+				$.ajax({
+			    	// 예: http://www.myservice.com/payments/cancel
+			      "url": "${pageContext.request.contextPath}/order/payback2",
+			      "type": "POST",
+			      "data": { "mid" : mid, 
+				        // 예: ORD20180131-0000011
+				        "order_no":order_no,
+				        "od_cc_complete_date": today,
+				        "cancel_request_amount": 100, // 환불금액
+				        "reason": "반품 요청", 
+				        // 환불사유
+				        "refund_holder": "홍길동", 
+				        // [가상계좌 환불시 필수입력] 환불 수령계좌 예금주
+				        "refund_bank": "88", 
+				        // [가상계좌 환불시 필수입력] 환불 수령계좌 은행코드(예: KG이니시스의 경우 신한은행은 88번)
+				        "refund_account": "56211105948400" // [가상계좌 환불시 필수입력] 환불 수령계좌 번호
+				  		},
+			      "dataType": "json",
+			      success:function(data){
+						 alert("반품 처리가 완료 되었습니다.");
+						 location.href="${pageContext.request.contextPath }/admin/order/orderlist";
+						 $("#today").append(
+							`
+							<input type="hidden" name="today" value="\${today}">
+							`
+						 )
+					 },error:function(request, status, error){
 
+							alert("code:"+request.status+"error:"+error);
+
+						}
+					 
+			    });
+			}else{
+				 event.preventDefault ();
+			}
+			
+			
+		};  
+
+		function changeStatus(order_no){
+			var result = confirm("주문 상태를 '배송중' 으로 변경하시겠습니까?");
+			if(result){
+				location.href="${pageContext.request.contextPath}/admin/order/changeStatus?order_no="+order_no;
+			}else{
+				 event.preventDefault ();
+			}
+		}
+		  
+ 		function changeStatus2(order_no){
+ 			var result = confirm("주문 상태를 '배송 완료' 로 변경하시겠습니까?");
+			if(result){
+				location.href="${pageContext.request.contextPath}/admin/order/changeStatus2?order_no="+order_no;
+			}else{
+				 event.preventDefault ();
+			}	  
+		}
 
     </script>
 </body>

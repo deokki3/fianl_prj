@@ -10,8 +10,11 @@
   	</insert>
   	
  	<delete id="delete" parameterType="int">
- 		delete from order_cancel 
+ 		delete * from order_cancel 
  	</delete> 
 	
+	<update id="updateODCC" parameterType="Hashmap">
+ 		update order_cancel set od_cc_status=#{od_cc_status},od_cc_complete_date=#{od_cc_complete_date} where order_no=#{order_no}
+ 	</update>
  	
   </mapper>

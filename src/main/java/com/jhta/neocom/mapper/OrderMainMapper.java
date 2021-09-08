@@ -12,9 +12,13 @@ public interface OrderMainMapper {
 
 	int searchno(HashMap<String, Object> map);
 
+	OrderMainVo searchOrderMain(int order_no);
+	
 	OrderMainVo searchRndNo(HashMap<String, Object> map);
 
 	int update(HashMap<String, Object> map);
+	
+	int updateDelivery(HashMap<String, Object> map);
 	
 	int updateMidNum(HashMap<String, Object> map);
 	
@@ -22,9 +26,11 @@ public interface OrderMainMapper {
 	
 	int updateCC(HashMap<String, Object> map);
 	
+	int getCount(int mem_no);
+	
 	List<OrderMainVo> list();
 
-	List<OrderMainVo> myOrderList(int mem_no);
+	List<OrderMainVo> myOrderList(HashMap<String, Object> map);
 
 	List<OrderMainVo> searchOrder(int order_no);
 }

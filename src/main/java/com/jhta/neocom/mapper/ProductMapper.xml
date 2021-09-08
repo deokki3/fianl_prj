@@ -1,91 +1,111 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
- <mapper namespace="com.jhta.neocom.mapper.ProductMapper">
-	
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jhta.neocom.mapper.ProductMapper">
+
 	<insert id="insert" parameterType="com.jhta.neocom.model.ProductVo">
-			<selectKey keyProperty="product_id" order="BEFORE" resultType="int"> 
+		<selectKey keyProperty="product_id" order="BEFORE" resultType="int"> 
 				select get_seq('productSeq') as product_id from dual
 			</selectKey>
 		insert into product
 	    values(#{product_id},#{product_code},#{category_id},#{product_name},#{brand},#{manufacturer},#{supply_price},#{consumer_price},#{tax},#{selling_price},#{stock},sysdate(),#{availability})
-	    	
 	</insert>
 	<delete id="delete" parameterType="int">
 		delete from product where product_id=#{product_id}
 	</delete>
-	
-		<sql id="price">
-		
+
+	<sql id="price">
+
 		<if test="minPrice!= null and minPrice!= ''">
 			and selling_price between #{minPrice} and #{maxPrice}		
 		</if>
-		
-		</sql>
-		<sql id="cate">
-				<choose>
-				
-				<when  test="category_id==10000"> <!-- 검색 -->
-					where product_name like CONCAT('%',#{keyword},'%')
-						<if test="order=='new'">order by product_id desc</if>
-						<if test="order=='low'">order by selling_price asc </if>
-						<if test="order=='high'">order by selling_price desc </if>
-						<if test="order=='name_high'">order by product_name asc </if>
-						<if test="order=='name_low'">order by product_name desc </if> 
-				</when>
-				<when test="category_id==20000"> <!-- shop클릭시 -->
-						<if test="order=='new'">order by product_id desc</if>
-						<if test="order=='low'">order by selling_price asc </if>
-						<if test="order=='high'">order by selling_price desc </if>
-						<if test="order=='name_high'">order by product_name asc </if>
-						<if test="order=='name_low'">order by product_name desc </if> 
-				</when>
-				
-				<otherwise>
-				<if test="category_id!=null and category_id!=''"> <!-- 그 이외에 -->
+
+	</sql>
+	<sql id="cate">
+		<choose>
+
+			<when test="category_id==10000">
+				<!-- 검색 -->
+				where product_name like CONCAT('%',#{keyword},'%')
+				<if test="order=='new'">order by product_id desc</if>
+				<if test="order=='low'">order by selling_price asc </if>
+				<if test="order=='high'">order by selling_price desc </if>
+				<if test="order=='name_high'">order by product_name asc </if>
+				<if test="order=='name_low'">order by product_name desc </if>
+			</when>
+			<when test="category_id==20000">
+				<!-- shop클릭시 -->
+				<if test="order=='new'">order by product_id desc</if>
+				<if test="order=='low'">order by selling_price asc </if>
+				<if test="order=='high'">order by selling_price desc </if>
+				<if test="order=='name_high'">order by product_name asc </if>
+				<if test="order=='name_low'">order by product_name desc </if>
+			</when>
+			<when test="category_id==1500">
+				<!-- 주변기기 다  -->
+				where category_id between 10 and 15
+				<if test="order=='new'">order by product_id desc</if>
+				<if test="order=='low'">order by selling_price asc </if>
+				<if test="order=='high'">order by selling_price desc </if>
+				<if test="order=='name_high'">order by product_name asc </if>
+				<if test="order=='name_low'">order by product_name desc </if>
+			</when>
+			<otherwise>
+				<if test="category_id!=null and category_id!=''">
+					<!-- 그 이외에 -->
 					where category_id=#{category_id}
 					<if test="order=='new'">order by product_id desc</if>
 					<if test="order=='low'">order by selling_price asc </if>
 					<if test="order=='high'">order by selling_price desc </if>
 					<if test="order=='name_high'">order by product_name asc </if>
-					<if test="order=='name_low'">order by product_name desc </if> 
-				
+					<if test="order=='name_low'">order by product_name desc </if>
+
 				</if>
-				</otherwise>
-				</choose>
-		</sql>
-	
-		<!--해당 전체 상품의 갯수 -->
+			</otherwise>
+		</choose>
+	</sql>
+	<sql id="find">
+		<if test="category_id!=null and category_id!=''">
+			<!-- 상품 세부 선택 -->
+			<if test="order=='new'">order by product_id desc</if>
+			<if test="order=='low'">order by selling_price asc </if>
+			<if test="order=='high'">order by selling_price desc </if>
+			<if test="order=='name_high'">order by product_name asc </if>
+			<if test="order=='name_low'">order by product_name desc </if>
+		</if>
+	</sql>
+
+	<!--해당 전체 상품의 갯수 -->
 	<select id="count" parameterType="hashmap" resultType="int">
-		  select IFnull(count(*),0) from 
+		select IFnull(count(*),0) from 
 		 (
 		SELECT  aa.*,bb.product_img_no,bb.img_name_save,bb.img_name_origin,bb.img_size,bb.img_category FROM 
 				product aa inner join product_img bb 
                   on aa.product_id= bb.product_id
-			<include refid="cate"/>	
-		)a where img_category='main' <include refid="price"/>	
-			
-	</select>
-	
+		<include refid="cate" />
+		)a where img_category='main'
+		<include refid="price" />
 
-<!-- 
+	</select>
+
+
+	<!-- 
 	
 	<select id="selectone" parameterType="hashmap" resultType="hashmap">
 		select p.*,i.product_img_no,i.img_name_save,i.img_name_origin,i.img_path,i.img_size,i.img_category from product p inner join product_img i on p.product_id=i.product_id where p.product_id=#{product_id}
 	</select>
 	 -->
- 
+
 	<!--카테고리별 및 페이징처리 -->
 	<select id="list" parameterType="hashmap" resultType="hashmap">
 		select a.* from 
 		 (
-		SELECT  aa.*,bb.product_img_no,bb.img_name_save,bb.img_name_origin,bb.img_size,bb.img_category FROM 
+		SELECT  aa.*,bb.product_img_no,bb.img_name_save,bb.img_name_origin,bb.img_size,bb.img_category,bb.uploadPath FROM 
 				product aa inner join product_img bb 
                   on aa.product_id= bb.product_id
-				<include refid="cate"/>	
-		)a where img_category='main' <include refid="price"/>	
-        limit #{startRow},10
+		<include refid="cate" />
+		)a where img_category='main'
+		<include refid="price" />
+		limit #{startRow},8
 	</select>
 
 	<update id="update" parameterType="ProductVo">
@@ -113,17 +133,28 @@
 
   		select * from product
   	</select>
-  	
-  	 	<!-- 주문 목록(구매희망 목록) -->
- 	<select id="purchaseList" resultType="com.jhta.neocom.model.ProductVo" parameterType="int">
+
+	<!-- 주문 목록(구매희망 목록) -->
+	<select id="purchaseList" resultType="com.jhta.neocom.model.ProductVo" parameterType="int">
  		select p.product_id,img_name_save,product_name,selling_price from product p left join 
  		product_img pi on p.product_id=pi.product_id where p.product_id=#{product_id} and img_category='main';
  	</select>
-  	
+
 
 	<select id="optionlist" parameterType="hashmap" resultType="hashmap">
   		select * from product p inner join buy_option b on p.product_id=b.product_id where optionName=#{optionName}
   	</select>
 
+	<select id="findcate" parameterType="hashmap" resultType="hashmap">
+		select a.* from (select p.product_id,p.product_name,p.selling_price,p.availability,p.regdate,i.img_name_save,i.img_name_origin,i.uploadPath,i.img_category,c.category_id 
+	from product p inner join product_img i on p.product_id=i.product_id 
+	inner join category_rel c on p.product_id=c.product_id 
+	where c.category_id= #{category_id}
+		<include refid="find" />
+		)a
+	where img_category='main'
+		<include refid="price" />
+	</select>
 
+	<select id="extra" parameterType="hashmap" resultType="hashmap"></select>
 </mapper>

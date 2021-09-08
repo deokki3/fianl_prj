@@ -58,7 +58,7 @@
 						<!-- END panel-heading -->
 						<!-- BEGIN panel-body -->
 						<div class="panel-body">
-							<form method="post" action="${pageContext.request.contextPath }/admin/community/noticeboard_insert">
+							<form name="nForm" method="post" action="${pageContext.request.contextPath }/admin/community/noticeboard_insert">
 								<div class="row mb-15px">
 									<label class="form-label col-form-label col-md-3">제목</label>
 									<div class="col-md-9">
@@ -86,8 +86,9 @@
 									</div>
 								</div> -->
 								<div class="row mb-15px">
-									<div class="col-md-12 text-center"> 
-    									<input type="submit" class="btn btn-primary" value="등록">
+									<div class="col-md-12 text-center">
+    									<button type="submit" class="btn btn-primary" onclick="clickAdd(event,nForm)">등록</button>
+	   									<button type="button" class="btn btn-white" onclick="clickCancel()">취소</button>
 									</div>
 								</div>
 							</form>
@@ -125,7 +126,24 @@
 	<!-- ================== END page-js ================== -->
     <!-- script -->
     <script>
-
+    function clickAdd(e,formName) {
+        if(!confirm("답변을 등록하시겠습니까?")) {
+        	e.preventDefault();
+            return false;
+        }else {
+        	formName.action = "${pageContext.request.contextPath }/admin/community/noticeboard_insert";
+			formName.method = "post";
+			formName.submit();
+        }
+    }
+    
+    function clickCancel() {
+        if(!confirm("작성을 취소하시겠습니까?")) {
+        	return false;
+        }else {
+        	location.href = "${pageContext.request.contextPath }/admin/community/board_list";
+        }
+    }
     </script>
 </body>
 </html>

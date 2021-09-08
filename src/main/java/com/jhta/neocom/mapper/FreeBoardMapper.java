@@ -12,6 +12,8 @@ public interface FreeBoardMapper {
 	int delete(int free_board_no);
 	int countReply(int free_board_no);  //답글 존재여부
 	int showDeletePost(int free_board_no);  //원글 삭제시 답글 있는 경우 update
+	int blindPost(int free_board_no);  //관리자가 블라인드 처리
+	int showPost(int free_board_no);  //관리자가 블라인드 해제
 	int update(FreeBoardVo vo);
 	int getCount(HashMap<String,Object> map);
 	List<HashMap<String,Object>> list(HashMap<String,Object> map);
@@ -19,4 +21,6 @@ public interface FreeBoardMapper {
 	int cntHit(int free_board_no);
 	FreeBoardVo prev(int free_board_no);
 	FreeBoardVo next(int free_board_no);
+	
+	List<HashMap<String,Object>> ff_list(HashMap<String,Object> ff_map);
 }

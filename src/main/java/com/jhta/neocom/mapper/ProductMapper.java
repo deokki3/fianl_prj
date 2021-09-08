@@ -26,5 +26,7 @@ public interface ProductMapper {
 
 
 	List<HashMap<String, Object>> optionlist(HashMap<String, Object> map);
+	
+	List<HashMap<String, Object>> findcate(HashMap<String, Object> map);
 
 }

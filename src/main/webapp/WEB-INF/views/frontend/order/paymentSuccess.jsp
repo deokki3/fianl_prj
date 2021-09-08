@@ -105,11 +105,11 @@ font-family: 'Noto Serif KR', serif;
     <div class="container padding-bottom-3x mb-2">
       <div class="card text-center">
         <div class="card-body padding-top-2x">
-          <h3 class="card-title">결제가 완료되었습니다.</h3>
-          <p class="card-text">Your order has been placed and will be processed as soon as possible.</p>
+          <h3 class="card-title">결제가 성공적으로 완료되었습니다.</h3>
+          <p class="card-text">주문해 주셔서 감사합니다.</p>
           <p class="card-text">주문번호 : <span class="text-medium">${order_no }</span></p>
-          <p class="card-text">You will be receiving an email shortly with confirmation of your order. 
-            <u>You can now:</u>
+          <p class="card-text">주문 정보는 마이페이지 > 주문내역 에서 확인 가능합니다. 
+            
           </p>
           <div class="padding-top-1x padding-bottom-1x"><a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/shop/product_list?category_id=20000">계속 쇼핑하기</a><a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/account/mypage_order">주문내역 보기</a></div>
         </div>

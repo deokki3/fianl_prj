@@ -92,6 +92,16 @@
 		select * from review where board_num=#{board_num}
 	</select>
 	
+	<select id="mylist" resultType="hashmap" parameterType="hashmap">
+		select * from review where mem_no=#{mem_no}
+		limit #{startRow},3
+	</select>
+	
+	<select id="getmycnt" resultType="int" parameterType="int">
+		select IFnull(count(*),0) from review
+		where mem_no=#{mem_no}
+			
+	</select>
 
 
 </mapper>

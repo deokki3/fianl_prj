@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @MapperScan(basePackages = { "com.jhta.neocom.mapper" })
 @ComponentScan(basePackages = { "com.jhta.neocom.service" })
+
 public class MybatisConfig {
     @Autowired
     ApplicationContext applicationContext;

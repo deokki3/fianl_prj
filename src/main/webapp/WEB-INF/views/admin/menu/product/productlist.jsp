@@ -64,7 +64,7 @@
 								<thead>
 									<tr>
 										<th width="10%">고유번호</th>
-										<th width="8%" data-orderable="true">이미지</th>
+										<th width="5%" data-orderable="true">이미지</th>
 										<th width="15%" data-orderable="true">상품코드</th>
 										<th class="text-nowrap">분류</th>
 										<th class="text-nowrap">상품명</th>
@@ -85,7 +85,7 @@
 											<c:forEach var="img_vo" items="${img_list}">
 												<c:choose>
 												   <c:when test="${product_vo.product_id == img_vo.product_id and img_vo.img_category == 'main'}">
-														<td><img class="rounded h-30px" src="<c:url value='/upload/product_img/${img_vo.img_name_save}' />" alt="<c:url value='/upload/product_img/${img_vo.img_name_save}'/>" /></td>
+														<td class="text-center"><img class="rounded h-30px" src="<c:url value='/upload/product_img/${img_vo.uploadPath}/${img_vo.img_name_save}' />" alt="<c:url value='/upload/product_img/${img_vo.uploadPath}/${img_vo.img_name_save}'/>" /></td>
 												   </c:when>
 												   <c:otherwise>
 												   </c:otherwise>
@@ -102,8 +102,8 @@
 											<td>${product_vo.availability }</td>
 											<td class="text-center"><a href="${pageContext.request.contextPath }/admin/product/delete?product_id=${product_vo.product_id }" class="btn btn-sm btn-primary w-60px me-1">삭제</a></td>
 											<td class="text-center"><a href="#modal-dialog" class="open_modal btn btn-sm btn-white w-60px" data-bs-toggle="modal" 
-											data-id="${product_vo.product_id}" data-category="${product_vo.category_id}" data-code="${product_vo.product_code}}" 
-											data-name="${product_vo.product_name}" data-brand="${product_vo.brand}" data-manufacturer="${product_vo.manufacturer}"
+											data-product_id="${product_vo.product_id}" data-category_id="${product_vo.category_id}" data-product_code="${product_vo.product_code}}" 
+											data-product_name="${product_vo.product_name}" data-brand="${product_vo.brand}" data-manufacturer="${product_vo.manufacturer}"
 											data-supply_price="${product_vo.supply_price}" data-consumer_price="${product_vo.consumer_price}" data-tax="${product_vo.tax}"
 											data-selling_price="${product_vo.selling_price}" data-stock="${product_vo.stock}" data-regdate="${product_vo.regdate}"
 											data-availability="${product_vo.availability}" >수정</a></td>
@@ -131,11 +131,18 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title">카테고리 수정</h4>
+				<h4 class="modal-title">상품 수정</h4>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
 			</div>
+			
 			<div class="modal-body">
-				<form method="post" id="category_form" action="${pageContext.request.contextPath}/admin/cate/update">
+				<form method="post" id="product_form" action="${pageContext.request.contextPath}/admin/product/update">
+					<div class="row mb-15px">
+						<label class="form-label col-form-label col-md-3">고유번호</label>
+							<div class="col-md-9">
+								<input type="text" id="product_id" name="product_id" class="form-control mb-5px" readonly/>
+							</div>
+					</div>
 					<div class="row mb-15px">
 						<label class="form-label col-form-label col-md-3">카테고리 코드</label>
 							<div class="col-md-9">
@@ -143,21 +150,69 @@
 							</div>
 					</div>
 					<div class="row mb-15px">
-						<label class="form-label col-form-label col-md-3">카테고리명</label>
+						<label class="form-label col-form-label col-md-3">제품코드</label>
 							<div class="col-md-9">
-								<input type="text" id="category_name" name="category_name" class="form-control mb-5px"/>
+								<input type="text" id="product_code" name="product_code" class="form-control mb-5px"/>
 							</div>
 					</div>
 					<div class="row mb-15px">
-						<label class="form-label col-form-label col-md-3">카테고리 상위코드</label>
+						<label class="form-label col-form-label col-md-3">상품명</label>
 							<div class="col-md-9">
-								<input type="text" id="category_parent" name="category_parent" class="form-control mb-5px"/>
+								<input type="text" id="product_name" name="product_name" class="form-control mb-5px"/>
 							</div>
 					</div>
 					<div class="row mb-15px">
-						<label class="form-label col-form-label col-md-3">카테고리 순서</label>
+						<label class="form-label col-form-label col-md-3">브랜드</label>
 							<div class="col-md-9">
-								<input type="text" id="category_order" name="category_order" class="form-control mb-5px"/>
+								<input type="text" id="brand" name="brand" class="form-control mb-5px"/>
+							</div>
+					</div>
+					<div class="row mb-15px">
+						<label class="form-label col-form-label col-md-3">제조사</label>
+							<div class="col-md-9">
+								<input type="text" id="manufacturer" name="manufacturer" class="form-control mb-5px"/>
+							</div>
+					</div>
+					<div class="row mb-15px">
+						<label class="form-label col-form-label col-md-3">공급가</label>
+							<div class="col-md-9">
+								<input type="text" id="supply_price" name="supply_price" class="form-control mb-5px"/>
+							</div>
+					</div>
+					<div class="row mb-15px">
+						<label class="form-label col-form-label col-md-3">소비가</label>
+							<div class="col-md-9">
+								<input type="text" id="consumer_price" name="consumer_price" class="form-control mb-5px"/>
+							</div>
+					</div>
+					<div class="row mb-15px">
+						<label class="form-label col-form-label col-md-3">세금비율</label>
+							<div class="col-md-9">
+								<input type="text" id="tax" name="tax" class="form-control mb-5px"/>
+							</div>
+					</div>
+					<div class="row mb-15px">
+						<label class="form-label col-form-label col-md-3">판매가</label>
+							<div class="col-md-9">
+								<input type="text" id="selling_price" name="selling_price" class="form-control mb-5px"/>
+							</div>
+					</div>
+					<div class="row mb-15px">
+						<label class="form-label col-form-label col-md-3">재고</label>
+							<div class="col-md-9">
+								<input type="text" id="stock" name="stock" class="form-control mb-5px"/>
+							</div>
+					</div>
+					<div class="row mb-15px">
+						<label class="form-label col-form-label col-md-3">등록날짜</label>
+							<div class="col-md-9">
+								<input type="text" id="regdate" name="regdate" class="form-control mb-5px" readonly/>
+							</div>
+					</div>
+					<div class="row mb-15px">
+						<label class="form-label col-form-label col-md-3">판매여부</label>
+							<div class="col-md-9">
+								<input type="text" id="availability" name="availability" class="form-control mb-5px"/>
 							</div>
 					</div>
 				</form>
@@ -192,19 +247,38 @@
     <!-- script -->
     <script>
 		$(document).on("click", ".open_modal", function () {
-			var id = $(this).data('id');
-			var name = $(this).data('name');
-			var parent = $(this).data('parent');
-			var order = $(this).data('order');
-			console.log(id, name, parent, order);
-			$("#category_id").val(id);
-			$("#category_name").val(name);
-			$("#category_parent").val(parent);
-			$("#category_order").val(order);
+			var product_id = $(this).data('product_id');
+			var category_id = $(this).data('category_id');
+			var product_code = $(this).data('product_code');
+			var product_name = $(this).data('product_name');
+			var brand = $(this).data('brand');
+			var manufacturer = $(this).data('manufacturer');
+			var supply_price = $(this).data('supply_price');
+			var consumer_price = $(this).data('consumer_price');
+			var tax = $(this).data('tax');
+			var selling_price = $(this).data('selling_price');
+			var stock = $(this).data('stock');
+			var regdate = $(this).data('regdate');
+			var availability = $(this).data('availability');
+			$("#product_id").val(product_id);
+			$("#category_id").val(category_id);
+			$("#product_code").val(product_code);
+			$("#product_name").val(product_name);
+			$("#brand").val(brand);
+			$("#manufacturer").val(manufacturer);
+			$("#supply_price").val(supply_price);
+			$("#consumer_price").val(consumer_price);
+			$("#tax").val(tax);
+			$("#selling_price").val(selling_price);
+			$("#tax").val(tax);
+			$("#stock").val(stock);
+			$("#regdate").val(regdate);
+			$("#availability").val(availability);
+
 		});
 
 		$(document).on("click", "#submitBtn" , function (){
-			$("#category_form").submit();
+			$("#product_form").submit();
 		});
 		
     	$('#data-table-responsive').DataTable({

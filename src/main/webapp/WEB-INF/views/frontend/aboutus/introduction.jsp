@@ -63,7 +63,7 @@
 				소비자로 하여금 자발적으로 정보와 토론의 장을 형성하게 하며 <br>
 				알찬 쇼핑 콘텐츠와 서비스 제공을 통한 고객 만족을 가장 큰 목표로 하고있습니다.
 			</p>
-			<a class="text-decoration-none" href="#">상품 보러가기 &nbsp;
+			<a class="text-decoration-none" href="${pageContext.request.contextPath }/shop/product_grid?category_id=20000">상품 보러가기 &nbsp;
 				<i class="icon-arrow-right d-inline-block align-middle"></i>
 			</a>
 		</div>
@@ -77,7 +77,7 @@
 			<div class="mt-30 hidden-md-up"></div>
 			<h2>나만의 PC를 구성하는 가장 쉬운 방법! <br> PC 견적에서 결제까지 간편하게!</h2>
 			<p class="text-muted"></p>
-			<a class="text-decoration-none" href="#">견적 문의하기 &nbsp;
+			<a class="text-decoration-none" href="${pageContext.request.contextPath }/service/advboard_list">견적 문의하기 &nbsp;
 				<i class="icon-arrow-right d-inline-block align-middle"></i>
 			</a>
 		</div>
@@ -91,7 +91,7 @@
 			<div class="mt-30 hidden-md-up"></div>
 			<h2>컴퓨터에 관심이 많은 수많은 회원들이 모여 <br> 양질의 PC 구매정보를 공유하는 커뮤니티</h2>
 			<p class="text-muted"></p>
-			<a class="text-decoration-none" href="#">커뮤니티 가기 &nbsp;
+			<a class="text-decoration-none" href="${pageContext.request.contextPath }/community/freeboard_list">커뮤니티 가기 &nbsp;
 				<i class="icon-arrow-right d-inline-block align-middle"></i>
 			</a>
 		</div>
@@ -107,7 +107,7 @@
 			<img class="d-block w-150 mx-auto img-thumbnail rounded-circle mb-2" src="${pageContext.request.contextPath}/static/frontend/assets/img/team/01.jpg" alt="">
 			<h6>오문형</h6>
 			<p class="text-muted mb-2">Neocom</p>
-			<div class="social-bar">
+		<!--<div class="social-bar">
 				<a class="social-button shape-circle sb-facebook" href="#" data-toggle="tooltip" data-placement="top" title="Facebook">
 					<i class="socicon-facebook"></i>
 				</a>
@@ -117,13 +117,13 @@
 				<a class="social-button shape-circle sb-google-plus" href="#" data-toggle="tooltip" data-placement="top" title="Google +">
 					<i class="socicon-googleplus"></i>
 				</a>
-			</div>
+			</div> -->
 		</div>
 		<div class="col-md-4 col-sm-6 mb-30 text-center">
 			<img class="d-block w-150 mx-auto img-thumbnail rounded-circle mb-2" src="${pageContext.request.contextPath}/static/frontend/assets/img/team/02.jpg" alt="">
 			<h6>김동찬</h6>
 			<p class="text-muted mb-2">Neocom</p>
-			<div class="social-bar">
+		<!--<div class="social-bar">
 				<a class="social-button shape-circle sb-skype" href="#" data-toggle="tooltip" data-placement="top" title="Skype">
 					<i class="socicon-skype"></i>
 				</a>
@@ -133,13 +133,13 @@
 				<a class="social-button shape-circle sb-paypal" href="#" data-toggle="tooltip" data-placement="top" title="PayPal">
 					<i class="socicon-paypal"></i>
 				</a>
-			</div>
+			</div> -->
 		</div>
 		<div class="col-md-4 col-sm-6 mb-30 text-center">
 			<img class="d-block w-150 mx-auto img-thumbnail rounded-circle mb-2" src="${pageContext.request.contextPath}/static/frontend/assets/img/team/03.jpg" alt="">
 			<h6>나세곤</h6>
 			<p class="text-muted mb-2">Neocom</p>
-			<div class="social-bar">
+		<!--<div class="social-bar">
 				<a class="social-button shape-circle sb-twitter" href="#" data-toggle="tooltip" data-placement="top" title="Twitter">
 					<i class="socicon-twitter"></i>
 				</a>
@@ -149,13 +149,13 @@
 				<a class="social-button shape-circle sb-email" href="#" data-toggle="tooltip" data-placement="top" title="Email">
 					<i class="socicon-mail"></i>
 				</a>
-			</div>
+			</div> -->
 		</div>
 		<div class="col-md-4 col-sm-6 mb-30 text-center">
 			<img class="d-block w-150 mx-auto img-thumbnail rounded-circle mb-2" src="${pageContext.request.contextPath}/static/frontend/assets/img/team/04.jpg" alt="">
 			<h6>박덕기</h6>
 			<p class="text-muted mb-2">Neocom</p>
-			<div class="social-bar">
+		<!--<div class="social-bar">
 				<a class="social-button shape-circle sb-behance" href="#" data-toggle="tooltip" data-placement="top" title="Behance">
 					<i class="socicon-behance"></i>
 				</a>
@@ -165,13 +165,13 @@
 				<a class="social-button shape-circle sb-instagram" href="#" data-toggle="tooltip" data-placement="top" title="Instagram">
 					<i class="socicon-instagram"></i>
 				</a>
-			</div>
+			</div> -->
 		</div>
 		<div class="col-md-4 col-sm-6 mb-30 text-center">
 			<img class="d-block w-150 mx-auto img-thumbnail rounded-circle mb-2" src="${pageContext.request.contextPath}/static/frontend/assets/img/team/05.jpg" alt="">
 			<h6>윤인용</h6>
 			<p class="text-muted mb-2">Neocom</p>
-			<div class="social-bar">
+		<!--<div class="social-bar">
 				<a class="social-button shape-circle sb-behance" href="#" data-toggle="tooltip" data-placement="top" title="Behance">
 					<i class="socicon-behance"></i>
 				</a>
@@ -181,13 +181,13 @@
 				<a class="social-button shape-circle sb-instagram" href="#" data-toggle="tooltip" data-placement="top" title="Instagram">
 					<i class="socicon-instagram"></i>
 				</a>
-			</div>
+			</div> -->
 		</div>
 		<div class="col-md-4 col-sm-6 mb-30 text-center">
 			<img class="d-block w-150 mx-auto img-thumbnail rounded-circle mb-2" src="${pageContext.request.contextPath}/static/frontend/assets/img/team/05.jpg" alt="">
 			<h6>최원빈</h6>
 			<p class="text-muted mb-2">Neocom</p>
-			<div class="social-bar">
+		<!--<div class="social-bar">
 				<a class="social-button shape-circle sb-behance" href="#" data-toggle="tooltip" data-placement="top" title="Behance">
 					<i class="socicon-behance"></i>
 				</a>
@@ -197,7 +197,7 @@
 				<a class="social-button shape-circle sb-instagram" href="#" data-toggle="tooltip" data-placement="top" title="Instagram">
 					<i class="socicon-instagram"></i>
 				</a>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </div>

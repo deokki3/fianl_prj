@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -59,8 +60,51 @@
 	<!-- mypage_sidebar -->
 	<jsp:include page="/WEB-INF/views/frontend/account/inc/mypage_sidebar.jsp"/>
 	
-	<!-- 주문내역 -->
+
+	<!-- 배송지 관리 -->
+	<div class="col-lg-9 col-md-8 order-md-2">
+		<h6 class="text-muted text-lg text-uppercase">배송지 관리</h6>
+		<hr class="margin-bottom-1x">
+		
+		<div class="table-responsive">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th style="width:100px;"></th>
+						<th style="width:100px;">우편번호</th>
+						<th style="width:200px;">주소</th>
+						<th style="width:200px;">상세주소</th>
+						<th style="width:100px;">배송지수정</th>
+						
+
+
+					</tr>
+				</thead>
+				<tbody>
+				<c:forEach var="vo" items="${list }">
+					<tr>
+						<th></th>
+						<th>${vo.zip_code }</th>
+						<th>${vo.address }</th>
+						<th>${vo.adress_detail }</th>
+						<th><a href="${pageContext.request.contextPath }/yongupdate?addr_no=${vo.addr_no}">					
+						<input type="button" class="btn btn-primary btn-sm" value="수정">
+						</a></th>	
+					</tr>
+				</c:forEach>
+				</tbody>
+			</table>
+			
+			
+			
 	
+		<div class="card-body">
+		<a href="${pageContext.request.contextPath }/account/delivery" class="btn btn-primary d-block">배송지정보 추가</a>
+		</div>
+
+	
+</div>		
+</div>	
 </div>
 </div>
 <!-- 페이지 컨텐트 끝 -->

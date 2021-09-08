@@ -103,19 +103,6 @@ border-radius:0;
 .form-text{
 padding-left:18px;
 }
-.btn-primary{
-background-color:#0da9ef;
-display: inline-block;
-position: relative;
-height: 44px;
-border: 1px solid transparent;
-border-radius: 22px;
-width:100px;
-}
-.btn{
-border-radius: 22px;
-width:100px;
-}
 input[type="radio"], input[type="checkbox"]{
 box-sizing: border-box;
 padding: 0;
@@ -217,7 +204,7 @@ opacity: 0;
 		<h4>답글 작성</h4>
 		<hr class="padding-bottom-1x">
 		
-		<form class="row" name="freeForm" method="post" action="${pageContext.request.contextPath}/community/freeboard_reply?free_board_no=${map.free_board_no }">
+		<form class="row" name="freeForm" method="post" action="${pageContext.request.contextPath}/community/freeboard_reply?free_board_no=${map.free_board_no }" enctype="multipart/form-data">
 			<div class="col-md-12">
 				<div class="form-group">
 					<label for="free_title">제목</label>
@@ -230,6 +217,15 @@ opacity: 0;
 					<textarea rows="15" cols="4000" class="form-control" name="free_content" id="free_content"></textarea>
 				</div>
 			</div>
+			
+			<div id="fileDiv" class="col-md-9">
+				<p>
+					<input type="file" class="" multiple="multiple" id="file" name="file_0">
+					<a href="#this" class="btn btn-secondary btn-sm" id="delFile" name="delFile">삭제</a>
+				</p>
+			</div>
+			<a href="#this" class="btn btn-secondary btn-sm ml-md-auto" id="addFile">파일추가</a>
+			
 			<div class="col-12 padding-top-1x">
 				<div class="custom-control custom-checkbox d-block">
 				<!--<input class="custom-control-input" type="checkbox" name="qna_secret_chk" id="qna_secret_chk">
@@ -239,8 +235,12 @@ opacity: 0;
 				<div class="padding-bottom-1x"></div>
 				<hr class="margin-top-1x margin-bottom-1x">
 				<div class="text-right">
-					<button class="btn btn-primary margin-bottom-none" data-toggle="modal" data-target="#add" type="button">등록</button>
-					<button class="btn btn-outline-secondary margin-bottom-none" data-toggle="modal" data-target="#cancel" type="button">취소</button>
+					<button class="btn btn-primary margin-bottom-none" data-toggle="modal" data-target="#add" type="button"
+							style="background-color:#0da9ef; display: inline-block; position: relative; height: 44px; border: 1px solid transparent; border-radius: 22px;width:100px;">
+							등록</button>
+					<button class="btn btn-outline-secondary margin-bottom-none" data-toggle="modal" data-target="#cancel" type="button"
+							style="border-radius: 22px; width:100px;">
+							취소</button>
 				</div>
 			</div>
 		</form>
@@ -303,6 +303,34 @@ opacity: 0;
 		formName.method = "post";
 		formName.submit();
 	}
+	
+	/* 첨부파일 추가 및 삭제 버튼 */
+	$("#addFile").on("click",function(e){
+		e.preventDefault();
+		fn_addFile();
+	});
+	
+	$("a[name='delFile']").on("click",function(e){
+		e.preventDefault();
+		fn_deleteFile($(this));
+	});
+	
+	function fn_addFile(){
+		var str = "<p>" +
+				  "<input type='file' class='' multiple='multiple' name='file_0' >" +
+				  "<a href='#this' class='btn btn-secondary btn-sm' name='delFile'>삭제</a>" +
+				  "</p>";
+		$("#fileDiv").append(str);
+		$("a[name='delFile']").on("click",function(e){
+			e.preventDefault();
+			fn_deleteFile($(this));
+		});
+	}
+	
+	function fn_deleteFile(obj){
+		obj.parent().remove();
+	}
+	/* 첨부파일 추가 및 삭제 버튼 끝 */
 
 /*	$("#qna_password").attr("disabled",true);
 	$("#qna_secret_chk").on("click",function(){

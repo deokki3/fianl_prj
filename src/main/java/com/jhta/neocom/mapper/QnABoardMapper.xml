@@ -125,11 +125,15 @@
 	
 	
 	<!-- 나의 문의내역 -->
-	<select id="myqna" resultType="hashmap" parameterType="int">
+	<select id="myCount" resultType="int" parameterType="int">
+		select IFnull(count(*),0) from qna_board where mem_no=#{mem_no}
+	</select>
+	<select id="myqna" resultType="hashmap" parameterType="hashmap">
 		select qq.*,mm.mem_no,mm.Nickname 
 		from qna_board qq inner join member_Info mm on qq.mem_no=mm.mem_no 
 		where mm.mem_no=#{mem_no} and qq.qna_show=0
-		order by qq.qna_regdate desc
+		order by qq.qna_regdate desc 
+		limit #{startRow},5
 	</select>
 	
 	
@@ -137,9 +141,7 @@
 	<select id="qq_list" resultType="hashmap" parameterType="hashmap">
 		select qq.*,mm.mem_no,mm.Nickname 
 		from qna_board qq inner join member_Info mm on qq.mem_no=mm.mem_no 
-		<include refid="search" />
 		order by qq.qna_group_no desc, qq.qna_group_order asc
-		limit #{qq_startRow},10
 	</select>
 
 </mapper>

@@ -227,7 +227,7 @@ opacity: 0;
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal" onclick="return false;">No</button>
-					<button type="button" class="btn btn-info btn-sm" onclick="location.href='${pageContext.request.contextPath}/community/review_list'">Yes</button>
+					<button type="button" class="btn btn-info btn-sm" onclick="location.href='${pageContext.request.contextPath}/review_list'">Yes</button>
 				</div>
 			</div>
 		</div>
@@ -247,7 +247,7 @@ opacity: 0;
 	var theForm = document.reviewForm;
 	function clickAdd(){
 		theForm.method = "post";
-		theForm.action = "${pageContext.request.contextPath}/community/review_update";
+		theForm.action = "${pageContext.request.contextPath}/review_update";
 		theForm.submit();
 		
 	}

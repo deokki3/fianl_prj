@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -43,13 +44,15 @@ public class MemberVo {
 
 	@NotBlank(message = "필수입력 값입니다.")
 	private String name;
-
 	@NotBlank(message = "필수입력 값입니다.")
-	@Size(min = 4, max = 8, message = "아이디는 4~8자리이어야 합니다.")
+	@Email(message = "이메일형식이 틀립니다.")
+	private String email;
+	@NotBlank(message = "필수입력 값입니다.")
+	@Size(min = 4, max = 12, message = "아이디는 4~12자리이어야 합니다.")
 	private String id;
 	@NotBlank(message = "필수입력 값입니다.")
-	// @Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,20}",
-	// message = "영문 대,소문자, 숫자, 특수기호 1개 이상 포함하여 8자 ~ 20자로 입력하세요")
+	@Pattern(regexp="(?=.*[0-9])(?=.*[a-z])(?=.*\\W)(?=\\S+$).{6,12}",
+    message = "비밀번호는 영문자와 숫자, 특수기호가 포함된 6자~12자의 비밀번호여야 합니다.")
 	private String password;
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

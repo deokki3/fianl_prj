@@ -3,8 +3,23 @@
 <mapper namespace="com.jhta.neocom.mapper.AdvBoardMapper">
     <!-- 작성 -->
  <insert id="create" parameterType="com.jhta.neocom.model.AdvBoardVo">
-  insert into adv_board(adv_board_no, mem_no, adv_password, adv_secret_chk, adv_title, adv_content, adv_regdate,adv_hit,adv_group_no,adv_group_order,adv_group_depth)
-      values (get_seq('advboardSeq'),#{mem_no}, #{adv_password}, #{adv_secret_chk}, #{adv_title},#{adv_content},now(),0,(select max(adv_board_no)+1 from adv_board tmp),1,1)
+ 	insert into adv_board values
+		(get_seq('advboardSeq'),
+		#{mem_no},
+		#{adv_password},
+		#{adv_secret_chk},
+		#{adv_title},
+		#{adv_content},
+		sysdate(),
+		0,
+		adv_board_no,
+		0,
+		0,
+		0,
+		0
+		)
+ <!--  insert into adv_board(adv_board_no, mem_no, adv_password, adv_secret_chk, adv_title, adv_content, adv_regdate,adv_hit,adv_group_no,adv_group_order,adv_group_depth)
+      values (get_seq('advboardSeq'),#{mem_no}, #{adv_password}, #{adv_secret_chk}, #{adv_title},#{adv_content},now(),0,(select max(adv_board_no)+1 from adv_board tmp),1,1) -->
  </insert>
 <select id="list" resultType="hashmap" parameterType="hashmap">
 		select qq.*,mm.mem_no,mm.Nickname 
@@ -85,7 +100,7 @@
 		select count(*) from adv_board where adv_group_no=#{adv_board_no}
 	</select>
 	<update id="showDeletePost" parameterType="int">
-		update adv_board set adv_show=1, adv_title='작성자에 의해 삭제된 글 입니다.', adv_content='' where adv_board_no=#{adv_board_no}
+		update adv_board set adv_show=1, adv_title='', adv_content='' where adv_board_no=#{adv_board_no} <!-- 원래는 작성자에 의해 삭제된 글입니다라고 표시를 해주려고 했는데 x -->
 	</update>
 	
 <!--<select id="deletePost" statementType="CALLABLE">
@@ -112,6 +127,14 @@
 	<update id="cntHit">
 		update adv_board set adv_hit=adv_hit+1 where adv_board_no=#{adv_board_no}
 	</update>
+	
+	
+	<!-- 어드민 용 -->
+	<select id="aa_list" resultType="hashmap" parameterType="hashmap">
+		select aa.*,mm.mem_no,mm.Nickname 
+		from adv_board aa inner join member_Info mm on aa.mem_no=mm.mem_no 
+		order by aa.adv_group_no desc, aa.adv_group_order asc 
+	</select>
 	
  </mapper>
 

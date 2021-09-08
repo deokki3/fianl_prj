@@ -1,5 +1,7 @@
 package com.jhta.neocom.service;
 
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,10 @@ public class OrderCancelService {
 
 	public int delete(int order_detail_no) {
 		return mapper.delete(order_detail_no);
+	}
+	
+	public int updateODCC(HashMap<String, Object> map) {
+		return mapper.updateODCC(map);
 	}
 	
 

@@ -5,8 +5,11 @@
 <mapper namespace="com.jhta.neocom.mapper.FreeBoardMapper">
 
 	<insert id="insert" parameterType="freeboard">
+		<selectKey keyProperty="free_board_no" order="BEFORE" resultType="int">
+			select get_seq('freeboardSeq') as free_board_no from dual
+		</selectKey>
 		insert into free_board values
-		(get_seq('freeboardSeq'),
+		(#{free_board_no},
 		#{mem_no},
 		null,
 		0,
@@ -23,8 +26,11 @@
 	
 	<!-- 답글 -->
 	<insert id="insertReply" parameterType="freeboard">
+		<selectKey keyProperty="free_board_no" order="BEFORE" resultType="int">
+			select get_seq('freeboardSeq') as free_board_no from dual
+		</selectKey>
 		insert into free_board values
-		(get_seq('freeboardSeq'),
+		(#{free_board_no},
 		#{mem_no},
 		null,
 		0,
@@ -50,10 +56,16 @@
 	
 	<!-- 원글 삭제 시 답글 있는 경우 -->
 	<select id="countReply" resultType="int" parameterType="int">
-		select count(*) from free_board where free_group_no=#{free_board_no}
+		select count(*) from free_board where free_group_no=#{free_group_no}
 	</select>
 	<update id="showDeletePost" parameterType="int">
 		update free_board set free_show=1, free_title='', free_content='' where free_board_no=#{free_board_no}
+	</update>
+	<update id="blindPost" parameterType="int">
+		update free_board set free_show=2 where free_board_no=#{free_board_no}
+	</update>
+	<update id="showPost" parameterType="int">
+		update free_board set free_show=0 where free_board_no=#{free_board_no}
 	</update>
 	
 	<update id="update" parameterType="freeboard">
@@ -117,6 +129,14 @@
 		select * from free_board where free_board_no =
 		(select free_board_no from free_board where free_board_no > #{free_board_no} order by free_board_no limit 1)
 	]]>
+	</select>
+	
+	
+	<!-- 어드민용 -->
+	<select id="ff_list" resultType="hashmap" parameterType="hashmap">
+		select ff.*,mm.mem_no,mm.Nickname 
+		from free_board ff inner join member_Info mm on ff.mem_no=mm.mem_no 
+		order by ff.free_group_no desc, ff.free_group_order asc
 	</select>
 
 </mapper>

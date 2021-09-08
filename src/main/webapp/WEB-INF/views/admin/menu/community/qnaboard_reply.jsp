@@ -148,7 +148,8 @@
 								</div>
 								<div class="row mb-15px">
 									<div class="col-md-12 text-center"> 
-	   									<button type="submit" class="btn btn-primary" onclick="clickAdd(qnaForm)">등록</button>
+	   									<button type="submit" class="btn btn-primary" onclick="clickAdd(event,qnaForm)">등록</button>
+	   									<button type="button" class="btn btn-white" onclick="clickCancel()">취소</button>
 									</div>
 								</div>
 							</form>
@@ -188,36 +189,45 @@
 	<!-- ================== END page-js ================== -->
     <!-- script -->
     <script>
-	    function clickAdd(formName) {
-	        if(!confirm("답변을 등록하시겠습니까?")) {
-	            return false;
-	        }else {
-	        	formName.action = "${pageContext.request.contextPath }/admin/community/qnaboard_reply?qna_board_no=${map.qna_board_no }";
-				formName.method = "post";
-				formName.submit();
-	        }
-	    }
-	    
-	    if(${map.qna_secret_chk==false}) {  //문의글이 전체공개일 경우
-	    	$("#radio_all").prop("checked",true);
-	    	$("#radio_secret").prop("disabled",true);
-	    }else if(${map.qna_secret_chk==true}) {  //문의글이 비공개일 경우
-	    	$("#radio_secret").prop("checked",true);
-	    	$("#radio_all").prop("disabled",true);
-	    }
-	    
-/*	    $("#qna_password").attr("disabled",true);
-		$("#qna_secret_chk").on("click",function(){
-			var chk = $("input:checkbox[id='qna_secret_chk']").is(":checked");
-			if(chk==true){
-				$("#qna_password").prop("disabled",false);
-				$(this).val(1);
-			}else{
-				$("#qna_password").prop("disabled",true);
-				$(this).val(0);
-			}
-		}); */
-	    
+	function clickAdd(e,formName) {
+	if(!confirm("답변을 등록하시겠습니까?")) {
+		e.preventDefault();
+			return false;
+		}else {
+			formName.action = "${pageContext.request.contextPath }/admin/community/qnaboard_reply?qna_board_no=${map.qna_board_no }";
+			formName.method = "post";
+			formName.submit();
+		}
+	}
+		
+	function clickCancel() {
+		if(!confirm("작성을 취소하시겠습니까?")) {
+			return false;
+		}else {
+			location.href = "${pageContext.request.contextPath }/admin/community/board_list";
+		}
+	}
+	
+	if(${map.qna_secret_chk==false}) {  //문의글이 전체공개일 경우
+		$("#radio_all").prop("checked",true);
+		$("#radio_secret").prop("disabled",true);
+	}else if(${map.qna_secret_chk==true}) {  //문의글이 비공개일 경우
+		$("#radio_secret").prop("checked",true);
+		$("#radio_all").prop("disabled",true);
+	}
+	
+/*	$("#qna_password").attr("disabled",true);
+	$("#qna_secret_chk").on("click",function(){
+		var chk = $("input:checkbox[id='qna_secret_chk']").is(":checked");
+		if(chk==true){
+			$("#qna_password").prop("disabled",false);
+			$(this).val(1);
+		}else{
+			$("#qna_password").prop("disabled",true);
+			$(this).val(0);
+		}
+	}); */
+	
     </script>
 </body>
 </html>

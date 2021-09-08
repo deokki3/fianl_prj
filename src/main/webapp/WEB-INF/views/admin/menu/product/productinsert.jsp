@@ -23,6 +23,7 @@
 	<link href="${pageContext.request.contextPath}/static/admin/assets/plugins/jvectormap-next/jquery-jvectormap.css" rel="stylesheet" />
 	<link href="${pageContext.request.contextPath}/static/admin/assets/plugins/bootstrap-calendar/css/bootstrap_calendar.css" rel="stylesheet" />
 	<link href="${pageContext.request.contextPath}/static/admin/assets/plugins/nvd3/build/nv.d3.css" rel="stylesheet" />
+	<link href="${pageContext.request.contextPath}/static/admin/assets/css/imgShow.css" rel="stylesheet" />
 	<!-- ================== END page-css ================== -->
 	
 </head>
@@ -60,7 +61,7 @@
 						<!-- END panel-heading -->
 						<!-- BEGIN panel-body -->
 						<div class="panel-body">
-							<form method="post" action="${pageContext.request.contextPath }/admin/product/productInsert">
+							<form id="productInsertForm" method="post" action="${pageContext.request.contextPath }/admin/product/productInsert">
 								<div class="row mb-15px">
 									<label class="form-label col-form-label col-md-3">상품코드</label>
 									<div class="col-md-9">
@@ -149,9 +150,32 @@
 										</div>
 									</div>
 								</div>
+								<div class ="uploadDiv row mb-15px">
+									<label for="main_img" class="form-label">메인이미지선택</label>
+									<input class="prd_imgs form-control" type="file" name="main_img" id="main_img" accept="image/*">
+									<label for="description_img" class="form-label">설명이미지선택</label>
+									<input class="prd_imgs form-control" type="file" name="description_img" id="description_img" accept="image/*">
+								</div>
+								<div class="row">
+									<div class="col-lg-12">
+										<div class="card shadow mb-4">
+											<div class="card-header py-3">
+												<h4 class="m-0 font-weight-bold text-primary">이미지</h4>
+											</div>
+											<div class="card-body">
+												<div class="uploadResult">
+													<ul></ul>
+												</div>
+												<div class='bigPictureWrapper'>
+													<div class='bigPicture'></div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
 								<div class="row mb-15px">
 									<div class="col-md-12 text-center"> 
-    									<input type="submit" class="btn btn-primary" value="등록">
+    									<input type="submit" class="btn btn-primary" id="submitBtn" value="등록">
 									</div>
 								</div>
 							</form>
@@ -189,16 +213,141 @@
 	<!-- ================== END page-js ================== -->
     <!-- script -->
     <script>
-
-		$(function(){
+		$(document).ready(function(e){
 			cateList(3);
 
-			$("#category_id").change(function(){
+			$("#category_id").click(function(){
 				cateList($("#category_id").val());
 			});
 
+			
+			$(".bigPictureWrapper").on("click", function(e){
+      			$(".bigPictureWrapper").hide();
+			});
+					
+			var uploadResult = $(".uploadResult ul");
+
+			function showUploadedFile(uploadResultArr) {
+
+				if (!uploadResultArr || uploadResultArr.length == 0) {return;}
+
+   				var str = "";
+   
+   				$(uploadResultArr).each(function(i, obj) {
+					var fileCallPath = encodeURIComponent("C:/final_project/uploads/product_img/"+obj.uploadPath+"/s_"+obj.img_name_save);
+					console.log(fileCallPath);
+					var fileLink = fileCallPath.replace(new RegExp(/\\/g), "/");
+					str += "<li data-path='"+obj.uploadPath+"'";
+					str += " data-save='"+obj.img_name_save+"' data-origin='"+obj.img_name_origin+"'data-type='"+obj.image+"'";
+					str += " data-category='"+ obj.img_category +"' data-size='"+ obj.img_size +"' ><div>";
+					str += "<span> " + obj.img_category + ", " + obj.img_name_origin + "</span>";
+					str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='image'"
+					str += "class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
+					str += "<img src='${pageContext.request.contextPath}/admin/product/imgdisplay?fileName="+fileCallPath+"'>";
+					str += "</div>";
+					str += "</li>";
+   				});
+   
+   				uploadResult.append(str);
+			}
+
+			$(".uploadResult").on("click","button",function(e){
+    			var targetFile = $(this).data("file");
+    			var type = $(this).data("type");
+
+				var targetLi = $(this).closest("li");
+
+    			$.ajax({
+        			url: '${pageContext.request.contextPath}/admin/product/deleteFile',
+        			data: {fileName: targetFile, type: type},
+        			dataType: 'text',
+        			type: 'POST',
+        			success: function(result) {
+            			alert(result);
+						targetLi.remove();
+        			}
+    			});
+			});
+
+			var cloneObj = $(".uploadDiv").clone(); 
+
+			$(document).bind("change", $(".prd_imgs") , function(e){
+				var inputFile = $("input[type='file']");
+
+				var formData = new FormData();
+
+				for(var i = 0; i < inputFile.length ; i++){
+					if(inputFile[i].value){
+						console.log(inputFile[i].id);
+						formData.append(inputFile[i].name, inputFile[i].files[0]);
+					}
+				}
+
+				// FormData의 값 확인
+				for (var pair of formData.entries()) { 
+					var key=pair[0];
+					var filechk=pair[1];
+					
+					console.log(key, ", " + filechk);
+				}
+
+			
+				$.ajax({             
+					type: "POST",          
+					enctype: 'multipart/form-data',  
+					url: "${pageContext.request.contextPath}/admin/product/addimg",        
+					data: formData,
+					enctype: "multipart/form-data",
+					processData: false,    
+					contentType: false,      
+					cache: false,           
+					timeout: 600000,       
+					success: function (result) {        
+						showUploadedFile(result);
+
+						$(".uploadDiv").html(cloneObj.html());
+
+					},          
+					error: function (e) {  
+						console.log("ERROR : ", e);       
+						alert("fail");      
+					}     
+				});
+			});
+
+			$("#submitBtn").click(function () {                 
+				var formObj = $("#productInsertForm");
+				console.log("submit clicked");
+				console.log("formObj");
+					
+				// 추가
+				var str = "";
+				$(".uploadResult ul li").each(function(i,obj){
+					var jobj = $(obj);
+					console.dir(jobj);
+						
+					str += "<input type='hidden' name='img_List["+i+"].img_name_origin' value='"+jobj.data("origin")+"'>";
+					str += "<input type='hidden' name='img_List["+i+"].img_name_save' value='"+jobj.data("save")+"'>";
+					str += "<input type='hidden' name='img_List["+i+"].uploadPath' value='"+jobj.data("path")+"'>";
+					str += "<input type='hidden' name='img_List["+i+"].fileType' value='"+jobj.data("type")+"'>";
+					str += "<input type='hidden' name='img_List["+i+"].img_category' value='"+jobj.data("category")+"'>";
+					str += "<input type='hidden' name='img_List["+i+"].img_size' value='"+jobj.data("size")+"'>";
+				});
+				formObj.append(str).submit();
+			});
 		});
-	
+
+		
+
+		function showImage(fileCallPath) {
+        	// alert(fileCallPath);
+			$(".bigPictureWrapper").css("display","flex").show();  //화면 가운데 배치
+    		$(".bigPicture")
+	   		.html("<img src='${pageContext.request.contextPath}/admin/product/imgdisplay?fileName="+encodeURI(fileCallPath)+"'>")  //<img>추가
+    		.show({width:'100%', height:'100%'}, 1000);
+
+    	}
+
 		function cateList(category_id){
 			$("#lower_category").empty();
 			$.ajax({

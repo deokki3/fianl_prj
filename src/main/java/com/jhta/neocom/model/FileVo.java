@@ -13,5 +13,5 @@ public class FileVo {
 	private String file_name_org;
 	private String file_name_save;
 	private int file_cnt;
-	private int file_size;
+	private long file_size;
 }
